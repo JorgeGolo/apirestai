@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule
 
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { ChatgptmiapiService } from './chatgptmiapi.service'; // Asegúrate de importar tu servicio
+import { ChatResponsesComponent } from './chat-responses/chat-responses.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   //imports: [RouterOutlet],
-  imports: [RouterOutlet, FormsModule, CommonModule],
+  imports: [RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })

@@ -14,8 +14,7 @@
   <button type="submit">Enviar</button>
 </form>
 
-<p *ngIf="response">{{ response }}</p> <!-- Mostrar la respuesta -->
-
+<app-chat-responses [response]="response"></app-chat-responses>
 
 
 
