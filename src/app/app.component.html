@@ -14,8 +14,10 @@
   <button type="submit">Enviar</button>
 </form>
 
-<app-chat-responses [response]="response"></app-chat-responses>
-
+<!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
+<div *ngFor="let res of responses">
+  <app-chat-responses [response]="res"></app-chat-responses>
+</div>
 
 
 <!--

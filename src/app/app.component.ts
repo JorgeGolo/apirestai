@@ -17,20 +17,16 @@ import { ChatResponsesComponent } from './chat-responses/chat-responses.componen
 })
 export class AppComponent {
   title = 'apirestai';
-  response: string | undefined; // Variable para almacenar la respuesta de la API
+  //response: string | undefined; // Variable para almacenar la respuesta de la API
+  responses: string[] = []; // Array para almacenar todas las respuestas
 
   constructor(private chatgptService: ChatgptmiapiService) {} // Inyección del servicio
 
   onSubmit(form: any) { // Asegúrate de que el método reciba el formulario
     const message = form.value.message; // Obtiene el mensaje del formulario
-    this.chatgptService.sendMessage(message).subscribe({
-      next: (data) => {
-        this.response = data.choices[0].message.content; // Ajusta esto según la respuesta de tu API
-      },
-      error: (error) => {
-        console.error('Error al enviar el mensaje:', error);
-        this.response = 'Hubo un error al procesar tu solicitud.';
-      }
+    this.chatgptService.sendMessage(message).subscribe(response => {
+      // Agregar la nueva respuesta al array
+      this.responses.push(response.choices[0].message.content);
     });
   }
 }
