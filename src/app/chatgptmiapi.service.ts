@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importa HttpC
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
-import { AuthService } from './auth.service'; // Importa el servicio de autenticación
-
 const apiKey = environment.apiKey;
 
 @Injectable({
