@@ -10,5 +10,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ChatResponsesComponent {
   @Input() response: string | undefined = ''; // Input para recibir la respuesta del chat
-  @Input() timestamp: Date | undefined; // Input para recibir la fecha y hora
+  @Input() timestamp: Date = new Date(); // Propiedad de entrada para la fecha y hora
 }

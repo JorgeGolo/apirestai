@@ -1,0 +1,16 @@
+<h1>API-REST ChatGPT</h1>
+
+<ul *ngIf="isConversationActive">
+  <li>Fecha: {{ currentDate | date:'short' }}</li>
+  <li>Rol de sistema: rol</li> <!-- Asegúrate de definir 'rol' también -->
+</ul>
+
+<form (ngSubmit)="onSubmit(chatForm)" #chatForm="ngForm"> <!-- Pasa chatForm como argumento -->
+  <input type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
+  <button type="submit">Enviar</button>
+</form>
+
+<!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
+<div *ngFor="let res of responses">
+  <app-chat-responses [response]="res.message" [timestamp]="res.timestamp"></app-chat-responses>
+</div>
