@@ -1,4 +1,5 @@
-<p *ngIf="response">
-    {{ response }} <br>
-    <small>Fecha y hora: {{ timestamp | date: 'short' }}</small>
-  </p>
+<div class="chat-responses-div" *ngIf="response">
+  <span class="date">{{ timestamp | date: 'short' }}</span>
+  <p class="question">"{{ question }}"</p>
+  <p>{{ response }}</p>
+</div>

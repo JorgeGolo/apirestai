@@ -1,14 +1,11 @@
-<ul *ngIf="isConversationActive">
-  <li>Fecha: {{ currentDate | date:'short' }}</li>
-  <li>Rol de sistema: rol</li> <!-- Asegúrate de definir 'rol' también -->
-</ul>
+<!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
+<div class="responses-box">
+  <div *ngFor="let res of responses">
+    <app-chat-responses [response]="res.message" [timestamp]="res.timestamp" [question]="res.question"></app-chat-responses>
+  </div>
+</div>
 
-<form (ngSubmit)="onSubmit(chatForm)" #chatForm="ngForm"> <!-- Pasa chatForm como argumento -->
+<form class="chat-form" (ngSubmit)="onSubmit(chatForm)" #chatForm="ngForm"> <!-- Pasa chatForm como argumento -->
   <input type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
   <button type="submit">Enviar</button>
 </form>
-
-<!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
-<div *ngFor="let res of responses">
-  <app-chat-responses [response]="res.message" [timestamp]="res.timestamp"></app-chat-responses>
-</div>

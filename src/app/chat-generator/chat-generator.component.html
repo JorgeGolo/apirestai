@@ -1,17 +1,23 @@
 <h2>Generador de Chats</h2>
+<div class="chat-generator-container">
 
 <!-- Botón para añadir un nuevo chat -->
-<button (click)="addChat()">Iniciar nuevo chat</button>
+    <button (click)="addChat()">Iniciar nuevo chat</button>
+</div>
 
-<!-- Mostrar cada chat en su propio componente -->
-<div *ngFor="let chatId of chats">
-  <h3>Chat {{ chatId }}</h3>
-  
-  <!-- Incrustar el componente de chat dentro del generador -->
-  <app-chat></app-chat>
+<div class="chat-container">
 
-  <!-- Botón para eliminar un chat específico -->
-  <button (click)="removeChat(chatId)">Cerrar chat {{ chatId }}</button>
-  
-  <hr>
+    <!-- Mostrar cada chat en su propio componente -->
+    <div class="chat-box" *ngFor="let chatId of chats">
+        <div class="chat-header">
+            <h3>Chat {{ chatId }}</h3>
+            <button (click)="removeChat(chatId)">Cerrar chat</button>
+        </div>
+    
+        <!-- Incrustar el componente de chat dentro del generador -->
+        <app-chat></app-chat>
+
+        <!-- Botón para eliminar un chat específico -->
+        
+    </div>
 </div>
