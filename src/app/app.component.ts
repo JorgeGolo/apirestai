@@ -6,6 +6,11 @@ import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { ChatgptmiapiService } from './chatgptmiapi.service'; // Asegúrate de importar tu servicio
 import { ChatResponsesComponent } from './chat-responses/chat-responses.component';
 
+// Definición de la interfaz
+interface IChatResponse {
+  message: string;
+  timestamp: Date;
+}
 
 @Component({
   selector: 'app-root',
@@ -18,15 +23,26 @@ import { ChatResponsesComponent } from './chat-responses/chat-responses.componen
 export class AppComponent {
   title = 'apirestai';
   //response: string | undefined; // Variable para almacenar la respuesta de la API
-  responses: string[] = []; // Array para almacenar todas las respuestas
+  //responses: string[] = []; // Array para almacenar todas las respuestas
+
+  responses: IChatResponse[] = []; // Array para almacenar las respuestas y sus fechas
+
 
   constructor(private chatgptService: ChatgptmiapiService) {} // Inyección del servicio
 
   onSubmit(form: any) { // Asegúrate de que el método reciba el formulario
     const message = form.value.message; // Obtiene el mensaje del formulario
     this.chatgptService.sendMessage(message).subscribe(response => {
+      
       // Agregar la nueva respuesta al array
-      this.responses.push(response.choices[0].message.content);
+      //this.responses.push(response.choices[0].message.content);
+
+      // Uso de la interfaz
+      const newResponse: IChatResponse = {
+        message: response.choices[0].message.content,
+        timestamp: new Date() // Fecha y hora actuales
+      };
+      this.responses.push(newResponse); // Agregar al array
     });
   }
 }

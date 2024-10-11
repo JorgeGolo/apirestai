@@ -16,7 +16,7 @@
 
 <!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
 <div *ngFor="let res of responses">
-  <app-chat-responses [response]="res"></app-chat-responses>
+  <app-chat-responses [response]="res.message" [timestamp]="res.timestamp"></app-chat-responses>
 </div>
 
 
