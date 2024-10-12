@@ -1,0 +1,11 @@
+<div *ngIf="!user">
+    <button (click)="loginWithGoogle()">
+      Iniciar sesión con Google
+    </button>
+  </div>
+  
+  <div *ngIf="user">
+    <img [src]="user?.photoURL" alt="Foto de perfil" class="profile-pic" />
+    <p>¡Hola, {{ user?.displayName }}!</p>
+    <button (click)="logout()">Cerrar sesión</button>
+  </div>

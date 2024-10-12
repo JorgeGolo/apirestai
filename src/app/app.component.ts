@@ -6,17 +6,18 @@ import { ChatgptmiapiService } from './chatgptmiapi.service'; // Asegúrate de i
 import { ChatResponsesComponent } from './chat-responses/chat-responses.component';
 import { ChatComponent } from './chat/chat.component'; // Importa el nuevo componente Chat
 import { ChatGeneratorComponent } from './chat-generator/chat-generator.component'; // Importa el componente
-
+import { LoginButtonComponent } from './login-button/login-button.component';
 // Definición de la interfaz
 interface IChatResponse {
   message: string;
   timestamp: Date;
 }
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+  imports: [LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
