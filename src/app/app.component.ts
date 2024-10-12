@@ -40,7 +40,12 @@ export class AppComponent {
     }
 
     const message = form.value.message; // Obtiene el mensaje del formulario
-    this.chatgptService.sendMessage(message).subscribe(response => {
+    const role = form.value.role; // Obtiene el rol del campo oculto
+    const model = form.value.model; // Obtiene el modelo del campo oculto
+    
+    console.log(role + model);
+
+    this.chatgptService.sendMessage(message, role, model).subscribe(response => {
       const newResponse: IChatResponse = {
         message: response.choices[0].message.content,
         timestamp: new Date() // Fecha y hora actuales

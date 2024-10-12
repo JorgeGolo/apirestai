@@ -1,23 +1,34 @@
-<h2>Generador de Chats</h2>
 <div class="chat-generator-container">
 
-<!-- Botón para añadir un nuevo chat -->
+    <!-- Selector de modelos -->
+
+
+  <!-- Selector de modelos -->
+  <label for="model-select">Selecciona un modelo:</label>
+  <select id="model-select" [(ngModel)]="selectedModelName" name="model" required>
+    <option *ngFor="let model of models" [value]="model.name">{{ model.name }}</option>
+  </select>
+  
+  <!-- Selector de roles -->
+  <label for="role-select">Selecciona un rol:</label>
+  <select id="role-select" [(ngModel)]="selectedRoleName" name="role" required>
+    <option *ngFor="let role of rolesystem" [value]="role.name">{{ role.name }}</option>
+  </select>
+
+    <!-- Botón para añadir un nuevo chat -->
     <button (click)="addChat()">Iniciar nuevo chat</button>
 </div>
 
 <div class="chat-container">
-
-    <!-- Mostrar cada chat en su propio componente -->
-    <div class="chat-box" *ngFor="let chatId of chats">
+    <!-- Mostrar cada chat en su propio componente con el rol correspondiente -->
+    <div class="chat-box" *ngFor="let chat of chats">
         <div class="chat-header">
-            <h3>Chat {{ chatId }}</h3>
-            <button (click)="removeChat(chatId)">Cerrar chat</button>
+            <h3><!--Chat {{ chat.id }} - -->{{ chat.role }} / {{ chat.model }}</h3>
+            <button (click)="removeChat(chat.id)">Cerrar chat</button>
         </div>
     
         <!-- Incrustar el componente de chat dentro del generador -->
-        <app-chat></app-chat>
-
-        <!-- Botón para eliminar un chat específico -->
-        
+        <!--<app-chat></app-chat>-->
+        <app-chat [selectedRole]="chat.role" [selectedModel]="chat.model"></app-chat>
     </div>
 </div>

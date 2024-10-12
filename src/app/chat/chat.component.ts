@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatgptmiapiService } from '../chatgptmiapi.service';
 import { ChatResponsesComponent } from '../chat-responses/chat-responses.component'; // Ajusta la ruta según sea necesario
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
@@ -13,10 +13,13 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+
+  @Input() selectedRole: string = ''; // Recibe el rol seleccionado
+  @Input() selectedModel: string = ''; // Recibe el modelo seleccionado
+
   currentDate: Date | undefined; 
   responses: any[] = []; 
   roles: string[] = ['Asistente general', 'Asesor técnico', 'Ayuda con tareas'];
-  selectedRole: string = ''; 
   sessionStarted: boolean = false; 
   isConversationActive: boolean = false; // Inicializa la propiedad isConversationActive
 
@@ -32,10 +35,10 @@ export class ChatComponent implements OnInit {
   }
 
   onSubmit(form: any): void {
+    console.log("mensaje enviado");
     const message = form.value.message;
-
     // Enviar el mensaje con el rol seleccionado
-    this.chatService.sendMessage(message).subscribe(response => {
+    this.chatService.sendMessage(message, this.selectedRole, this.selectedModel).subscribe(response => {
       const newResponse = {
         question: message,
         message: response.choices[0].message.content,
