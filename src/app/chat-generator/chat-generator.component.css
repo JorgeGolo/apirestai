@@ -5,6 +5,22 @@
     width: 100%;
     padding: 20px 0 20px 0;
     background-color: #f5f5f5;
+
+    gap: 10px;
+}
+
+.chat-generator-container label, .chat-generator-container select {
+
+    height:2.5em;
+    line-height:2.5em;
+    border-radius: 5px; 
+
+}
+
+.chat-generator-container button {
+    height:2.5em;
+    border-radius: 5px; 
+
 }
 
 .chat-generator-button {
@@ -47,4 +63,9 @@
 
 .chat-header h3, .chat-header button {
     display: inline;
+}
+
+.chat-header button {
+    display: inline;
+    float: right
 }
