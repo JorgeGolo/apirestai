@@ -1,0 +1,45 @@
+.chat-generator-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0 20px 0;
+    background-color: #f5f5f5;
+}
+.chat-generator-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.chat-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a una nueva fila */
+    height: auto; /* Evita que el contenedor ocupe el 100% de la altura */
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+}
+.chat-box {
+    flex: 1 0 25%; /* Cada caja ocupa el 25% del ancho */
+    max-width: 25%; /* Limita el ancho máximo al 25% */
+    height: auto; /* Ajusta la altura de forma automática */
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background-color: #fafafa;
+    /*margin-right: 10px;
+    margin-bottom: 10px; */
+    min-height: 250px;
+
+}
+.chat-box:nth-child(4n) {
+    margin-right: 0; /* Elimina el margen derecho en el cuarto elemento de cada fila */
+}
+.chat-header h3, .chat-header button {
+    display: inline;
+}

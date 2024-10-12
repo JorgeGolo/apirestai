@@ -37,6 +37,7 @@ export class ChatComponent implements OnInit {
     // Enviar el mensaje con el rol seleccionado
     this.chatService.sendMessage(message).subscribe(response => {
       const newResponse = {
+        question: message,
         message: response.choices[0].message.content,
         timestamp: new Date()
       };
