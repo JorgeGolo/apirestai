@@ -1,7 +1,8 @@
 <div class="chat-generator-container">
 
     <!-- Selector de modelos -->
-
+  <label for="shortName">Nombre:</label>
+  <input name="shortName" [(ngModel)]="selectedShortName" value="Nuevo Chat">
 
   <!-- Selector de modelos -->
   <label for="model-select">Selecciona un modelo:</label>
@@ -18,17 +19,3 @@
     <!-- Botón para añadir un nuevo chat -->
     <button (click)="addChat()">Iniciar nuevo chat</button>
 </div>
-
-<!--
-<div class="chat-container">
-    <div class="chat-box" *ngFor="let chat of chats">
-        <div class="chat-header">
-            <h3>{{ chat.role }} / {{ chat.model }}</h3>
-            <button (click)="removeChat(chat.id)">Cerrar chat</button>
-        </div>
-    
-
-        <app-chat [selectedRole]="chat.role" [selectedModel]="chat.model"></app-chat>
-    </div>
-</div>
--->

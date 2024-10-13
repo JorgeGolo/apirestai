@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { IChat } from '../app.component'; // Asegúrate de importar IChat
 
+
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -14,9 +15,10 @@ import { IChat } from '../app.component'; // Asegúrate de importar IChat
 })
 export class ChatComponent implements OnInit {
   @Input() chat: IChat | null = null; // Cambia aquí para usar IChat
-
   @Input() selectedRole: string = ''; // Recibe el rol seleccionado
   @Input() selectedModel: string = ''; // Recibe el modelo seleccionado
+
+  @Input() selectedShortName: string = '';
 
   currentDate: Date | undefined; 
   roles: string[] = ['Asistente general', 'Asesor técnico', 'Ayuda con tareas'];

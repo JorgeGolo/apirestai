@@ -1,4 +1,4 @@
-import { Component,EventEmitter, Output  } from '@angular/core';
+import { Component, EventEmitter, Output  } from '@angular/core';
 import { ChatComponent } from '../chat/chat.component'; // Asegúrate de importar el componente correctamente
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,12 +13,13 @@ import { ChatListComponent } from '../chat-list/chat-list.component'; // Asegúr
   imports: [ChatListComponent, ChatComponent, CommonModule, FormsModule], // Asegúrate de importar el componente aquí
 })
 export class ChatGeneratorComponent {
-  @Output() chatAdded = new EventEmitter<{ id: number, role: string, model: string }>(); // Emisor para agregar chats
+  @Output() chatAdded = new EventEmitter<{ id: number, role: string, model: string, shortName : string }>(); // Emisor para agregar chats
 
-  chats: { id: number, role: string, model: string }[] = []; // Array para gestionar chats y sus roles
+  chats: { id: number, role: string, model: string, shortName: string }[] = []; // Array para gestionar chats y sus roles
   chatCounter = 0; // Contador de chats creados
   selectedModelName: string = "gpt-3.5-turbo"; // Para almacenar el nombre del modelo seleccionado
   selectedRoleName: string = "Asistente general"; // Para almacenar el nombre del rol seleccionado
+  selectedShortName: string = "Nuevo Chat";
 
   rolesystem = [
     { id: 0, name: 'Asistente general' },
@@ -48,6 +49,7 @@ export class ChatGeneratorComponent {
       id: this.chatCounter + 1,
       role: this.selectedRoleName,
       model: this.selectedModelName,
+      shortName: this.selectedShortName,
     };
     this.chatAdded.emit(newChat); // Emitir el nuevo chat
     this.chatCounter++; // Incrementar el contador

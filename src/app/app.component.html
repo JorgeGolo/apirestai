@@ -12,6 +12,10 @@
   <div class="chat-generator-column">
     <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator> <!-- Captura el evento aquí -->
     <div class="chat-container">
+
+        <app-chat-title *ngIf="selectedChat" [chat]="selectedChat" [selectedShortName]="selectedChat.shortName"
+        [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model"></app-chat-title>
+
         <div class="chat-responses" *ngIf="selectedChat">
             <app-chat-responses *ngFor="let res of selectedChat.responses" 
                 [response]="res.message" 
@@ -21,7 +25,7 @@
         </div>
 
         <!-- Solo renderiza app-chat si selectedChat no es null -->
-        <app-chat *ngIf="selectedChat" [chat]="selectedChat" 
+        <app-chat *ngIf="selectedChat" [chat]="selectedChat" [selectedShortName]="selectedChat.shortName"
             [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model">
         </app-chat>
     </div>

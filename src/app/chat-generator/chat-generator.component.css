@@ -10,19 +10,28 @@
     
     gap: 10px;
 }
+.chat-generator-container input {
+    border-width: 1px;
+    box-sizing: border-box;
+    padding-inline-start: 0.3em;
 
-.chat-generator-container label, .chat-generator-container select {
+
+}
+.chat-generator-container input, .chat-generator-container select {
+    border: 1px solid #ccc; 
+}
+
+.chat-generator-container label, .chat-generator-container select, .chat-generator-container input {
 
     height:2.5em;
     line-height:2.5em;
     border-radius: 5px; 
-
 }
 
 .chat-generator-container button {
     height:2.5em;
     border-radius: 5px; 
-
+border: 1px solid gray
 }
 
 .chat-generator-button {
@@ -33,6 +42,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+
 }
 
 .chat-container {

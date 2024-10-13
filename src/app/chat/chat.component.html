@@ -1,12 +1,6 @@
 <!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
-<div class="chat-header">
-<!-- Mostrar el rol y el modelo del chat--->
-  <h2>{{ selectedRole }} / {{ selectedModel }} </h2>
-
-</div>
 
 <div class="form-box">
-
   <form class="chat-form" (ngSubmit)="onSubmit(chatForm)" #chatForm="ngForm"> <!-- Pasa chatForm como argumento -->
     <input type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
       <!-- Campos ocultos para el rol y el modelo -->

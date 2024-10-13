@@ -8,6 +8,7 @@ import { ChatComponent } from './chat/chat.component'; // Importa el nuevo compo
 import { ChatGeneratorComponent } from './chat-generator/chat-generator.component'; // Importa el componente
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { ChatListComponent } from './chat-list/chat-list.component'; // Importa el componente
+import { ChatTitleComponent } from './chat-title/chat-title.component'; // Importa el componente
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
@@ -21,13 +22,14 @@ export interface IChat {
   id: number;
   role: string;
   model: string;
+  shortName: string;
   responses: IChatResponse[]; // Incluye la propiedad responses
 }
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+  imports: [ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
@@ -41,12 +43,13 @@ export class AppComponent {
 
   constructor(private chatgptService: ChatgptmiapiService) {} // Inyección del servicio
 
-  addChat(newChat: { id: number; role: string; model: string }) {
+  addChat(newChat: { id: number; role: string; model: string, shortName: string }) {
     // Agrega un nuevo chat inicializando responses como un array vacío
     const chatWithResponses: IChat = {
       id: newChat.id,
       role: newChat.role,
       model: newChat.model,
+      shortName: newChat.shortName,
       responses: [] // Inicializa responses como un array vacío
     };
     
