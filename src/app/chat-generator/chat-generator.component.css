@@ -5,7 +5,9 @@
     width: 100%;
     padding: 20px 0 20px 0;
     background-color: #f5f5f5;
-
+    border: 1px solid #ccc; /* Línea de separación */
+    border-radius: 5px;
+    
     gap: 10px;
 }
 

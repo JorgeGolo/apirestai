@@ -1,5 +1,7 @@
-<h1>API-REST ChatGPT</h1>
-<app-login-button></app-login-button>
+<div class="header-layout">
+    <h1 class="titleh1">API-REST ChatGPT</h1>
+    <app-login-button></app-login-button>
+</div>
 
 <div class="chat-layout">
   <!-- Columna izquierda -->
@@ -9,21 +11,19 @@
   <!-- Columna derecha: área central del chat seleccionado -->
   <div class="chat-generator-column">
     <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator> <!-- Captura el evento aquí -->
-  
-        <div class="chat-container">
-
-            <div class="chat-responses" *ngIf="selectedChat">
-                <app-chat-responses *ngFor="let res of selectedChat.responses" 
-                                    [response]="res.message" 
-                                    [timestamp]="res.timestamp" 
-                                    [question]="res.question">
-                </app-chat-responses>
-            </div>
-
-            <!-- Solo renderiza app-chat si selectedChat no es null -->
-            <app-chat *ngIf="selectedChat" [chat]="selectedChat" 
-            [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model">
-            </app-chat>
+    <div class="chat-container">
+        <div class="chat-responses" *ngIf="selectedChat">
+            <app-chat-responses *ngFor="let res of selectedChat.responses" 
+                [response]="res.message" 
+                [timestamp]="res.timestamp" 
+                [question]="res.question">
+            </app-chat-responses>
         </div>
+
+        <!-- Solo renderiza app-chat si selectedChat no es null -->
+        <app-chat *ngIf="selectedChat" [chat]="selectedChat" 
+            [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model">
+        </app-chat>
     </div>
+   </div>
 </div>
