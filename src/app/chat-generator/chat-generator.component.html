@@ -19,16 +19,16 @@
     <button (click)="addChat()">Iniciar nuevo chat</button>
 </div>
 
+<!--
 <div class="chat-container">
-    <!-- Mostrar cada chat en su propio componente con el rol correspondiente -->
     <div class="chat-box" *ngFor="let chat of chats">
         <div class="chat-header">
-            <h3><!--Chat {{ chat.id }} - -->{{ chat.role }} / {{ chat.model }}</h3>
+            <h3>{{ chat.role }} / {{ chat.model }}</h3>
             <button (click)="removeChat(chat.id)">Cerrar chat</button>
         </div>
     
-        <!-- Incrustar el componente de chat dentro del generador -->
-        <!--<app-chat></app-chat>-->
+
         <app-chat [selectedRole]="chat.role" [selectedModel]="chat.model"></app-chat>
     </div>
 </div>
+-->

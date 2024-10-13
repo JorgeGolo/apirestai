@@ -7,6 +7,9 @@ import { ChatResponsesComponent } from './chat-responses/chat-responses.componen
 import { ChatComponent } from './chat/chat.component'; // Importa el nuevo componente Chat
 import { ChatGeneratorComponent } from './chat-generator/chat-generator.component'; // Importa el componente
 import { LoginButtonComponent } from './login-button/login-button.component';
+import { ChatListComponent } from './chat-list/chat-list.component'; // Importa el componente
+
+
 // Definición de la interfaz
 interface IChatResponse {
   message: string;
@@ -17,11 +20,21 @@ interface IChatResponse {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+  imports: [ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
 export class AppComponent {
+
+  chats: { id: number, role: string, model: string }[] = []; // Almacena la lista de chats
+
+  selectedChat: { id: number; role: string; model: string } | null = null; // Añade esta línea
+
+
+  addChat(newChat: { id: number, role: string, model: string }) {
+    this.chats.push(newChat); // Agrega el nuevo chat a la lista
+  }
+
   title = 'apirestai';
   responses: IChatResponse[] = []; // Array para almacenar las respuestas y sus fechas
   isConversationActive: boolean = false; // Variable para gestionar el estado de la conversación
@@ -54,4 +67,9 @@ export class AppComponent {
       this.responses.push(newResponse); // Agregar al array
     });
   }
+
+    // Método para manejar el chat seleccionado
+    onChatSelected(chat: { id: number; role: string; model: string }) {
+      this.selectedChat = chat; // Actualiza el chat seleccionado
+    }
 }

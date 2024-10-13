@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+  @Input() chat: { id: number; role: string; model: string } | null = null; // Asegúrate de que esto esté definido
 
   @Input() selectedRole: string = ''; // Recibe el rol seleccionado
   @Input() selectedModel: string = ''; // Recibe el modelo seleccionado

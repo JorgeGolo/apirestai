@@ -1,8 +1,20 @@
 <h1>API-REST ChatGPT</h1>
 <app-login-button></app-login-button>
 
-
-<!-- Incrustar el generador de chats -->
-<app-chat-generator></app-chat-generator>
-
-<router-outlet />
+<div class="chat-layout">
+  <!-- Columna izquierda -->
+  <div class="chat-list-column">
+    <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)"></app-chat-list>
+  </div>
+  <!-- Columna derecha: área central del chat seleccionado -->
+  <div class="chat-generator-column">
+    <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator> <!-- Captura el evento aquí -->
+  
+    <div class="chat-container">
+        <!-- Solo renderiza app-chat si selectedChat no es null -->
+        <app-chat *ngIf="selectedChat" [chat]="selectedChat" 
+        [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model">
+        </app-chat>
+      </div>
+    </div>
+</div>
