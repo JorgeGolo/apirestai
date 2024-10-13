@@ -3,7 +3,7 @@ import { ChatgptmiapiService } from '../chatgptmiapi.service';
 import { ChatResponsesComponent } from '../chat-responses/chat-responses.component'; // Ajusta la ruta según sea necesario
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 import { CommonModule } from '@angular/common'; // Importa CommonModule
-
+import { IChat } from '../app.component'; // Asegúrate de importar IChat
 
 @Component({
   selector: 'app-chat',
@@ -13,13 +13,12 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  @Input() chat: { id: number; role: string; model: string } | null = null; // Asegúrate de que esto esté definido
+  @Input() chat: IChat | null = null; // Cambia aquí para usar IChat
 
   @Input() selectedRole: string = ''; // Recibe el rol seleccionado
   @Input() selectedModel: string = ''; // Recibe el modelo seleccionado
 
   currentDate: Date | undefined; 
-  responses: any[] = []; 
   roles: string[] = ['Asistente general', 'Asesor técnico', 'Ayuda con tareas'];
   sessionStarted: boolean = false; 
   isConversationActive: boolean = false; // Inicializa la propiedad isConversationActive
@@ -45,7 +44,13 @@ export class ChatComponent implements OnInit {
         message: response.choices[0].message.content,
         timestamp: new Date()
       };
-      this.responses.push(newResponse);
+      
+      if (this.chat) {
+        this.chat.responses.push(newResponse); // Asegúrate de que las respuestas se agreguen al chat correspondiente
+      } else {
+        console.error("Chat no definido.");
+      }
+
       form.reset(); 
     });
   }

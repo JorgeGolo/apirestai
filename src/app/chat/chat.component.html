@@ -1,14 +1,8 @@
 <!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
 <div class="chat-header">
 <!-- Mostrar el rol y el modelo del chat--->
-<h2>{{ selectedRole }} / {{ selectedModel }} </h2>
+  <h2>{{ selectedRole }} / {{ selectedModel }} </h2>
 
-</div>
-
-<div class="responses-box">
-  <div *ngFor="let res of responses">
-    <app-chat-responses [response]="res.message" [timestamp]="res.timestamp" [question]="res.question"></app-chat-responses>
-  </div>
 </div>
 
 <div class="form-box">
