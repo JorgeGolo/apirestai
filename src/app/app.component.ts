@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
@@ -9,6 +9,11 @@ import { ChatGeneratorComponent } from './chat-generator/chat-generator.componen
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { ChatListComponent } from './chat-list/chat-list.component'; // Importa el componente
 import { ChatTitleComponent } from './chat-title/chat-title.component'; // Importa el componente
+import { FirestoreService } from './services/firestore.service'; // Asegúrate de que la ruta sea correcta
+
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment'; // Importa el entorno
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
@@ -29,11 +34,12 @@ export interface IChat {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+  imports: [
+    ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   chats: IChat[] = []; // Usa la interfaz IChat
 
   selectedChat: IChat | null = null; // Cambia el tipo a IChat | null
@@ -41,8 +47,20 @@ export class AppComponent {
   title = 'apirestai';
   isConversationActive: boolean = false; // Variable para gestionar el estado de la conversación
 
-  constructor(private chatgptService: ChatgptmiapiService) {} // Inyección del servicio
+  constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
+  ngOnInit() {
+    this.loadChats(); // Cargar los chats al iniciar
+  }
 
+
+  async loadChats() {
+    try {
+      this.chats = await this.firestoreService.getChats(); // Llama a tu servicio para obtener los chats
+      console.log('Chats cargados:', this.chats); // Verifica si se cargan los chats
+    } catch (error) {
+      console.error('Error al cargar los chats:', error);
+    }
+  }
   addChat(newChat: { id: number; role: string; model: string, shortName: string }) {
     // Agrega un nuevo chat inicializando responses como un array vacío
     const chatWithResponses: IChat = {

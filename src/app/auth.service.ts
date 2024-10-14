@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Auth, User } from '@angular/fire/auth'; // Asegúrate de importar Auth y User de Firebase
 
 @Injectable({
   providedIn: 'root',
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private tokenKey = 'authToken'; // Clave para almacenar el token en sessionStorage
 
-  constructor() {}
+  constructor(private auth: Auth) {} // Inyecta el servicio de autenticación
 
   // Método para iniciar sesión y almacenar el token
   login(token: string): void {
@@ -26,5 +27,11 @@ export class AuthService {
   // Método para obtener el token actual (opcional)
   getToken(): string | null {
     return sessionStorage.getItem(this.tokenKey); // Devuelve el token almacenado
+  }
+
+  // Método para obtener el ID del usuario actual
+  getCurrentUserId(): string | null {
+    const user: User | null = this.auth.currentUser; // Accede al usuario actual
+    return user ? user.uid : null; // Devuelve el ID del usuario o null si no está autenticado
   }
 }

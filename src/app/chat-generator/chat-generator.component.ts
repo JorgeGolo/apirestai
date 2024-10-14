@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatListComponent } from '../chat-list/chat-list.component'; // Asegúrate de importar ChatListComponent
 
+import { FirestoreService } from '../services/firestore.service'; // Importar el servicio de Firestore
+import { AuthService } from '../auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
 
 @Component({
   selector: 'app-chat-generator',
@@ -34,16 +36,8 @@ export class ChatGeneratorComponent {
     { id: 2, name: 'gpt-4' },  // Modelo más avanzado, pero más costoso que gpt-3.5
   ];
 
+  constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
 
-  /*addChat() {
-    // Aquí puedes manejar la lógica para agregar un nuevo chat
-    this.chats.push({
-      id: this.chats.length + 1,
-      role: this.selectedRoleName,
-      model: this.selectedModelName,
-      // Añade más propiedades según sea necesario
-    });
-  }*/
   addChat() {
     const newChat = {
       id: this.chatCounter + 1,
@@ -53,10 +47,26 @@ export class ChatGeneratorComponent {
     };
     this.chatAdded.emit(newChat); // Emitir el nuevo chat
     this.chatCounter++; // Incrementar el contador
-    this.chats.push(newChat);
-  }
+
+    const userId = this.authService.getCurrentUserId();
+
+    // Añadir el chat a Firestore
+    this.firestoreService.addDocument('chats', newChat)
+      .then(() => {
+        console.log('Chat añadido con éxito');
+        this.chats.push(newChat); // Añadir a la lista local de chats
+      })
+      .catch((error) => {
+        console.error('Error al añadir el chat: ', error);
+      });
+      
+    }
   // Método para eliminar un chat
   removeChat(chatId: number) {
     this.chats = this.chats.filter(chat => chat.id !== chatId);
   }
+
+
+
+  
 }
