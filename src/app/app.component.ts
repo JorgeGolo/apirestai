@@ -52,7 +52,11 @@ export class AppComponent implements OnInit {
     this.loadChats(); // Cargar los chats al iniciar
   }
 
-
+  // Función que se ejecuta cuando los chats se cargan
+  onChatLoaded(loadedChats: IChat[]) {
+    this.chats = loadedChats; // Asignar los chats cargados
+    console.log('Chats recibidos:', this.chats);
+  }
   async loadChats() {
     try {
       this.chats = await this.firestoreService.getChats(); // Llama a tu servicio para obtener los chats

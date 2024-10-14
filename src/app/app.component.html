@@ -1,13 +1,13 @@
 <div class="header-layout">
     <h1 class="titleh1">API-REST ChatGPT</h1>
-    <app-login-button></app-login-button>
+    <app-login-button (chatsLoaded)="onChatLoaded($event)"></app-login-button> <!-- Captura el evento -->
 </div>
 
 <div class="chat-layout">
   <!-- Columna izquierda -->
   <div class="chat-list-column">
-    <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)"></app-chat-list>
-  </div>
+    <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
+</div>
   <!-- Columna derecha: área central del chat seleccionado -->
   <div class="chat-generator-column">
     <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator> <!-- Captura el evento aquí -->

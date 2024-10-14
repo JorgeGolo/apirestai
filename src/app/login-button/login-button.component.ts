@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Auth, User, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 import { CommonModule } from '@angular/common'; 
 import { FirestoreService } from '../services/firestore.service'; // Importa tu servicio Firestore
-import { IChat } from '../app.component'; // Asegúrate de que la interfaz IChat esté disponible
+import { IChat } from '../app.component';
 
 @Component({
   standalone: true,
@@ -13,24 +13,24 @@ import { IChat } from '../app.component'; // Asegúrate de que la interfaz IChat
   styleUrls: ['./login-button.component.css']
 })
 export class LoginButtonComponent implements OnInit {
-  
   user: User | null = null;
-  chats: IChat[] = []; // Array para almacenar los chats
+  chats: IChat[] = [];
+
+  @Output() chatsLoaded = new EventEmitter<IChat[]>(); // Emite los chats cargados
 
   constructor(private auth: Auth, private firestoreService: FirestoreService) {}
 
   ngOnInit() {
-    // Detectar el estado de autenticación del usuario
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        this.user = user; // Si el usuario está logueado, guardamos sus datos
-        console.log(user.photoURL);
+        this.user = user;
+        console.log('Usuario logueado:', user.photoURL);
 
         // Cargar los chats después de iniciar sesión
         await this.loadChats();
       } else {
-        this.user = null; // Si no está logueado, la variable de usuario será nula
-        this.chats = []; // Limpiar la lista de chats si no hay usuario
+        this.user = null;
+        this.chats = [];
       }
     });
   }
@@ -41,7 +41,7 @@ export class LoginButtonComponent implements OnInit {
       const result = await signInWithPopup(this.auth, provider);
       console.log('Usuario logueado:', result.user);
 
-      // Cargar los chats después del login
+      // Cargar los chats después de iniciar sesión
       await this.loadChats();
     } catch (error) {
       console.error('Error durante el login:', error);
@@ -51,14 +51,15 @@ export class LoginButtonComponent implements OnInit {
   logout() {
     this.auth.signOut();
     this.user = null;
-    this.chats = []; // Limpiar la lista de chats al cerrar sesión
+    this.chats = [];
   }
 
   // Método para cargar los chats
   async loadChats() {
     try {
-      this.chats = await this.firestoreService.getChats(); // Llama a tu servicio para obtener chats
+      this.chats = await this.firestoreService.getChats();
       console.log('Chats cargados:', this.chats);
+      this.chatsLoaded.emit(this.chats); // Emitir los chats cargados
     } catch (error) {
       console.error('Error al cargar los chats:', error);
     }
