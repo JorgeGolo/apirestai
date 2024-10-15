@@ -105,4 +105,8 @@ export class AppComponent implements OnInit {
     // Encuentra el chat seleccionado en la lista de chats
     this.selectedChat = this.chats.find(c => c.id === chat.id) || null; // Asegúrate de que selectedChat tenga la estructura correcta
   }
+  logout() {
+    this.selectedChat = null; // Limpia el chat seleccionado
+    // Aquí puedes añadir lógica adicional si es necesario
+  }
 }

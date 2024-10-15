@@ -18,6 +18,9 @@ export class LoginButtonComponent implements OnInit {
 
   @Output() chatsLoaded = new EventEmitter<IChat[]>(); // Emite los chats cargados
 
+  @Output() loggedOut = new EventEmitter<void>(); // Emite un evento de logout
+
+
   constructor(private auth: Auth, private firestoreService: FirestoreService) {}
 
   ngOnInit() {
@@ -58,16 +61,18 @@ export class LoginButtonComponent implements OnInit {
       console.error('Error al cargar los chats:', error);
     }
   }
-
   logout() {
     this.auth.signOut().then(() => {
       this.user = null;
       this.chats = []; // Limpia la lista de chats
       this.chatsLoaded.emit(this.chats); // Emite la lista vacía para actualizar la interfaz
+      this.loggedOut.emit(); // Emitir el evento de logout
     }).catch(error => {
       console.error('Error al cerrar sesión:', error);
     });
   }
+
+
 
 
 }

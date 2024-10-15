@@ -1,6 +1,6 @@
 <div class="header-layout">
     <h1 class="titleh1">API-REST ChatGPT</h1>
-    <app-login-button (chatsLoaded)="onChatLoaded($event)"></app-login-button> <!-- Captura el evento -->
+    <app-login-button  (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button> <!-- Captura el evento -->
 </div>
 
 <div class="chat-layout">
