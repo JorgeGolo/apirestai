@@ -1,12 +1,29 @@
 .login-container {
-    display: inline-block
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px
 }
 
 .login-container .login-button {
-    display: flex;
     align-items: center;
+    display: flex;
+
 }
 
-.login-button img {
-    padding:0.2em
+.googleicon {
+    margin-right: 10px
+}
+
+.profile-pic {
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 50%; /* Esto hará que la imagen sea redonda */
+  object-fit: cover; /* Ajusta la imagen para que cubra todo el área circular sin deformarse */
+}
+
+.linklogout {
+    font-size: 0.8em;
+    text-decoration: underline;
 }

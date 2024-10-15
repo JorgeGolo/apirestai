@@ -1,5 +1,5 @@
 <div class="chat-responses-div" *ngIf="response">
-  <span class="date">{{ formattedTimestamp | date: 'short' }}</span>
+  <span class="date">{{ getFormattedTimestamp() | date: 'short' }}</span>
   <p class="question">"{{ question }}"</p>
   <p>{{ response }}</p>
 </div>

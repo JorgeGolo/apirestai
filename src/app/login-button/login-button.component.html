@@ -4,8 +4,8 @@
     </button>
   </div>
   
-  <div *ngIf="user">
-    <img [src]="user.photoURL" alt="Foto de perfil" class="profile-pic" />
-    <p>¡Hola, {{ user.displayName }}!</p>
-    <button (click)="logout()">Cerrar sesión</button>
+  <div class="login-container" *ngIf="user">
+    <img [src]="user.photoURL" width="30px" alt="Foto de perfil" class="profile-pic" />
+    <p>{{ user.displayName }}</p>
+    <a class="linklogout" href="#" (click)="logout()">Cerrar sesión</a>
   </div>

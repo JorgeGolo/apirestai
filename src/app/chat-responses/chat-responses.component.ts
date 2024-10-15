@@ -1,29 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { Timestamp } from 'firebase/firestore'; // Importa Timestamp desde Firestore
+import { Component, Input } from '@angular/core';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-chat-responses',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './chat-responses.component.html',
-  styleUrls: ['./chat-responses.component.css'] // Asegúrate de que el nombre sea 'styleUrls'
+  styleUrl: './chat-responses.component.css'
 })
-export class ChatResponsesComponent implements OnInit {
+export class ChatResponsesComponent {
   @Input() question: string | undefined;
   @Input() response: string | undefined = ''; // Input para recibir la respuesta del chat
-  @Input() timestamp: Timestamp | null = null; // Cambia esto para recibir el Timestamp
-
-  formattedTimestamp: Date | null = null;
-
-  ngOnInit() {
-    // Verifica si hay un timestamp y conviértelo a Date
+  @Input() timestamp: Timestamp | Date | undefined; // Propiedad de entrada para la fecha y hora
+  
+  getFormattedTimestamp(): Date | string {
     if (this.timestamp) {
-      this.formattedTimestamp = this.convertTimestampToDate(this.timestamp);
+      // Si es un Timestamp de Firestore, conviértelo a Date
+      if (this.timestamp instanceof Timestamp) {
+        return this.timestamp.toDate(); // Convierte a Date
+      } else {
+        return this.timestamp; // Ya es un objeto Date
+      }
     }
-  }
-
-  convertTimestampToDate(timestamp: Timestamp): Date {
-    return timestamp.toDate(); // Convierte Timestamp a Date
+    return ''; // Retorna una cadena vacía si no hay timestamp
   }
 }
