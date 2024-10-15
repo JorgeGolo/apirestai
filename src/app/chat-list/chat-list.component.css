@@ -17,6 +17,16 @@
     margin-left: 0.6em;
 }
 
+.chat-list li span input {
+    height: 2.5em;
+    line-height: 2.5em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding-inline-start: 0.3em;
+}
+
+
 .chat-icons {
     display: flex; /* Asegura que los iconos estén alineados entre sí */
     align-items: center; /* Alinea los iconos verticalmente */
