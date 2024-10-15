@@ -1,8 +1,12 @@
 <div class="chat-list">
   <ul>
-    <li *ngFor="let chat of chats" (click)="selectChat(chat)">
-      <span>{{ chat.shortName }} <!--- {{ chat.role }}--> - {{ chat.model }}</span> 
-      <span class="chat-icons"><i class="fa-solid fa-pen"></i><i class="fa-solid fa-circle-xmark"></i></span>
+    <li *ngFor="let chat of chats">
+      <span>{{ chat.shortName }} <!--- {{ chat.role }}--> - {{ chat.model }}</span>
+      <span class="chat-icons">
+        <i class="fa-solid fa-pen"></i>
+        <i class="fa-solid fa-circle-xmark" (click)="removeChat(chat)"></i>
+        <i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>
+      </span>
     </li>
   </ul>
 </div>

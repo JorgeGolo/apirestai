@@ -60,5 +60,9 @@ export class FirestoreService {
     return deleteDoc(docRef);
   }
 
-  
+  // FirestoreService.ts
+  deleteChat(id: string): Promise<void> {
+    const chatDocRef = doc(this.firestore, `chats/${id}`); // Obtén la referencia del documento a eliminar
+    return deleteDoc(chatDocRef); // Elimina el documento
+  }
 }
