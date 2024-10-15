@@ -24,7 +24,7 @@ export interface IChatResponse {
 
 // Definición de la interfaz para el chat
 export interface IChat {
-  id: number;
+  id: string; // Cambiar a string
   role: string;
   model: string;
   shortName: string;
@@ -65,10 +65,11 @@ export class AppComponent implements OnInit {
       console.error('Error al cargar los chats:', error);
     }
   }
-  addChat(newChat: { id: number; role: string; model: string, shortName: string }) {
+  addChat(newChat: { role: string; model: string; shortName: string }) {
     // Agrega un nuevo chat inicializando responses como un array vacío
+    const chatId = Date.now().toString();  
     const chatWithResponses: IChat = {
-      id: newChat.id,
+      id: chatId, // Usar el ID generado
       role: newChat.role,
       model: newChat.model,
       shortName: newChat.shortName,

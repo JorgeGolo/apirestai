@@ -6,6 +6,7 @@ import { ChatListComponent } from '../chat-list/chat-list.component'; // Asegúr
 
 import { FirestoreService } from '../services/firestore.service'; // Importar el servicio de Firestore
 import { AuthService } from '../auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
+import { IChat } from '../app.component';
 
 @Component({
   selector: 'app-chat-generator',
@@ -16,9 +17,9 @@ import { AuthService } from '../auth.service'; // Asumimos que tienes un servici
 })
 export class ChatGeneratorComponent {
   
-  @Output() chatAdded = new EventEmitter<{ id: number, role: string, model: string, shortName : string }>(); // Emisor para agregar chats
+  @Output() chatAdded = new EventEmitter<IChat>(); // Asegúrate de que el tipo sea IChat
 
-  chats: { id: number, role: string, model: string, shortName: string }[] = []; // Array para gestionar chats y sus roles
+  chats: IChat[] = []; // Usar la interfaz IChat
   chatCounter = 0; // Contador de chats creados
   selectedModelName: string = "gpt-3.5-turbo"; // Para almacenar el nombre del modelo seleccionado
   selectedRoleName: string = "Asistente general"; // Para almacenar el nombre del rol seleccionado
@@ -40,11 +41,12 @@ export class ChatGeneratorComponent {
   constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
 
   addChat() {
-    const newChat = {
-      id: this.chatCounter + 1,
+    const newChat: IChat = {
+      id: Date.now().toString(), // Genera un ID único basado en la fecha actual
       role: this.selectedRoleName,
       model: this.selectedModelName,
       shortName: this.selectedShortName,
+      responses: [] // Inicializa responses como un array vacío
     };
     this.chatAdded.emit(newChat); // Emitir el nuevo chat
     this.chatCounter++; // Incrementar el contador
@@ -62,11 +64,9 @@ export class ChatGeneratorComponent {
       });
       
     }
-  // Método para eliminar un chat
-  removeChat(chatId: number) {
-    this.chats = this.chats.filter(chat => chat.id !== chatId);
-  }
-
+    removeChat(chatId: string) { // Cambiar a string
+      this.chats = this.chats.filter(chat => chat.id !== chatId);
+    }
 
 
   

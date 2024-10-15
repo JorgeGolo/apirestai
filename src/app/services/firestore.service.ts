@@ -35,11 +35,11 @@ export class FirestoreService {
   async getChats(): Promise<IChat[]> {
     const chatsCollection = collection(this.firestore, 'chats');
     const chatDocs = await getDocs(chatsCollection);
-  
-    return chatDocs.docs.map((doc, index) => {
+    
+    return chatDocs.docs.map(doc => {
       const data = doc.data(); // Obtiene los datos del documento
       const chat: IChat = {
-        id: index, // O usa un ID persistente si está disponible
+        id: doc.id, // Usa el ID del documento de Firestore
         role: data['role'] || '', // Usa la sintaxis de acceso por índice
         model: data['model'] || '', // Usa la sintaxis de acceso por índice
         shortName: data['shortName'] || '', // Usa la sintaxis de acceso por índice
@@ -48,6 +48,7 @@ export class FirestoreService {
       return chat;
     });
   }
+  
   // Actualizar un documento
   updateDocument(collectionName: string, id: string, data: any): Promise<void> {
     const docRef = doc(this.firestore, `${collectionName}/${id}`);
