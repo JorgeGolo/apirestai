@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { IChat } from '../app.component';
+import { IChatResponse } from '../app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -68,10 +69,18 @@ export class FirestoreService {
   }
 
   // Método para actualizar el nombre del chat en la base de datos
-  updateChat(chat: IChat): Promise<void> {
+  async updateChat(chat: IChat): Promise<void> {
     const chatDocRef = doc(this.firestore, `chats/${chat.id}`); // Obtiene la referencia del documento a actualizar
     return updateDoc(chatDocRef, {
       shortName: chat.shortName // Actualiza solo el shortName
+    });
+  }
+
+  // Método para actualizar las respuestas de un chat en la base de datos, aceptando 2 parámetros
+  updateChatResponses(chatId: string, responses: IChatResponse[]): Promise<void> {
+    const chatDocRef = doc(this.firestore, `chats/${chatId}`); // Obtiene la referencia del documento a actualizar
+    return updateDoc(chatDocRef, {
+      responses: responses // Actualiza el campo responses con las respuestas
     });
   }
 }

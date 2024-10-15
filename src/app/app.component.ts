@@ -17,6 +17,7 @@ import { environment } from '../environments/environment'; // Importa el entorno
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
+  id: string; // Usar la fecha como ID
   message: string;
   timestamp: Date;
   question?: string; // Agregamos la propiedad question como opcional
@@ -65,20 +66,11 @@ export class AppComponent implements OnInit {
       console.error('Error al cargar los chats:', error);
     }
   }
-  addChat(newChat: { role: string; model: string; shortName: string }) {
-    // Agrega un nuevo chat inicializando responses como un array vacío
-    const chatId = Date.now().toString();  
-    const chatWithResponses: IChat = {
-      id: chatId, // Usar el ID generado
-      role: newChat.role,
-      model: newChat.model,
-      shortName: newChat.shortName,
-      responses: [] // Inicializa responses como un array vacío
-    };
-    
-    this.chats.push(chatWithResponses); // Agrega el nuevo chat a la lista
+  addChat(newChat: IChat) {
+    console.log('Nuevo chat recibido en AppComponent:', newChat);
+    this.chats.push(newChat); // Solo agrega el nuevo chat a la lista local
+    // Aquí puedes decidir si cargar todos los chats nuevamente o no
   }
-
   // Método para iniciar la conversación
   startConversation() {
     this.isConversationActive = true; // Cambia el estado de la conversación a activo
@@ -99,6 +91,7 @@ export class AppComponent implements OnInit {
 
     this.chatgptService.sendMessage(message, role, model).subscribe(response => {
       const newResponse: IChatResponse = {
+        id: Date.now().toString(), // Genera un ID único para la respuesta
         message: response.choices[0].message.content,
         timestamp: new Date(),
         question: message // Asignar el mensaje como la pregunta

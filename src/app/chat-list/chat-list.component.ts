@@ -64,22 +64,31 @@ export class ChatListComponent implements OnInit {
     this.editingChat = chat;
     this.editName = chat.shortName; // Inicializa el campo con el nombre actual
   }
-
   saveChatName(chat: IChat) {
     if (this.editingChat) {
+      // Verifica que el chat tenga un ID antes de proceder
+      if (!chat.id) {
+        console.error('El chat no tiene un ID. No se puede actualizar.');
+        return;
+      }
+  
       // Actualiza el nombre del chat
+      console.log(`Actualizando nombre del chat (ID: ${chat.id}) a: ${this.editName}`);
       chat.shortName = this.editName;
-
+  
       // Llama al método del servicio para actualizar en la base de datos
       this.firestoreService.updateChat(chat).then(() => {
-        console.log('Nombre del chat actualizado en la base de datos');
+        console.log(`Nombre del chat (ID: ${chat.id}) actualizado a: ${chat.shortName}`);
       }).catch(error => {
         console.error('Error al actualizar el nombre del chat:', error);
       });
-
+  
       // Salir del modo edición
       this.editingChat = null;
       this.editName = '';
+    } else {
+      console.error('No se está editando ningún chat actualmente.');
     }
   }
+  
 }

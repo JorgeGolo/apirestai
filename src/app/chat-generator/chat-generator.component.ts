@@ -40,34 +40,39 @@ export class ChatGeneratorComponent {
 
   constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
 
-  addChat() {
-    const newChat: IChat = {
-      id: Date.now().toString(), // Genera un ID único basado en la fecha actual
-      role: this.selectedRoleName,
-      model: this.selectedModelName,
-      shortName: this.selectedShortName,
-      responses: [] // Inicializa responses como un array vacío
+  async addChat() {
+    const newChatData = {
+        role: this.selectedRoleName,
+        model: this.selectedModelName,
+        shortName: this.selectedShortName,
+        responses: [] // Inicializa responses como un array vacío
     };
-    this.chatAdded.emit(newChat); // Emitir el nuevo chat
-    this.chatCounter++; // Incrementar el contador
 
-    const userId = this.authService.getCurrentUserId();
+    try {
+        const docRef = await this.firestoreService.addDocument('chats', newChatData); 
+        console.log('Chat añadido con éxito, ID:', docRef.id);
 
-    // Añadir el chat a Firestore
-    this.firestoreService.addDocument('chats', newChat)
-      .then(() => {
-        console.log('Chat añadido con éxito');
-        this.chats.push(newChat); // Añadir a la lista local de chats
-      })
-      .catch((error) => {
+        const newChat: IChat = {
+            id: docRef.id, // Asigna el ID generado por Firestore
+            role: this.selectedRoleName,
+            model: this.selectedModelName,
+            shortName: this.selectedShortName,
+            responses: [] // Inicializa responses como un array vacío
+        };
+        
+        this.chatAdded.emit(newChat); // Emitir el nuevo chat
+        this.chatCounter++; // Incrementar el contador
+
+        // Actualiza la lista local de chats
+        this.chats.push(newChat); 
+
+        // (Opcional) Obtén todos los chats si es necesario
+        this.chats = await this.firestoreService.getChats(); 
+
+    } catch (error) {
         console.error('Error al añadir el chat: ', error);
-      });
-      
     }
-    removeChat(chatId: string) { // Cambiar a string
-      this.chats = this.chats.filter(chat => chat.id !== chatId);
-    }
-
+}
 
   
 }
