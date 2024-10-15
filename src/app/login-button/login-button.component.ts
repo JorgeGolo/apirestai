@@ -60,9 +60,13 @@ export class LoginButtonComponent implements OnInit {
   }
 
   logout() {
-    this.auth.signOut();
-    this.user = null;
-    this.chats = [];
+    this.auth.signOut().then(() => {
+      this.user = null;
+      this.chats = []; // Limpia la lista de chats
+      this.chatsLoaded.emit(this.chats); // Emite la lista vacía para actualizar la interfaz
+    }).catch(error => {
+      console.error('Error al cerrar sesión:', error);
+    });
   }
 
 
