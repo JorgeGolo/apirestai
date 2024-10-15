@@ -48,12 +48,6 @@ export class LoginButtonComponent implements OnInit {
     }
   }
 
-  logout() {
-    this.auth.signOut();
-    this.user = null;
-    this.chats = [];
-  }
-
   // Método para cargar los chats
   async loadChats() {
     try {
@@ -64,4 +58,12 @@ export class LoginButtonComponent implements OnInit {
       console.error('Error al cargar los chats:', error);
     }
   }
+
+  logout() {
+    this.auth.signOut();
+    this.user = null;
+    this.chats = [];
+  }
+
+
 }

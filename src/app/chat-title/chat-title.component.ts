@@ -10,8 +10,8 @@ import { IChat } from '../app.component'; // Importa la interfaz IChat desde el 
 })
 export class ChatTitleComponent {
   @Input() selectedShortName: string = '';  // Recibe el nombre corto del chat
-  @Input() selectedModel: string = '';  // Recibe el nombre corto del chat
-  @Input() selectedRole: string = '';  // Recibe el nombre corto del chat
+  @Input() selectedModel: string = '';  
+  @Input() selectedRole: string = '';  
 
   @Input() chat!: IChat;  // Añadir esta línea para recibir el chat seleccionado
   

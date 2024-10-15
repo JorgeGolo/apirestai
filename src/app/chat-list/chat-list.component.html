@@ -1,7 +1,8 @@
 <div class="chat-list">
   <ul>
     <li *ngFor="let chat of chats" (click)="selectChat(chat)">
-      <span>{{ chat.shortName }} - {{ chat.role }} - {{ chat.model }}</span>
+      <span>{{ chat.shortName }} <!--- {{ chat.role }}--> - {{ chat.model }}</span> 
+      <span class="chat-icons"><i class="fa-solid fa-pen"></i><i class="fa-solid fa-circle-xmark"></i></span>
     </li>
   </ul>
 </div>

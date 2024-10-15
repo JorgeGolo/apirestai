@@ -7,7 +7,7 @@
   <!-- Columna izquierda -->
   <div class="chat-list-column">
     <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
-</div>
+  </div>
   <!-- Columna derecha: área central del chat seleccionado -->
   <div class="chat-generator-column">
     <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator> <!-- Captura el evento aquí -->

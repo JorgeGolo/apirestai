@@ -15,6 +15,7 @@ import { AuthService } from '../auth.service'; // Asumimos que tienes un servici
   imports: [ChatListComponent, ChatComponent, CommonModule, FormsModule], // Asegúrate de importar el componente aquí
 })
 export class ChatGeneratorComponent {
+  
   @Output() chatAdded = new EventEmitter<{ id: number, role: string, model: string, shortName : string }>(); // Emisor para agregar chats
 
   chats: { id: number, role: string, model: string, shortName: string }[] = []; // Array para gestionar chats y sus roles
