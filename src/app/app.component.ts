@@ -13,10 +13,12 @@ import { FirestoreService } from './services/firestore.service'; // Asegúrate d
 import { NavegationComponent } from './navegation/navegation.component'; // Importa el nuevo componente 
 import { ChatContainerComponent } from './chat-container/chat-container.component'; // Importa el nuevo componente 
 import { DocumentationComponent } from './documentation/documentation.component';
+import { InfoComponent } from './info/info.component';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment'; // Importa el entorno
+import { ChattypeGeneratorComponent } from './chattype-generator/chattype-generator.component';
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
@@ -39,7 +41,7 @@ export interface IChat {
   selector: 'app-root',
   standalone: true,
   imports: [
-    DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+    ChattypeGeneratorComponent, InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
@@ -52,7 +54,8 @@ export class AppComponent implements OnInit {
   isConversationActive: boolean = false; // Variable para gestionar el estado de la conversación
 
   showDocumentation: boolean = false; // Nueva variable para controlar la visibilidad de la documentación
-
+  showInfo: boolean = false; // Nueva variable para controlar la visibilidad de la documentación
+  showChattype: boolean = false;
 
   constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   ngOnInit() {
@@ -111,6 +114,8 @@ export class AppComponent implements OnInit {
     // Encuentra el chat seleccionado en la lista de chats
     this.selectedChat = this.chats.find(c => c.id === chat.id) || null; // Asegúrate de que selectedChat tenga la estructura correcta
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
+    this.showInfo = false; // Cambiar el estado para mostrar la documentación
+    this.showChattype = false;
 
   }
   logout() {
@@ -118,12 +123,26 @@ export class AppComponent implements OnInit {
     // Aquí puedes añadir lógica adicional si es necesario
   }
   onDocumentationSelected() {
-    // Aquí puedes manejar la lógica cuando se selecciona la documentación
-    console.log("Documentación seleccionada");
-    // Por ejemplo, podrías cambiar un estado que determine qué mostrar
-      // Método que se llama cuando se hace clic en el enlace de documentación
+    //console.log("Documentación seleccionada");
     this.showDocumentation = true; // Cambiar el estado para mostrar la documentación
+    this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
-  
+    this.showChattype = false;
+  }
+
+  onInfoSelected() {
+    //console.log("info seleccionada");
+    this.showInfo = true; // Cambiar el estado para mostrar la documentación
+    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
+    this.selectedChat = null; // Ocultar el chat seleccionado
+    this.showChattype = false;
+  }
+
+  onChattypeSelected() {
+    console.log("ct seleccionada");
+    this.showInfo = false; // Cambiar el estado para mostrar la documentación
+    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
+    this.selectedChat = null; // Ocultar el chat seleccionado
+    this.showChattype = true;
   }
 }
