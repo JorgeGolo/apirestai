@@ -1,33 +1,46 @@
-<div class="header-layout">
-    <h1 class="titleh1">API-REST ChatGPT</h1>
-    <app-login-button  (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button> <!-- Captura el evento -->
-</div>
-
-<div class="chat-layout">
-  <!-- Columna izquierda -->
-  <div class="chat-list-column">
-    <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
-  </div>
-  <!-- Columna derecha: área central del chat seleccionado -->
-  <div class="chat-generator-column">
-    <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator> <!-- Captura el evento aquí -->
-    <div class="chat-container">
-
-        <app-chat-title *ngIf="selectedChat" [chat]="selectedChat" [selectedShortName]="selectedChat.shortName"
-        [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model"></app-chat-title>
-
-        <div class="chat-responses" *ngIf="selectedChat">
-            <app-chat-responses *ngFor="let res of selectedChat.responses" 
-                [response]="res.message" 
-                [timestamp]="res.timestamp" 
-                [question]="res.question">
-            </app-chat-responses>
-        </div>
-
-        <!-- Solo renderiza app-chat si selectedChat no es null -->
-        <app-chat *ngIf="selectedChat" [chat]="selectedChat" [selectedShortName]="selectedChat.shortName"
-            [selectedRole]="selectedChat.role" [selectedModel]="selectedChat.model">
-        </app-chat>
+<div class="chat-layout flex h-screen">
+    <!-- Columna izquierda -->
+    <div class="chat-list-column  w-1/5 min-w-1/5 max-w-1/5  border border-gray-300 rounded-lg p-4 bg-gray-50 overflow-y-auto">
+        <h1 class="text-2xl font-bold">API-REST ChatGPT</h1>
+        <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
     </div>
-   </div>
+  
+    <!-- Columna central: área central del chat seleccionado -->
+    <div class="chat-generator-column flex-grow p-4 flex flex-col overflow-y-auto bg-white items-center justify-center">
+        <!-- Usamos flex-grow para que esta columna ocupe todo el espacio restante -->
+        <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator>
+  
+        <div class="chat-container w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
+            <app-chat-title *ngIf="selectedChat" 
+                            [chat]="selectedChat" 
+                            [selectedShortName]="selectedChat.shortName"
+                            [selectedRole]="selectedChat.role" 
+                            [selectedModel]="selectedChat.model">
+            </app-chat-title>
+  
+            <div class="chat-responses space-y-4" *ngIf="selectedChat">
+                <app-chat-responses *ngFor="let res of selectedChat.responses" 
+                                    [response]="res.message" 
+                                    [timestamp]="res.timestamp" 
+                                    [question]="res.question">
+                </app-chat-responses>
+            </div>
+  
+            <app-chat *ngIf="selectedChat" 
+                      [chat]="selectedChat" 
+                      [selectedShortName]="selectedChat.shortName"
+                      [selectedRole]="selectedChat.role" 
+                      [selectedModel]="selectedChat.model">
+            </app-chat>
+        </div>
+    </div>
+
+    <!-- Columna anclada a la derecha -->
+    <div class="fixed top-0 right-0 w-1/9 h-full p-4 border-l border-gray-300 bg-white shadow-lg">
+      <!-- Ajustamos el ancho de la columna fija a 1/9 -->
+       <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button>
+       <div>
+            <i class="fa-sharp fa-solid fa-book"></i>
+       </div>
+    </div>
 </div>

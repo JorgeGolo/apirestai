@@ -1,11 +1,17 @@
-<div class="login-container" *ngIf="!user">
+<div 
+  class="bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 hover:text-black cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" 
+  *ngIf="!user"  
+  (click)="loginWithGoogle()"
+>
+    <!--
     <button class="login-button" (click)="loginWithGoogle()">
-      <img src="images/icono-google.png" width="30px" class="googleicon"><span>Iniciar sesión con Google</span>
+      <img src="images/icono-google.png" width="30px" class="googleicon">
     </button>
+   -->
+   <i class="fa-solid fa-user text-xl"></i>
   </div>
   
-  <div class="login-container" *ngIf="user">
+  <div class="bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 hover:text-black cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
     <img [src]="user.photoURL" width="30px" alt="Foto de perfil" class="profile-pic" />
-    <p>{{ user.displayName }}</p>
-    <a class="linklogout" href="#" (click)="logout()">Cerrar sesión</a>
+    <a class="linklogout" href="#" (click)="logout()">x</a>
   </div>

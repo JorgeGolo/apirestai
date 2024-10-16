@@ -5,7 +5,7 @@
 
       <!-- Si este chat está en edición, muestra un input, si no, muestra el nombre -->
       <span *ngIf="chat === editingChat; else displayName">
-        <input [(ngModel)]="editName" (blur)="saveChatName(chat)" (keyup.enter)="saveChatName(chat)" autofocus />
+        <input class="" [(ngModel)]="editName" (blur)="saveChatName(chat)" (keyup.enter)="saveChatName(chat)" autofocus />
       </span>
       <ng-template #displayName>
         <span>{{ chat.shortName }} - {{ chat.model }}</span>

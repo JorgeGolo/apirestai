@@ -1,37 +1,3 @@
-/* Estilo general para el layout */
-
-.header-layout {
-  display: flex;
-  gap:15px;
-  align-items: center; 
-}
-
-.chat-layout {
-  display: flex;
-  height: 100vh; /* Que ocupe toda la altura de la ventana */
-}
-
-/* Columna izquierda (lista de chats) */
-.chat-list-column {
-  width: 25%; /* Ocupa el 25% de la pantalla */
-  border: 1px solid #ccc; /* Línea de separación */
-  border-radius: 5px;
-  padding: 10px;
-  overflow-y: auto; /* Scroll para contenido grande */
-  background-color: #f9f9f9; /* Fondo claro para la lista de chats */
-}
-
-/* Columna derecha  */
-.chat-generator-column {
-  width: 75%; /* Ocupa el 75% de la pantalla */
-  padding: 0 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow-y: auto; /* Scroll para contenido grande */
-  background-color: #ffffff; /* Fondo blanco para la sección de chat */
-}
-
 /* Contenedor del chat seleccionado */
 .chat-container {
   flex-grow: 1; /* Permite que este contenedor crezca y ocupe el espacio disponible */
