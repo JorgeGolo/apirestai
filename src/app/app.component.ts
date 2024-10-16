@@ -12,6 +12,7 @@ import { ChatTitleComponent } from './chat-title/chat-title.component'; // Impor
 import { FirestoreService } from './services/firestore.service'; // Asegúrate de que la ruta sea correcta
 import { NavegationComponent } from './navegation/navegation.component'; // Importa el nuevo componente 
 import { ChatContainerComponent } from './chat-container/chat-container.component'; // Importa el nuevo componente 
+import { DocumentationComponent } from './documentation/documentation.component';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -38,7 +39,7 @@ export interface IChat {
   selector: 'app-root',
   standalone: true,
   imports: [
-    ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+    DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
@@ -49,6 +50,9 @@ export class AppComponent implements OnInit {
 
   title = 'apirestai';
   isConversationActive: boolean = false; // Variable para gestionar el estado de la conversación
+
+  showDocumentation: boolean = false; // Nueva variable para controlar la visibilidad de la documentación
+
 
   constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   ngOnInit() {
@@ -106,9 +110,20 @@ export class AppComponent implements OnInit {
   onChatSelected(chat: IChat) { // Cambia el tipo de chat a IChat
     // Encuentra el chat seleccionado en la lista de chats
     this.selectedChat = this.chats.find(c => c.id === chat.id) || null; // Asegúrate de que selectedChat tenga la estructura correcta
+    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
+
   }
   logout() {
     this.selectedChat = null; // Limpia el chat seleccionado
     // Aquí puedes añadir lógica adicional si es necesario
+  }
+  onDocumentationSelected() {
+    // Aquí puedes manejar la lógica cuando se selecciona la documentación
+    console.log("Documentación seleccionada");
+    // Por ejemplo, podrías cambiar un estado que determine qué mostrar
+      // Método que se llama cuando se hace clic en el enlace de documentación
+    this.showDocumentation = true; // Cambiar el estado para mostrar la documentación
+    this.selectedChat = null; // Ocultar el chat seleccionado
+  
   }
 }

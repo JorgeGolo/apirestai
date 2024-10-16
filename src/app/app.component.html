@@ -19,12 +19,11 @@
 
         <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator>
 
-        <div class="chat-container w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
-            <app-chat-container *ngIf="selectedChat" [selectedChat]="selectedChat">
+        <div class="container w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
+            <app-chat-container *ngIf="selectedChat && !showDocumentation" [selectedChat]="selectedChat">
             </app-chat-container>
 
-            <!-- aqui vamos a mostrar el contenido de un componente nuevo -->
-            <!-- cuando se haga clic en algun elemento del app navegation -->
+            <app-documentation *ngIf="showDocumentation"></app-documentation> <!-- Mostrar documentación -->
 
         </div>
     </div>
@@ -33,6 +32,6 @@
     <div class="fixed top-0 right-0 w-1/9 h-full p-4 border-l border-gray-300 bg-white shadow-lg">
       <!-- Ajustamos el ancho de la columna fija a 1/9 -->
        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button>
-       <app-navegation></app-navegation>
+       <app-navegation (documentationSelected)="onDocumentationSelected()"></app-navegation>
     </div>
 </div>
