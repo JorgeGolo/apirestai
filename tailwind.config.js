@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,ts}", // Añadir los archivos de Angular
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Roboto', '"Helvetica Neue"', 'sans-serif'], // Configura tus fuentes personalizadas
+      },
+    },
   },
   plugins: [],
 }

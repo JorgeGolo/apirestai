@@ -1,7 +1,15 @@
 <div class="chat-layout flex h-screen">
     <!-- Columna izquierda -->
     <div class="chat-list-column  w-1/5 min-w-1/5 max-w-1/5  border border-gray-300 rounded-lg p-4 bg-gray-50 overflow-y-auto">
-        <h1 class="text-2xl font-bold">API-REST ChatGPT</h1>
+        
+        <div class="flex items-center space-x-2">
+            <span class="hover:bg-gray-200 hover:text-black cursor-pointer rounded-full h-10 flex items-center justify-center">
+                <i class="fa-solid fa-brain text-xl"></i>
+            </span>
+            <h1 class="text-gray-500 font-medium text-2xl">AnotherBrain</h1>
+        </div>
+
+
         <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
     </div>
   
@@ -39,8 +47,6 @@
     <div class="fixed top-0 right-0 w-1/9 h-full p-4 border-l border-gray-300 bg-white shadow-lg">
       <!-- Ajustamos el ancho de la columna fija a 1/9 -->
        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button>
-       <div>
-            <i class="fa-sharp fa-solid fa-book"></i>
-       </div>
+       <app-navegation></app-navegation>
     </div>
 </div>

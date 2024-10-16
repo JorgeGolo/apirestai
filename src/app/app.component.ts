@@ -10,6 +10,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { ChatListComponent } from './chat-list/chat-list.component'; // Importa el componente
 import { ChatTitleComponent } from './chat-title/chat-title.component'; // Importa el componente
 import { FirestoreService } from './services/firestore.service'; // Asegúrate de que la ruta sea correcta
+import { NavegationComponent } from './navegation/navegation.component'; // Importa el nuevo componente 
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -36,7 +37,7 @@ export interface IChat {
   selector: 'app-root',
   standalone: true,
   imports: [
-    ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+    NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
