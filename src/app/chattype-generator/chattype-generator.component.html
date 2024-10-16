@@ -1,1 +1,23 @@
-<p>chattype-generator works!</p>
+<div class="p-4">
+
+    <h3 class="text-xl font-bold mb-2">Crear nueva configuración de chat</h3>
+
+    <label class="block" for="selectedTypeShortName">Nombre de la configuración</label>
+    <input class="w-full p-2 border border-gray-300 rounded-md mb-4" id="selectedTypeShortName" type="text" id="typeShortName" value="Nueva configuración" 
+    [(ngModel)]="selectedTypeShortName">
+    <label class="block" for="model-select">Selecciona un modelo:</label>
+    <select 
+    class="w-full p-2 border border-gray-300 rounded-md mb-4"
+    id="model-select" [(ngModel)]="selectedModelName" name="model" required>
+        <option *ngFor="let model of models" [value]="model.name">{{ model.name }}</option>
+    </select>
+
+
+    <label class="block" for="role-select">Descripción del rol de systema</label>
+    <textarea name="role" id="role-select" [(ngModel)]="selectedRoleName"
+    class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 resize-none h-24 mb-0"
+    maxlength="300" style="padding-bottom:0"
+    ></textarea><small class="text-sm text-gray-500 mb-4">Una longitud adecuada sería de aprox. 150 catacteres. Máximo 300 caracteres</small>
+    <button (click)="saveChatConfig()" class="block bg-blue-500 text-white p-2 rounded-md mt-4">Guardar esta configuración</button>
+
+</div>

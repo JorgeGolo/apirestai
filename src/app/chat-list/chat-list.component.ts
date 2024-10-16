@@ -64,6 +64,7 @@ export class ChatListComponent implements OnInit {
     this.editingChat = chat;
     this.editName = chat.shortName; // Inicializa el campo con el nombre actual
   }
+  
   saveChatName(chat: IChat) {
     if (this.editingChat) {
       // Verifica que el chat tenga un ID antes de proceder

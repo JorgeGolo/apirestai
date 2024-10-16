@@ -8,9 +8,9 @@
         <input class="" [(ngModel)]="editName" (blur)="saveChatName(chat)" (keyup.enter)="saveChatName(chat)" autofocus />
       </span>
       <ng-template #displayName>
-        <span>{{ chat.shortName }} - {{ chat.model }}</span>
+        <span>{{ chat.shortName }} - {{ chat.model }} </span>
       </ng-template>
-
+      
 
       <span class="chat-icons">
         <i class="fa-solid fa-pen" (click)="renameChat(chat)"></i>

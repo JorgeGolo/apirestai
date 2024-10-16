@@ -19,6 +19,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment'; // Importa el entorno
 import { ChattypeGeneratorComponent } from './chattype-generator/chattype-generator.component';
+import { ChattypeListComponent } from './chattype-list/chattype-list.component';
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
@@ -37,16 +38,24 @@ export interface IChat {
   responses: IChatResponse[]; // Incluye la propiedad responses
 }
 
+export interface IChatConfig {
+  id: string; // Cambiar a string
+  role: string;
+  model: string;
+  typeShortName: string;
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    ChattypeGeneratorComponent, InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+    ChattypeListComponent, ChattypeGeneratorComponent, InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
 export class AppComponent implements OnInit {
   chats: IChat[] = []; // Usa la interfaz IChat
+  chatconfigs: IChatConfig[] = []; // Usa la interfaz IChat
 
   selectedChat: IChat | null = null; // Cambia el tipo a IChat | null
 
@@ -58,8 +67,11 @@ export class AppComponent implements OnInit {
   showChattype: boolean = false;
 
   constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
+  
   ngOnInit() {
     this.loadChats(); // Cargar los chats al iniciar
+    this.loadChatConfigs(); // Cargar los chats al iniciar
+
   }
 
   // Función que se ejecuta cuando los chats se cargan
@@ -67,14 +79,45 @@ export class AppComponent implements OnInit {
     this.chats = loadedChats; // Asignar los chats cargados
     console.log('Chats recibidos:', this.chats);
   }
+  onChatConfigLoaded(loadedChatConfigs: IChatConfig[]) {
+    this.chatconfigs = loadedChatConfigs; // Asignar los chats cargados
+    console.log('Chats recibidos:', this.chats);
+  }
   async loadChats() {
     try {
-      this.chats = await this.firestoreService.getChats(); // Llama a tu servicio para obtener los chats
-      console.log('Chats cargados:', this.chats); // Verifica si se cargan los chats
+      // Intenta cargar los chats desde Firestore
+      this.chats = await this.firestoreService.getChats();
+      console.log('Chats cargados:', this.chats);
+  
+      // Si no se obtienen chats, puedes agregar un chat temporal por defecto
+      if (!this.chats || this.chats.length === 0) {
+        console.log('No se encontraron chats, creando uno temporal...');
+      }
+  
     } catch (error) {
-      console.error('Error al cargar los chats:', error);
+      console.error('Error al cargar los chats desde Firestore:', error);
+      // En caso de error, agrega un chat temporal localmente
+      // this.addTempChat();
     }
   }
+
+  async loadChatConfigs() {
+    try {
+      // Intenta cargar los chats desde Firestore
+      this.chatconfigs = await this.firestoreService.getChatConfigs();
+  
+      // Si no se obtienen chats, puedes agregar un chat temporal por defecto
+      if (!this.chatconfigs || this.chatconfigs.length === 0) {
+        console.log('No se encontraron chats, creando uno temporal...');
+      }
+  
+    } catch (error) {
+      console.error('Error al cargar los chats desde Firestore:', error);
+      // En caso de error, agrega un chat temporal localmente
+      // this.addTempChat();
+    }
+  }
+  
   addChat(newChat: IChat) {
     console.log('Nuevo chat recibido en AppComponent:', newChat);
     this.chats.push(newChat); // Solo agrega el nuevo chat a la lista local
@@ -86,6 +129,11 @@ export class AppComponent implements OnInit {
     if (this.selectedChat) {
       this.selectedChat.responses = []; // Limpia las respuestas del chat seleccionado
     }
+  }
+  saveChatConfig(newChatConfig: IChatConfig) {
+    console.log('Nuevo chat recibido en AppComponent:', newChatConfig);
+    this.chatconfigs.push(newChatConfig); // Solo agrega el nuevo chat a la lista local
+    // Aquí puedes decidir si cargar todos los chats nuevamente o no
   }
 
   onSubmit(form: any) { // Asegúrate de que el método reciba el formulario
@@ -118,12 +166,12 @@ export class AppComponent implements OnInit {
     this.showChattype = false;
 
   }
+  
   logout() {
     this.selectedChat = null; // Limpia el chat seleccionado
-    // Aquí puedes añadir lógica adicional si es necesario
   }
+
   onDocumentationSelected() {
-    //console.log("Documentación seleccionada");
     this.showDocumentation = true; // Cambiar el estado para mostrar la documentación
     this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
@@ -131,7 +179,6 @@ export class AppComponent implements OnInit {
   }
 
   onInfoSelected() {
-    //console.log("info seleccionada");
     this.showInfo = true; // Cambiar el estado para mostrar la documentación
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
@@ -139,10 +186,10 @@ export class AppComponent implements OnInit {
   }
 
   onChattypeSelected() {
-    console.log("ct seleccionada");
     this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
     this.showChattype = true;
   }
+
 }

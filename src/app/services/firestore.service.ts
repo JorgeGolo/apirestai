@@ -3,6 +3,7 @@ import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc,
 import { Observable } from 'rxjs';
 import { IChat } from '../app.component';
 import { IChatResponse } from '../app.component';
+import { IChatConfig } from '../app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,23 @@ export class FirestoreService {
         responses: data['responses'] || [] // Asegúrate de que sea un array
       };
       return chat;
+    });
+  }
+
+  
+  async getChatConfigs(): Promise<IChatConfig[]> {
+    const chatsconfigCollection = collection(this.firestore, 'chatconfigs');
+    const chatConfigDocs = await getDocs(chatsconfigCollection);
+    
+    return chatConfigDocs.docs.map(doc => {
+      const data = doc.data(); // Obtiene los datos del documento
+      const chatc: IChatConfig = {
+        id: doc.id, // Usa el ID del documento de Firestore
+        role: data['role'] || '', // Usa la sintaxis de acceso por índice
+        model: data['model'] || '', // Usa la sintaxis de acceso por índice
+        typeShortName: data['typeShortName'] || '', // Usa la sintaxis de acceso por índice
+      };
+      return chatc;
     });
   }
   

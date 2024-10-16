@@ -8,6 +8,7 @@ import { FirestoreService } from '../services/firestore.service'; // Importar el
 import { AuthService } from '../auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
 import { IChat } from '../app.component';
 
+
 @Component({
   selector: 'app-chat-generator',
   templateUrl: './chat-generator.component.html',
@@ -70,7 +71,20 @@ export class ChatGeneratorComponent {
         this.chats = await this.firestoreService.getChats(); 
 
     } catch (error) {
-        console.error('Error al añadir el chat: ', error);
+        console.error('Error al añadir el chat logueado: ', error);
+        const newChat: IChat = {
+          id: Date.now().toString(), // Asigna un ID único basado en la fecha actual
+          role: this.selectedRoleName,
+          model: this.selectedModelName,
+          shortName: this.selectedShortName,
+          responses: [] // Inicializa responses como un array vacío
+      };
+      
+      this.chatAdded.emit(newChat); // Emitir el nuevo chat
+      this.chatCounter++; // Incrementar el contador
+
+      // Actualiza la lista local de chats
+      this.chats.push(newChat); 
     }
 }
 

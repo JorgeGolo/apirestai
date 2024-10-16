@@ -11,6 +11,7 @@
 
 
         <app-chat-list [chats]="chats" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
+        <app-chattype-list [chatconfigs]="chatconfigs" (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
     </div>
   
     <!-- Columna central: área central del chat seleccionado -->
@@ -20,17 +21,19 @@
         <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator>
 
         <div class="container w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
-            <app-chat-container *ngIf="selectedChat && !showDocumentation && !showInfo" [selectedChat]="selectedChat">
-            </app-chat-container>
-
+            
+            <app-chat-container *ngIf="selectedChat && !showDocumentation && !showInfo" [selectedChat]="selectedChat"></app-chat-container>
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
             <app-info *ngIf="showInfo"></app-info>
             <app-chattype-generator *ngIf="showChattype"></app-chattype-generator>
 
         </div>
+
     </div>
 
     <!-- Columna anclada a la derecha -->
+
+    
     <div class="fixed top-0 right-0 w-1/9 h-full p-4 border-l border-gray-300 bg-white shadow-lg">
       <!-- Ajustamos el ancho de la columna fija a 1/9 -->
        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button>
