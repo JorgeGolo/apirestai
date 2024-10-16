@@ -1,0 +1,25 @@
+<app-chat-title *ngIf="selectedChat" 
+    [chat]="selectedChat" 
+    [selectedShortName]="selectedChat.shortName"
+    [selectedRole]="selectedChat.role" 
+    [selectedModel]="selectedChat.model">
+</app-chat-title>
+
+ 
+  
+<div class="chat-responses space-y-4" *ngIf="selectedChat">
+    <app-chat-responses *ngFor="let res of selectedChat.responses" 
+                        [response]="res.message" 
+                        [timestamp]="res.timestamp" 
+                        [question]="res.question">
+    </app-chat-responses>
+</div>
+
+
+  
+<app-chat *ngIf="selectedChat" 
+    [chat]="selectedChat" 
+    [selectedShortName]="selectedChat.shortName"
+    [selectedRole]="selectedChat.role" 
+    [selectedModel]="selectedChat.model">
+</app-chat>

@@ -1,12 +1,12 @@
-<div class="chat-layout flex h-screen">
+<div class="flex h-screen">
     <!-- Columna izquierda -->
-    <div class="chat-list-column  w-1/5 min-w-1/5 max-w-1/5  border border-gray-300 rounded-lg p-4 bg-gray-50 overflow-y-auto">
+    <div class="chat-list-column w-1/5 min-w-1/5 max-w-1/5 border border-gray-300 overflow-y-auto">
         
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-2 p-4 border-b border-gray-300">
             <span class="hover:bg-gray-200 hover:text-black cursor-pointer rounded-full h-10 flex items-center justify-center">
-                <i class="fa-solid fa-brain text-xl"></i>
+                <i class="fa-solid fa-brain text-2xl"></i>
             </span>
-            <h1 class="text-gray-500 font-medium text-2xl">AnotherBrain</h1>
+            <h1 class="text-gray-600 font-medium text-2xl">AnotherBrain</h1>
         </div>
 
 
@@ -14,32 +14,18 @@
     </div>
   
     <!-- Columna central: área central del chat seleccionado -->
-    <div class="chat-generator-column flex-grow p-4 flex flex-col overflow-y-auto bg-white items-center justify-center">
+    <div class="flex-grow p-4 flex flex-col overflow-y-auto items-center justify-center">
         <!-- Usamos flex-grow para que esta columna ocupe todo el espacio restante -->
+
         <app-chat-generator (chatAdded)="addChat($event)"></app-chat-generator>
-  
+
         <div class="chat-container w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
-            <app-chat-title *ngIf="selectedChat" 
-                            [chat]="selectedChat" 
-                            [selectedShortName]="selectedChat.shortName"
-                            [selectedRole]="selectedChat.role" 
-                            [selectedModel]="selectedChat.model">
-            </app-chat-title>
-  
-            <div class="chat-responses space-y-4" *ngIf="selectedChat">
-                <app-chat-responses *ngFor="let res of selectedChat.responses" 
-                                    [response]="res.message" 
-                                    [timestamp]="res.timestamp" 
-                                    [question]="res.question">
-                </app-chat-responses>
-            </div>
-  
-            <app-chat *ngIf="selectedChat" 
-                      [chat]="selectedChat" 
-                      [selectedShortName]="selectedChat.shortName"
-                      [selectedRole]="selectedChat.role" 
-                      [selectedModel]="selectedChat.model">
-            </app-chat>
+            <app-chat-container *ngIf="selectedChat" [selectedChat]="selectedChat">
+            </app-chat-container>
+
+            <!-- aqui vamos a mostrar el contenido de un componente nuevo -->
+            <!-- cuando se haga clic en algun elemento del app navegation -->
+
         </div>
     </div>
 
