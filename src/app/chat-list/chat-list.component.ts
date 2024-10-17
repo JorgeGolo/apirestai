@@ -17,6 +17,9 @@ export class ChatListComponent implements OnInit {
   @Output() chatSelected = new EventEmitter<IChat>(); // Emite un IChat cuando se selecciona un chat
   @Output() chatLoaded = new EventEmitter<IChat[]>(); // Emite los chats cuando se carguen
 
+  @Output() gChatSelected = new EventEmitter<void>(); // Definimos el evento
+
+
   editingChat: IChat | null = null; // Mantiene el chat en edición
   editName: string = ''; // Nombre temporal para la edición
 
@@ -90,6 +93,11 @@ export class ChatListComponent implements OnInit {
     } else {
       console.error('No se está editando ningún chat actualmente.');
     }
+  }
+
+  onGchatSelected() {
+    console.log("gchat"); // Este mensaje debe aparecer en la consola
+    this.gChatSelected.emit(); // Emitimos el evento
   }
   
 }

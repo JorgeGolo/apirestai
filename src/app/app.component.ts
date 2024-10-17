@@ -66,6 +66,7 @@ export class AppComponent implements OnInit {
   showDocumentation: boolean = false; // Nueva variable para controlar la visibilidad de la documentación
   showInfo: boolean = false; // Nueva variable para controlar la visibilidad de la documentación
   showChattype: boolean = false;
+  showChatgen: boolean = false;
 
   constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   
@@ -166,6 +167,7 @@ export class AppComponent implements OnInit {
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.showChattype = false;
+    this.showChatgen = false;
   }
   
   logout() {
@@ -177,6 +179,7 @@ export class AppComponent implements OnInit {
     this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
     this.showChattype = false;
+    this.showChatgen = false;
   }
 
   onInfoSelected() {
@@ -184,6 +187,7 @@ export class AppComponent implements OnInit {
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
     this.showChattype = false;
+    this.showChatgen = false;
   }
 
   onChattypeSelected() {
@@ -191,6 +195,15 @@ export class AppComponent implements OnInit {
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado
     this.showChattype = true;
+    this.showChatgen = false;
+  }
+
+  ongChatSelected() {
+    this.showInfo = false; // Cambiar el estado para mostrar la documentación
+    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
+    this.selectedChat = null; // Ocultar el chat seleccionado
+    this.showChattype = false;
+    this.showChatgen = true;
   }
 
 }

@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class ChattypeListComponent {
   @Input() chatconfigs: IChatConfig[] = []; // Recibe la lista de chats como IChat[]
   @Output() chatConfigLoaded = new EventEmitter<IChatConfig[]>(); // Emite los chats cuando se carguen
+  @Output() chattypeSelected = new EventEmitter<void>(); // Definimos el evento
 
 
   constructor(private firestoreService: FirestoreService,
@@ -31,5 +32,10 @@ export class ChattypeListComponent {
     } catch (error) {
       console.error('Error al cargar las configs:', error);
     }
+  }
+
+  onSelectChattype() {
+    console.log("list"); // Este mensaje debe aparecer en la consola
+    this.chattypeSelected.emit(); // Emitimos el evento
   }
 }
