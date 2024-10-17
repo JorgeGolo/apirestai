@@ -1,6 +1,13 @@
-<div class="chat-list">
-  <ul class="list-none m-0 p-0"> 
-    <li *ngFor="let chat of chats">
+<div class="chat-list font-gsans m-4">
+  <div class="flex items-center">
+    <i class="fa-solid fa-comments text-gray-600"></i>
+    <span class="text-sm font-sans font-normal p-2 text-gray-500">Chats generados</span>
+  </div>
+  <ul class="list-none text-gray-600 text-sm"> 
+    <li *ngFor="let chat of chats" class="p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200
+    first:rounded-t last:rounded-b
+    "
+     (click)="selectChat(chat)">
       <!--<span>{{ chat.shortName }} - {{ chat.model }}</span>-->
 
       <!-- Si este chat está en edición, muestra un input, si no, muestra el nombre -->
@@ -8,14 +15,14 @@
         <input class="" [(ngModel)]="editName" (blur)="saveChatName(chat)" (keyup.enter)="saveChatName(chat)" autofocus />
       </span>
       <ng-template #displayName>
-        <span>{{ chat.shortName }} - {{ chat.model }} </span>
+        <span>{{ chat.shortName }}<!--{{ chat.model }}--></span>
       </ng-template>
       
 
       <span class="chat-icons">
         <i class="fa-solid fa-pen" (click)="renameChat(chat)"></i>
         <i class="fa-solid fa-circle-xmark" (click)="removeChat(chat)"></i>
-        <i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>
+        <!--<i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>-->
       </span>
     </li>
   </ul>

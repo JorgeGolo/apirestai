@@ -50,16 +50,14 @@ export class ChatGeneratorComponent {
     };
 
     try {
-        const docRef = await this.firestoreService.addDocument('chats', newChatData); 
-        console.log('Chat añadido con éxito, ID:', docRef.id);
-
-        const newChat: IChat = {
-            id: docRef.id, // Asigna el ID generado por Firestore
-            role: this.selectedRoleName,
-            model: this.selectedModelName,
-            shortName: this.selectedShortName,
-            responses: [] // Inicializa responses como un array vacío
-        };
+      const docRef = await this.firestoreService.addDocument('chats', newChatData); 
+      const newChat: IChat = {
+        id: docRef.id, // Asigna el ID generado por Firestore
+        role: this.selectedRoleName,
+        model: this.selectedModelName,
+        shortName: this.selectedShortName,
+        responses: [] // Inicializa responses como un array vacío
+      };
         
         this.chatAdded.emit(newChat); // Emitir el nuevo chat
         this.chatCounter++; // Incrementar el contador

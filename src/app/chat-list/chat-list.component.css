@@ -1,7 +1,4 @@
 .chat-list li {
-    padding: 1em 0em 1em 0;
-    border-radius: 3px;
-    border: 1px solid gray;
     display: flex;
     justify-content: space-between; /* Asegura que el contenido se distribuye entre los dos extremos */
     align-items: center; /* Centra los elementos verticalmente */
@@ -27,8 +24,5 @@
 }
 
 .chat-icons i {
-    border: 1px solid gray;
-    border-radius: 3px;
-    padding: 0.5em;
-    margin-right: 0.5em; /* Añade un poco de espacio entre los iconos */
+    padding: 0.4em 0.3em 0.4em 0.3em;
 }

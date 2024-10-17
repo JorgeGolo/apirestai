@@ -53,6 +53,7 @@ export interface IChatConfig {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
+
 export class AppComponent implements OnInit {
   chats: IChat[] = []; // Usa la interfaz IChat
   chatconfigs: IChatConfig[] = []; // Usa la interfaz IChat
@@ -71,7 +72,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loadChats(); // Cargar los chats al iniciar
     this.loadChatConfigs(); // Cargar los chats al iniciar
-
   }
 
   // Función que se ejecuta cuando los chats se cargan
@@ -123,6 +123,12 @@ export class AppComponent implements OnInit {
     this.chats.push(newChat); // Solo agrega el nuevo chat a la lista local
     // Aquí puedes decidir si cargar todos los chats nuevamente o no
   }
+  saveChatConfig(newChatConfig: IChatConfig) {
+    console.log('Nuevo chat recibido en AppComponent:', newChatConfig);
+    this.chatconfigs.push(newChatConfig); // Solo agrega el nuevo chat a la lista local
+    // Aquí puedes decidir si cargar todos los chats nuevamente o no
+  }
+
   // Método para iniciar la conversación
   startConversation() {
     this.isConversationActive = true; // Cambia el estado de la conversación a activo
@@ -130,11 +136,7 @@ export class AppComponent implements OnInit {
       this.selectedChat.responses = []; // Limpia las respuestas del chat seleccionado
     }
   }
-  saveChatConfig(newChatConfig: IChatConfig) {
-    console.log('Nuevo chat recibido en AppComponent:', newChatConfig);
-    this.chatconfigs.push(newChatConfig); // Solo agrega el nuevo chat a la lista local
-    // Aquí puedes decidir si cargar todos los chats nuevamente o no
-  }
+
 
   onSubmit(form: any) { // Asegúrate de que el método reciba el formulario
     if (!this.isConversationActive || !this.selectedChat) {
@@ -164,7 +166,6 @@ export class AppComponent implements OnInit {
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.showChattype = false;
-
   }
   
   logout() {

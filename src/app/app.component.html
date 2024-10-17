@@ -1,6 +1,6 @@
 <div class="flex h-screen">
     <!-- Columna izquierda -->
-    <div class="chat-list-column w-1/5 min-w-1/5 max-w-1/5 border border-gray-300 overflow-y-auto">
+    <div class="chat-list-column bg-white w-1/6 border border-gray-300 overflow-y-auto">
         
         <div class="flex items-center space-x-2 p-4 border-b border-gray-300">
             <span class="hover:bg-gray-200 hover:text-black cursor-pointer rounded-full h-10 flex items-center justify-center">
@@ -25,7 +25,7 @@
             <app-chat-container *ngIf="selectedChat && !showDocumentation && !showInfo" [selectedChat]="selectedChat"></app-chat-container>
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
             <app-info *ngIf="showInfo"></app-info>
-            <app-chattype-generator *ngIf="showChattype"></app-chattype-generator>
+            <app-chattype-generator (chatConfigAdded)="saveChatConfig($event)" *ngIf="showChattype"></app-chattype-generator>
 
         </div>
 

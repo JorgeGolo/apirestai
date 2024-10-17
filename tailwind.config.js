@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Roboto', '"Helvetica Neue"', 'sans-serif'], // Configura tus fuentes personalizadas
+        gsans : ['Google Sans', 'sans-serif']
       },
     },
   },

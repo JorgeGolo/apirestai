@@ -33,7 +33,6 @@ export class ChattypeGeneratorComponent {
   ];
 
   async saveChatConfig(){
-    console.log("save");
     const newChatConfigData = {
       typeShortName : this.selectedTypeShortName,
       role: this.selectedRoleName,
