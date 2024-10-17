@@ -10,8 +10,14 @@
         </div>
 
 
-        <app-chat-list [chats]="chats"  (gChatSelected)="ongChatSelected()" (chatSelected)="onChatSelected($event)" (chatLoaded)="onChatLoaded($event)"></app-chat-list>
-        <app-chattype-list [chatconfigs]="chatconfigs" (chattypeSelected)="onChattypeSelected()" (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
+        <app-chat-list 
+        [chats]="chats" (gChatSelected)="ongChatSelected()" 
+        (chatSelected)="onChatSelected($event)" 
+        (chatLoaded)="onChatLoaded($event)"></app-chat-list>
+        <app-chattype-list 
+        [chatconfigs]="chatconfigs" 
+        (chattypeSelected)="onChattypeSelected()" 
+        (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
     </div>
   
     <!-- Columna central: área central del chat seleccionado -->
@@ -35,7 +41,7 @@
     
     <div class="fixed top-0 right-0 w-1/9 h-full p-2 border-l border-gray-300 bg-white shadow-lg">
       <!-- Ajustamos el ancho de la columna fija a 1/9 -->
-       <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)"></app-login-button>
+       <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
        <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()" (chattypeSelected)="onChattypeSelected()"></app-navegation>
     </div>
 </div>
