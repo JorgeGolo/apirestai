@@ -14,10 +14,12 @@
         [chats]="chats" (gChatSelected)="ongChatSelected()" 
         (chatSelected)="onChatSelected($event)" 
         (chatLoaded)="onChatLoaded($event)"></app-chat-list>
+<hr>
         <app-chattype-list 
         [chatconfigs]="chatconfigs" 
         (chattypeSelected)="onChattypeSelected()" 
         (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
+
     </div>
   
     <!-- Columna central: área central del chat seleccionado -->
