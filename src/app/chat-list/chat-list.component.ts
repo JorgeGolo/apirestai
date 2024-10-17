@@ -19,7 +19,6 @@ export class ChatListComponent implements OnInit {
 
   @Output() gChatSelected = new EventEmitter<void>(); // Definimos el evento
 
-
   editingChat: IChat | null = null; // Mantiene el chat en edición
   editName: string = ''; // Nombre temporal para la edición
 
@@ -99,5 +98,12 @@ export class ChatListComponent implements OnInit {
     console.log("gchat"); // Este mensaje debe aparecer en la consola
     this.gChatSelected.emit(); // Emitimos el evento
   }
-  
+
+  isMouseOverMap: Map<any, boolean> = new Map<any, boolean>(); 
+  setMouseOver(chat: any, value: boolean) {
+     this.isMouseOverMap.set(chat, value); 
+    } 
+    isMouseOver(chat: any): boolean {
+       return this.isMouseOverMap.get(chat) || false;
+    }
 }

@@ -22,9 +22,4 @@ export class NavegationComponent {
     this.infoSelected.emit(); // Emitimos el evento
   }
 
-  onSelectChattype() {
-    console.log("list"); // Este mensaje debe aparecer en la consola
-    this.chattypeSelected.emit(); // Emitimos el evento
-  }
-
 }

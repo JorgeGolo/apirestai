@@ -17,12 +17,7 @@
     padding-inline-start: 0.3em;
 }
 
-
 .chat-icons {
     display: flex; /* Asegura que los iconos estén alineados entre sí */
     align-items: center; /* Alinea los iconos verticalmente */
-}
-
-.chat-icons i {
-    padding: 0.4em 0.3em 0.4em 0.3em;
 }

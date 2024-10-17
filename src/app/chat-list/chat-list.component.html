@@ -4,10 +4,9 @@
     <span class="text-sm font-sans font-normal p-2 text-gray-500">Chats generados</span>
   </div>
   <ul class="list-none text-gray-600 text-sm mb-3"> 
-    <li *ngFor="let chat of chats" class="p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200
-    first:rounded-t last:rounded-b
-    "
-     (click)="selectChat(chat)">
+    <li *ngFor="let chat of chats" class="p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 first:rounded-t last:rounded-b"
+     (click)="selectChat(chat)"
+     (mouseenter)="setMouseOver(chat, true)" (mouseleave)="setMouseOver(chat, false)"     >
       <!--<span>{{ chat.shortName }} - {{ chat.model }}</span>-->
 
       <!-- Si este chat está en edición, muestra un input, si no, muestra el nombre -->
@@ -19,9 +18,9 @@
       </ng-template>
       
 
-      <span class="chat-icons">
-        <i class="fa-solid fa-pen" (click)="renameChat(chat)"></i>
-        <i class="fa-solid fa-circle-xmark" (click)="removeChat(chat)"></i>
+      <span *ngIf="isMouseOver(chat)">
+        <i class="fa-solid fa-pen p-1" (click)="renameChat(chat)"></i>
+        <i class="fa-solid fa-circle-xmark p-1" (click)="removeChat(chat)"></i>
         <!--<i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>-->
       </span>
     </li>
@@ -31,7 +30,7 @@
 
   <div class="flex justify-between items-center p-2 text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-lg" (click)="onGchatSelected()">
     <span>Generar chat</span>
-    <i class="fa-solid fa-circle-plus"></i>
+    <i class="fa-solid fa-circle-plus p-1"></i>
   </div>
 
 </div>
