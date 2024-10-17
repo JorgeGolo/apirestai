@@ -1,11 +1,5 @@
-.chat-list li {
-    display: flex;
-    justify-content: space-between; /* Asegura que el contenido se distribuye entre los dos extremos */
-    align-items: center; /* Centra los elementos verticalmente */
-}
-
-.chat-list li span {
-    margin-left: 0.6em;
+.chat-list li span, .chat-list span {
+    margin-left: 0.6em
 }
 
 .chat-list li span input {
@@ -17,7 +11,4 @@
     padding-inline-start: 0.3em;
 }
 
-.chat-icons {
-    display: flex; /* Asegura que los iconos estén alineados entre sí */
-    align-items: center; /* Alinea los iconos verticalmente */
-}
+

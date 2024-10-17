@@ -4,7 +4,8 @@
         <span class="text-sm font-sans font-normal p-2 text-gray-500">Tipos de chat</span>
       </div>
         <ul class="list-none text-gray-600 text-sm mb-3"> 
-        <li *ngFor="let chatconfig of chatconfigs" class="p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 first:rounded-t last:rounded-b ">
+        <li *ngFor="let chatconfig of chatconfigs" class="
+        border-b p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 first:rounded-t last:rounded-b last:border-0">
             <span> {{ chatconfig.typeShortName }} - {{ chatconfig.model }} </span>
         </li>
     </ul>

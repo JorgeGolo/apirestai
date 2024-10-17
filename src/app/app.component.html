@@ -1,5 +1,4 @@
 <div class="flex h-screen">
-    <!-- Columna izquierda -->
     <div class="chat-list-column bg-white w-1/6 border border-gray-300 overflow-y-auto">
         
         <div class="flex items-center space-x-2 p-4 border-b border-gray-300">
@@ -22,27 +21,25 @@
 
     </div>
   
-    <!-- Columna central: área central del chat seleccionado -->
-    <div class="flex-grow p-4 flex flex-col overflow-y-auto items-center justify-center">
-        <!-- Usamos flex-grow para que esta columna ocupe todo el espacio restante -->
-
-        <div class="container w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
-            
-            <app-chat-container *ngIf="selectedChat && !showDocumentation && !showInfo" [selectedChat]="selectedChat"></app-chat-container>
+    <div class="flex-grow p-4 flex flex-col overflow-y-auto">
+         
+        <div class="conta w-5/6">
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
             <app-info *ngIf="showInfo"></app-info>
             <app-chattype-generator (chatConfigAdded)="saveChatConfig($event)" *ngIf="showChattype"></app-chattype-generator>
             <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
-
+        </div> 
+        <div *ngIf="selectedChat && !showDocumentation && !showInfo" class="flex items-center justify-center">
+        <div 
+             class=" w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">
+            <app-chat-container [selectedChat]="selectedChat"></app-chat-container>
         </div>
+    </div>
 
     </div>
 
-    <!-- Columna anclada a la derecha -->
-
     
     <div class="fixed top-0 right-0 w-1/9 h-full p-2 border-l border-gray-300 bg-white shadow-lg">
-      <!-- Ajustamos el ancho de la columna fija a 1/9 -->
        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
        <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()" (chattypeSelected)="onChattypeSelected()"></app-navegation>
     </div>
