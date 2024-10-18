@@ -38,16 +38,6 @@ export interface IChat {
   responses: IChatResponse[]; // Incluye la propiedad responses
 }
 
-// Definición de la interfaz para el chat
-/*export interface IChat {
-  id: string; // Cambiar a string
-  shortName: string;
-  chatconfig: IChatConfig["typeShortName"];
-  role: IChatConfig["role"];
-  model: IChatConfig["model"];
-  responses: IChatResponse[]; // Incluye la propiedad responses
-} */
-
 export interface IChatConfig {
   id: string; // Cambiar a string
   role: string;

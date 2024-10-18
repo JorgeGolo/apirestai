@@ -64,9 +64,6 @@ export class ChatGeneratorComponent {
     }
   }
   
-  
-  
-
   async ngOnInit() {
     try {
       this.chatconfigs = await this.firestoreService.getChatConfigs(); // Llama al servicio para obtener los chats

@@ -38,4 +38,29 @@ export class ChattypeListComponent {
     console.log("list"); // Este mensaje debe aparecer en la consola
     this.chattypeSelected.emit(); // Emitimos el evento
   }
+
+  removeChatConfig(chatconfig: IChatConfig) {
+    const userId = this.authService.getCurrentUserId(); // Obtén el ID del usuario logueado
+
+    // Verifica si el chat pertenece al usuario logueado
+    this.firestoreService.deleteChatConfig(chatconfig.id.toString()).then(() => {
+      console.log(`Chat con ID ${chatconfig.id} eliminado de Firestore`);
+    }).catch((error) => {
+      console.error(`Error al eliminar el chat con ID ${chatconfig.id} de Firestore:`, error);
+    }).finally(() => {
+      // Eliminar de la lista local sí o sí
+      this.chatconfigs = this.chatconfigs.filter(c => c.id !== chatconfig.id);
+
+      // Emitir los chats actualizados
+      this.chatConfigLoaded.emit(this.chatconfigs);
+    });
+  }
+
+  isMouseOverMap: Map<any, boolean> = new Map<any, boolean>(); 
+  setMouseOver(chat: any, value: boolean) {
+     this.isMouseOverMap.set(chat, value); 
+    } 
+    isMouseOver(chat: any): boolean {
+       return this.isMouseOverMap.get(chat) || false;
+    }
 }
