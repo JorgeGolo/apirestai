@@ -2,17 +2,26 @@
   <h3 class="text-xl font-bold mb-2">Crear nuevo chat</h3>
   <label class="block" for="shortName">Nombre:</label>
   <input class="w-full p-2 border border-gray-300 rounded-md mb-4" name="shortName" [(ngModel)]="selectedShortName" value="Nuevo Chat">
- <!-- Selector de modelos -->
- <label class="block" for="model-select">Selecciona un modelo:</label>
- <select class="w-full p-2 border border-gray-300 rounded-md mb-4" id="model-select" [(ngModel)]="selectedModelName" name="model" required>
-   <option *ngFor="let model of models" [value]="model.name">{{ model.name }}</option>
- </select>
  
- <!-- Selector de roles -->
- <label class="block" for="role-select">Selecciona un rol:</label>
- <select class="w-full p-2 border border-gray-300 rounded-md mb-4" id="role-select" [(ngModel)]="selectedRoleName" name="role" required>
-   <option *ngFor="let role of rolesystem" [value]="role.name">{{ role.name }}</option>
- </select>
+  <label class="block" for="selectedChatConfig">Configuración</label>
+  <select 
+  class="w-full p-2 border border-gray-300 rounded-md mb-4"
+  id="chatconfig-select" 
+  [(ngModel)]="selectedChatConfig" 
+  (change)="onConfigChange($event)" 
+  name="chatconfig" 
+  required>
+  
+  <!-- Opción por defecto -->
+  <option class="text-sm" value="" disabled selected><i>Selecciona una opción</i></option>
+  
+  <!-- Opciones dinámicas -->
+  <option *ngFor="let chatconfig of chatconfigs" [value]="chatconfig.typeShortName">
+    {{ chatconfig.typeShortName }}
+  </option>
+</select>
+
+  
 
    <!-- Botón para añadir un nuevo chat -->
    <button (click)="addChat()"

@@ -22,6 +22,7 @@ export class ChattypeGeneratorComponent {
   selectedTypeShortName: string = "Nueva Configuración"; // Para almacenar el nombre del modelo seleccionado
   selectedModelName: string = "gpt-3.5-turbo"; // Para almacenar el nombre del modelo seleccionado
   selectedRoleName: string = "Asistente general"; // Para almacenar el nombre del rol seleccionado
+  
 
   constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
 
