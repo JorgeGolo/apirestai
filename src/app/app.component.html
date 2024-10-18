@@ -13,22 +13,24 @@
         [chats]="chats" (gChatSelected)="ongChatSelected()" 
         (chatSelected)="onChatSelected($event)" 
         (chatLoaded)="onChatLoaded($event)"></app-chat-list>
-<hr>
+        <hr>
+        
         <app-chattype-list 
         [chatconfigs]="chatconfigs" 
         (chattypeSelected)="onChattypeSelected()" 
         (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
 
-    </div>
+    </div>  
   
-    <div class="flex-grow p-4 flex flex-col overflow-y-auto">
+    <div class="flex-grow p-4 flex flex-col overflow-y-auto w-5/6">
          
-        <div class="conta w-5/6">
+        <div class="conta w-5/6 max-w-4xl">
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
             <app-info *ngIf="showInfo"></app-info>
             <app-chattype-generator (chatConfigAdded)="saveChatConfig($event)" *ngIf="showChattype"></app-chattype-generator>
             <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
         </div> 
+
         <div *ngIf="selectedChat && !showDocumentation && !showInfo" class="flex items-center justify-center">
         <div 
              class=" w-full max-w-4xl flex-grow p-4 border border-gray-300 mt-4 bg-gray-100 rounded-lg">

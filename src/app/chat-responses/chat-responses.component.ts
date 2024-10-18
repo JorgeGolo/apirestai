@@ -25,4 +25,29 @@ export class ChatResponsesComponent {
     }
     return ''; // Retorna una cadena vacía si no hay timestamp
   }
+
+    // Función para formatear o parsear la respuesta
+    getParsedResponse(): string {
+
+      if (!this.response) {
+        return ''; // Si no hay respuesta, retorna una cadena vacía
+      }
+  
+      // Escapar caracteres especiales
+      let parsedResponse = this.response
+      .replace(/</g, '&lt;')  // Convierte '<' en '&lt;'
+      .replace(/>/g, '&gt;'); // Convierte '>' en '&gt;'
+
+      // Reemplazar las secciones de código y manejar puntos y aparte
+      parsedResponse = parsedResponse
+      .replace(/```html/g, '<pre class="p-4 m-2 custom-pre bg-white rounded-lg"><code>') // Inicia el bloque de código
+      .replace(/```/g, '</code></pre>') // Cierra el bloque de código
+      .replace(/\n\n/g, '</p><p>') // Convierte saltos dobles en cierre y apertura de párrafos
+      .replace(/\n/g, '<br>');      // Convierte saltos simples en <br>
+
+      // Envolver todo el texto en un párrafo al principio y al final
+      parsedResponse = `<p>${parsedResponse}</p>`;
+
+      return parsedResponse;
+    }
 }
