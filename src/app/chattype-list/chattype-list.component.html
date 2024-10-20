@@ -1,12 +1,12 @@
 <div class="chat-list font-gsans m-4">
     <div class="flex items-center mb-3">
-        <i class="fa-solid fa-list text-gray-600"></i>
-        <span class="text-sm font-sans font-normal p-2 text-gray-500">Tipos de chat</span>
+        <i class="fa-solid fa-list span-title"></i>
+        <span class="text-sm font-sans font-normal p-2 span-title">Tipos de chat</span>
       </div>
-        <ul class="list-none text-gray-600 text-sm mb-3"> 
+        <ul> 
         <li *ngFor="let chatconfig of chatconfigs" class="
         border-b flex justify-between items-center
-        p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 first:rounded-t last:rounded-b last:border-0"
+        p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0"
      (mouseenter)="setMouseOver(chatconfig, true)" (mouseleave)="setMouseOver(chatconfig, false)"     
         >
             <span> {{ chatconfig.typeShortName }} </span>
@@ -20,7 +20,7 @@
         </li>
     </ul>
 
-    <div class="flex justify-between items-center p-2 text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-lg" (click)="onSelectChattype()">
+    <div class="chat-button flex justify-between items-center p-2 text-sm font-medium rounded-lg" (click)="onSelectChattype()">
         <span>Generar tipo</span>
         <i class="fa-solid fa-plus p-1"></i>
     </div>

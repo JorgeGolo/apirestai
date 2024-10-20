@@ -1,3 +1,5 @@
+/* left column colors - with drak mode */
+
 .chat-list-column {
   @apply bg-white border-gray-300 dark:bg-[#2d2d2d] dark:border-[#4d4d4d] dark:text-[#e0e0e0];
 }
@@ -10,8 +12,12 @@
   @apply text-gray-600 dark:text-[#e0e0e0];
 }
 
-.li-list {
-  @apply bg-gray-100 text-gray-500 hover:bg-gray-200; 
+.chat-list-column ul {
+  @apply list-none text-gray-600 text-sm mb-3;
+}
+
+.chat-list-column ul li, div.chat-button {
+  @apply bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-[#1a1a1a] dark:text-[#a0a0a0] dark:border-[#2d2d2d]; 
 }
 
 /* Contenedor del chat seleccionado */
