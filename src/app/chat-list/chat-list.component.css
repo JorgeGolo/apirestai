@@ -1,6 +1,12 @@
-.chat-list li span, .chat-list span {
+
+.chat-list li span  {
     margin-left: 0.6em
 }
+
+.chat-list span  {
+    margin-left: 0.3em
+}
+
 
 .chat-list li span input {
     height: 2.5em;

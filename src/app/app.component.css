@@ -1,7 +1,18 @@
 .chat-list-column {
-  @apply bg-white border-gray-300 dark:bg-black;
+  @apply bg-white border-gray-300 dark:bg-[#2d2d2d] dark:border-[#4d4d4d] dark:text-[#e0e0e0];
 }
 
+.title-column {
+  @apply border-b border-gray-300 dark:border-[#4d4d4d];
+}
+
+.h1-title, .span-title {
+  @apply text-gray-600 dark:text-[#e0e0e0];
+}
+
+.li-list {
+  @apply bg-gray-100 text-gray-500 hover:bg-gray-200; 
+}
 
 /* Contenedor del chat seleccionado */
 .chat-container {

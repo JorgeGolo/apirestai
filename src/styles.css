@@ -3,3 +3,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bodyclass.dark {
+    @apply bg-[#1a1a1a];
+}
+
+.bodyclass {
+    @apply font-sans bg-[#fafafa];
+}
+

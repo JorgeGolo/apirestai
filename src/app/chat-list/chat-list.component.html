@@ -1,12 +1,12 @@
 <div class="chat-list font-gsans m-4">
   <div class="flex items-center mb-3">
-    <i class="fa-solid fa-comments text-gray-600"></i>
-    <span class="text-sm font-sans font-normal p-2 text-gray-500">Chats generados</span>
+    <i class="fa-solid fa-comments span-title"></i>
+    <span class="text-sm font-sans font-normal p-1 span-title">Chats generados</span>
   </div>
   <ul class="list-none text-gray-600 text-sm mb-3"> 
     <li *ngFor="let chat of chats" class="
     border-b flex justify-between items-center
-    p-2 text-15 font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 first:rounded-t last:rounded-b last:border-0"
+    p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0 li-list"
      (click)="selectChat(chat)"
      (mouseenter)="setMouseOver(chat, true)" (mouseleave)="setMouseOver(chat, false)"     >
       <!--<span>{{ chat.shortName }} - {{ chat.model }}</span>-->
@@ -30,7 +30,9 @@
 
   </ul>
 
-  <div class="chat-list flex justify-between items-center p-2 text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-lg" (click)="onGchatSelected()">
+  <div class="chat-list flex justify-between items-center p-2 text-sm font-medium rounded-lg
+  bg-gray-100 text-gray-500 hover:bg-gray-200 
+  " (click)="onGchatSelected()">
     <span>Generar chat</span>
     <i class="fa-solid fa-plus p-1"></i>
   </div>
