@@ -32,6 +32,7 @@ export interface IChatResponse {
 // Definición de la interfaz para el chat
 export interface IChat {
   id: string; // Cambiar a string
+  type: string;
   role: string;
   model: string;
   shortName: string;

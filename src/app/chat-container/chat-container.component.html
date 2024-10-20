@@ -2,6 +2,7 @@
 <div #chatContainer style="overflow-y: scroll; max-height: 100vh;">
     <app-chat-title *ngIf="selectedChat" 
     [chat]="selectedChat" 
+    [selectedTypeShortName]="selectedChat.type"
     [selectedShortName]="selectedChat.shortName"
     [selectedRole]="selectedChat.role" 
     [selectedModel]="selectedChat.model">

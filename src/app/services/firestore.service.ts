@@ -42,6 +42,7 @@ export class FirestoreService {
       const data = doc.data(); // Obtiene los datos del documento
       const chat: IChat = {
         id: doc.id, // Usa el ID del documento de Firestore
+        type: data['type'] || '',
         role: data['role'] || '', // Usa la sintaxis de acceso por índice
         model: data['model'] || '', // Usa la sintaxis de acceso por índice
         shortName: data['shortName'] || '', // Usa la sintaxis de acceso por índice

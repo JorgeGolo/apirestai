@@ -14,13 +14,17 @@
   
   <!-- Opción por defecto -->
   <option class="text-sm" value="" disabled selected><i>Selecciona una opción</i></option>
-  
+ 
   <!-- Opciones dinámicas -->
   <option *ngFor="let chatconfig of chatconfigs" [value]="chatconfig.typeShortName">
     {{ chatconfig.typeShortName }}
   </option>
-</select>
+  <!-- Mensaje de error -->
 
+</select>
+<div *ngIf="!selectedChatConfig && onclicksubmit" class="text-red-500 text-sm mt-2">
+  Por favor, selecciona una configuración.
+</div>
 
    <!-- Botón para añadir un nuevo chat -->
    <button (click)="addChat()"

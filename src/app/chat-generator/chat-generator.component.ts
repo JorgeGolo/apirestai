@@ -31,6 +31,8 @@ export class ChatGeneratorComponent {
   selectedRoleName: string = ""; // Para almacenar el nombre del rol seleccionado
   selectedShortName: string = "";
 
+  onclicksubmit: boolean = false;
+
   rolesystem = [
     { id: 0, name: 'Asistente general' },
     { id: 1, name: 'Dime una receta que incluya este ingrediente' },
@@ -54,17 +56,15 @@ export class ChatGeneratorComponent {
     if (selectedConfig) {
       this.selectedModelName = selectedConfig.model;
       this.selectedRoleName = selectedConfig.role;
-      this.selectedShortName = selectedConfig.typeShortName;
-
+      //this.selectedShortName = selectedConfig.typeShortName;
+      
           // Agregar logs para verificar si se seleccionan correctamente
-    console.log('Config seleccionada:', selectedConfig);
-    console.log('Model:', this.selectedModelName);
-    console.log('Role:', this.selectedRoleName);
-    console.log('Short Name:', this.selectedShortName);
     }
   }
   
   async ngOnInit() {
+    this.onclicksubmit = false;
+
     try {
       this.chatconfigs = await this.firestoreService.getChatConfigs(); // Llama al servicio para obtener los chats
       console.log('Configs cargados:', this.chatconfigs);
@@ -77,9 +77,19 @@ export class ChatGeneratorComponent {
   }
 
   async addChat() {
+    this.onclicksubmit = true;
+
+    if (!this.selectedChatConfig) {
+
+      console.error('Por favor, selecciona una configuración válida.');
+      //alert('Por favor, selecciona una configuración válida.');
+      return; // Evita que se procese si no hay configuración seleccionada
+      this.onclicksubmit = true;
+    }
     const newChatData = {
         role: this.selectedRoleName,
         model: this.selectedModelName,
+        type: this.selectedChatConfig,
         shortName: this.selectedShortName,
         responses: [] // Inicializa responses como un array vacío
     };
@@ -89,10 +99,12 @@ export class ChatGeneratorComponent {
       const newChat: IChat = {
         id: docRef.id, // Asigna el ID generado por Firestore
         role: this.selectedRoleName,
+        type: this.selectedChatConfig,
         model: this.selectedModelName,
         shortName: this.selectedShortName,
         responses: [] // Inicializa responses como un array vacío
       };
+      console.log(this.selectedChatConfig);
         
         this.chatAdded.emit(newChat); // Emitir el nuevo chat
         this.chatCounter++; // Incrementar el contador
@@ -108,6 +120,7 @@ export class ChatGeneratorComponent {
         const newChat: IChat = {
           id: Date.now().toString(), // Asigna un ID único basado en la fecha actual
           role: this.selectedRoleName,
+          type: this.selectedChatConfig,
           model: this.selectedModelName,
           shortName: this.selectedShortName,
           responses: [] // Inicializa responses como un array vacío
