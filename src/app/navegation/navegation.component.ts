@@ -12,6 +12,13 @@ export class NavegationComponent {
   @Output() infoSelected = new EventEmitter<void>(); // Definimos el evento
   @Output() chattypeSelected = new EventEmitter<void>(); // Definimos el evento
 
+  isDarkMode = false; // Variable para rastrear el estado del modo oscuro
+
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    document.body.classList.toggle('dark', this.isDarkMode); // Alterna la clase "dark"
+  }
+  
   // Método que se llamará al seleccionar la opción de documentación
   onSelectDocumentation() {
     this.documentationSelected.emit(); // Emitimos el evento
