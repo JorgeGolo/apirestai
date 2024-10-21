@@ -33,6 +33,9 @@ export class ChatGeneratorComponent {
 
   onclicksubmit: boolean = false;
 
+  @Input() chatconfig!: IChatConfig;  // Añadir esta línea para recibir el chat seleccionado
+
+
   rolesystem = [
     { id: 0, name: 'Asistente general' },
     { id: 1, name: 'Dime una receta que incluya este ingrediente' },

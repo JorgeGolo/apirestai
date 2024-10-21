@@ -10,14 +10,16 @@
 
 
         <app-chat-list 
-        [chats]="chats" (gChatSelected)="ongChatSelected()" 
+        [chats]="chats" 
+        (gChatSelected)="ongChatSelected()" 
         (chatSelected)="onChatSelected($event)" 
         (chatLoaded)="onChatLoaded($event)"></app-chat-list>
         <hr>
         
         <app-chattype-list 
         [chatconfigs]="chatconfigs" 
-        (chattypeSelected)="onChattypeSelected()" 
+        (gchattypeSelected)="ongChattypeSelected()" 
+        (chatConfigSelected)="onChatConfigSelected($event)" 
         (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
 
     </div>  
@@ -27,8 +29,12 @@
         <div class="conta w-5/6 max-w-4xl p-4" *ngIf="!selectedChat">
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
             <app-info *ngIf="showInfo"></app-info>
-            <app-chattype-generator (chatConfigAdded)="saveChatConfig($event)" *ngIf="showChattype"></app-chattype-generator>
-            <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
+           <app-chattype-generator 
+                [showedChatConfig]="showedChatconfig"
+                (chatConfigAdded)="saveChatConfig($event)" 
+                *ngIf="showChattype">
+            </app-chattype-generator>
+            <app-chat-generator  (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
         </div> 
 
         <div *ngIf="selectedChat && !showDocumentation && !showInfo" class="">
@@ -39,6 +45,6 @@
     
     <div class="fixed top-0 right-0 w-1/9 h-full p-2 border chat-list-column">
        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
-       <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()" (chattypeSelected)="onChattypeSelected()"></app-navegation>
+       <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()"></app-navegation>
     </div>
 </div>

@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
   chatconfigs: IChatConfig[] = []; // Usa la interfaz IChat
 
   selectedChat: IChat | null = null; // Cambia el tipo a IChat | null
+  showedChatconfig: IChatConfig | null = null; // Cambia el tipo a IChat | null
 
   title = 'apirestai';
   isConversationActive: boolean = false; // Variable para gestionar el estado de la conversación
@@ -170,6 +171,19 @@ export class AppComponent implements OnInit {
     this.showChattype = false;
     this.showChatgen = false;
   }
+
+  onChatConfigSelected(chatconfig: IChatConfig) { // Cambia el tipo de chat a IChat
+    // Encuentra el chat seleccionado en la lista de chats
+    console.log("tipo selected");
+    this.showedChatconfig = this.chatconfigs.find(c => c.id === chatconfig.id) || null; // Asegúrate de que selectedChat tenga la estructura correcta
+    
+    this.showInfo = false; // Cambiar el estado para mostrar la documentación
+    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
+    this.selectedChat = null; // Ocultar el chat seleccionado
+    this.showChattype = true;
+    this.showChatgen = false;
+  }
+  
   
   logout() {
     this.selectedChat = null; // Limpia el chat seleccionado
@@ -191,7 +205,7 @@ export class AppComponent implements OnInit {
     this.showChatgen = false;
   }
 
-  onChattypeSelected() {
+  ongChattypeSelected() {
     this.showInfo = false; // Cambiar el estado para mostrar la documentación
     this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
     this.selectedChat = null; // Ocultar el chat seleccionado

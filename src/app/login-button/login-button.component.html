@@ -11,11 +11,11 @@ class="hover:bg-gray-200 hover:text-black cursor-pointer rounded-full w-12 h-12 
    <i class="fa-solid fa-user text-xl"></i>
   </div>
   
-  <div class="bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 hover:text-black cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
+  <div class="span-icon cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
     <img [src]="user.photoURL" width="30px" alt="Foto de perfil" class="profile-pic" />
   </div>
 
     
-  <div class="text-gray-700 hover:bg-gray-200 hover:text-black cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
+  <div class="span-icon cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
     <i class="fa-solid fa-circle-xmark p-1" (click)="logout()"></i>
   </div>

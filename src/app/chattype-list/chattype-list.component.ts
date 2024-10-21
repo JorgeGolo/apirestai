@@ -15,7 +15,9 @@ import { FormsModule } from '@angular/forms';
 export class ChattypeListComponent {
   @Input() chatconfigs: IChatConfig[] = []; // Recibe la lista de chats como IChat[]
   @Output() chatConfigLoaded = new EventEmitter<IChatConfig[]>(); // Emite los chats cuando se carguen
-  @Output() chattypeSelected = new EventEmitter<void>(); // Definimos el evento
+  @Output() gchattypeSelected = new EventEmitter<void>(); // Definimos el evento
+
+  @Output() chatConfigSelected = new EventEmitter<IChatConfig>(); // Emite los chats cuando se carguen
 
 
   constructor(private firestoreService: FirestoreService,
@@ -34,9 +36,16 @@ export class ChattypeListComponent {
     }
   }
 
-  onSelectChattype() {
+  ongSelectChattype() {
     console.log("list"); // Este mensaje debe aparecer en la consola
-    this.chattypeSelected.emit(); // Emitimos el evento
+    this.gchattypeSelected.emit(); // Emitimos el evento
+  }
+
+  clickChatType(chatconfig: IChatConfig) {
+    console.log("selected type"); // Este mensaje debe aparecer en la consola
+    this.chatConfigSelected.emit(chatconfig); // Emitimos el evento
+    
+    
   }
 
   removeChatConfig(chatconfig: IChatConfig) {
