@@ -163,17 +163,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onChatSelected(chat: IChat) { // Cambia el tipo de chat a IChat
-    // Encuentra el chat seleccionado en la lista de chats
-    this.selectedChat = this.chats.find(c => c.id === chat.id) || null; // Asegúrate de que selectedChat tenga la estructura correcta
-    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
-    this.showInfo = false; // Cambiar el estado para mostrar la documentación
-    this.showChattype = false;
-    this.showChatgen = false;
-    this.showedChatconfig = null;
-
-  }
-
 
   
   
@@ -181,56 +170,43 @@ export class AppComponent implements OnInit {
     this.selectedChat = null; // Limpia el chat seleccionado
   }
 
-  onDocumentationSelected() {
-    this.showDocumentation = true; // Cambiar el estado para mostrar la documentación
-    this.showInfo = false; // Cambiar el estado para mostrar la documentación
-    this.selectedChat = null; // Ocultar el chat seleccionado
+  resetViews() {
+    this.selectedChat = null;
+    this.showDocumentation = false;
+    this.showInfo = false;
     this.showChattype = false;
     this.showChatgen = false;
     this.showedChatconfig = null;
+}
 
-  }
+onChatSelected(chat: IChat) {
+  this.resetViews(); // Restablecer todas las vistas
+  this.selectedChat = this.chats.find(c => c.id === chat.id) || null;
+}
 
-  onInfoSelected() {
-    this.showInfo = true; // Cambiar el estado para mostrar la documentación
-    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
-    this.selectedChat = null; // Ocultar el chat seleccionado
-    this.showChattype = false;
-    this.showChatgen = false;
-    this.showedChatconfig = null;
+onDocumentationSelected() {
+  this.resetViews();
+  this.showDocumentation = true;
+}
 
-  }
+onInfoSelected() {
+  this.resetViews();
+  this.showInfo = true;
+}
 
-  ongChattypeSelected() {
-    this.showInfo = false; // Cambiar el estado para mostrar la documentación
-    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
-    this.selectedChat = null; // Ocultar el chat seleccionado
-    this.showChattype = true;
-    this.showChatgen = false;
-    this.showedChatconfig = null;
+ongChattypeSelected() {
+  this.resetViews();
+  this.showChattype = true;
+}
 
-  }
+onChatConfigSelected(chatconfig: IChatConfig) {
+  this.resetViews();
+  this.showedChatconfig = this.chatconfigs.find(c => c.id === chatconfig.id) || null;
+  this.showChattype = true;
+}
 
-  onChatConfigSelected(chatconfig: IChatConfig) { // Cambia el tipo de chat a IChat
-    // Encuentra el chat seleccionado en la lista de chats
-    console.log("tipo selected");
-    this.showedChatconfig = this.chatconfigs.find(c => c.id === chatconfig.id) || null; // Asegúrate de que selectedChat tenga la estructura correcta
-    
-    this.showInfo = false; // Cambiar el estado para mostrar la documentación
-    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
-    this.selectedChat = null; // Ocultar el chat seleccionado
-    this.showChattype = true;
-    this.showChatgen = false;
-  }
-
-  ongChatSelected() {
-    this.showInfo = false; // Cambiar el estado para mostrar la documentación
-    this.showDocumentation = false; // Cambiar el estado para mostrar la documentación
-    this.selectedChat = null; // Ocultar el chat seleccionado
-    this.showChattype = false;
-    this.showChatgen = true;
-    this.showedChatconfig = null;
-
-  }
-
+ongChatSelected() {
+  this.resetViews();
+  this.showChatgen = true;
+}
 }
