@@ -71,6 +71,9 @@ export class AppComponent implements OnInit {
   showChatgen: boolean = false;
   showChat : boolean = false;
 
+  isListVisible = false;
+
+
   constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   
   ngOnInit() {
@@ -213,5 +216,9 @@ onChatConfigSelected(chatconfig: IChatConfig) {
 ongChatSelected() {
   this.resetViews();
   this.showChatgen = true;
+}
+
+showList() {
+  this.isListVisible = !this.isListVisible;
 }
 }

@@ -1,39 +1,46 @@
-<div class="flex h-screen">
-    <div class="chat-list-column w-1/6 border overflow-y-auto">
+<div class="flex h-screen flex-col md:flex-row h:auto overflow-y-auto">
+    <!-- Columna izquierda -->
+    <div class="chat-list-column w-full md:w-1/6 border h:auto">
         
-        <div class="flex items-center space-x-2 p-4 title-column">
-            <span class="rounded-full h-10 flex items-center justify-center">
-                <i class="fa-solid fa-brain text-2xl"></i>
-            </span>
-            <h1 class="font-medium text-2xl h1-title">AnotherBrain</h1>
+        <div class="title-column p-4 border border-b border-gray-300 dark:border-[#4d4d4d]">
+            <div class="flex items-center">
+                <div class="sm:block md:hidden" (click)="showList()"><i class="fa-solid fa-bars hidden"></i></div>
+                <div class="flex items-center space-x-2 justify-center md:justify-start w-full">
+                    <span class="rounded-full h-10 flex items-center justify-center">
+                        <i class="fa-solid fa-brain text-2xl"></i>
+                    </span>
+                    <h1 class="font-medium text-2xl h1-title">AnotherBrain</h1>
+                </div>
+            </div>
         </div>
-
-
-        <app-chat-list 
-        [showChatgen]="showChatgen"
-        [showChat]="showChat"
-        [chats]="chats" 
-        (gChatSelected)="ongChatSelected()" 
-        (chatSelected)="onChatSelected($event)" 
-        (chatLoaded)="onChatLoaded($event)"></app-chat-list>
-        <hr>
-        
-        <app-chattype-list 
-        [showChattype]="showChattype"
-        [chatconfigs]="chatconfigs" 
-        [showedChatconfig]="showedChatconfig"
-        (gchattypeSelected)="ongChattypeSelected()" 
-        (chatConfigSelected)="onChatConfigSelected($event)" 
-        (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>
-
+        <div #leftContent [ngClass]="{ 'hidden': !isListVisible, 'block': isListVisible }" class="md:block">
+            <app-chat-list 
+                [showChatgen]="showChatgen"
+                [showChat]="showChat"
+                [chats]="chats" 
+                (gChatSelected)="ongChatSelected()" 
+                (chatSelected)="onChatSelected($event)" 
+                (chatLoaded)="onChatLoaded($event)">
+            </app-chat-list>
+            <hr>
+            
+            <app-chattype-list 
+                [showChattype]="showChattype"
+                [chatconfigs]="chatconfigs" 
+                [showedChatconfig]="showedChatconfig"
+                (gchattypeSelected)="ongChattypeSelected()" 
+                (chatConfigSelected)="onChatConfigSelected($event)" 
+                (chatConfigLoaded)="onChatConfigLoaded($event)">
+            </app-chattype-list>
+        </div>
     </div>  
-  
-    <div class="flex-grow flex flex-col overflow-y-auto w-5/6">
-         
-        <div class="conta w-5/6 max-w-4xl p-4" *ngIf="!selectedChat">
-            <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
+
+    <!-- Columna central -->
+    <div class="flex-grow flex flex-col overflow-y-auto w-full md:w-5/6">
+        <div class="conta w-full max-w-4xl p-4" *ngIf="!selectedChat">
+            <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> 
             <app-info *ngIf="showInfo || (!selectedChat && !showDocumentation && !showChattype && !showChatgen && !showedChatconfig)"></app-info>
-           <app-chattype-generator 
+            <app-chattype-generator 
                 [showedChatConfig]="showedChatconfig"
                 (chatConfigAdded)="saveChatConfig($event)" 
                 *ngIf="showChattype">
@@ -41,14 +48,15 @@
             <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
         </div> 
 
-        <div *ngIf="selectedChat && !showDocumentation && !showInfo" class="">
+        <div *ngIf="selectedChat && !showDocumentation && !showInfo">
             <app-chat-container [selectedChat]="selectedChat"></app-chat-container>
         </div>
     </div>
 
-    
+    <!-- Anclado: menú. Fijo derecha escritorio, fijado abajo en móviles -->
+
     <div class="fixed top-0 right-0 w-1/9 h-full p-2 border chat-list-column">
-       <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
-       <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()"></app-navegation>
-    </div>
+        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
+        <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()"></app-navegation>
+     </div>
 </div>
