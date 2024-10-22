@@ -7,9 +7,12 @@
     <li *ngFor="let chat of chats" class="
     border-b flex justify-between items-center
     p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0"
-    [ngClass]="{'selected': chat === selectedChat}" 
+    [ngClass]="{
+      'selected': chat === selectedChat && showChat 
+  }" 
      (click)="selectChat(chat)"
-     (mouseenter)="setMouseOver(chat, true)" (mouseleave)="setMouseOver(chat, false)"     >
+     (mouseenter)="setMouseOver(chat, true)" (mouseleave)="setMouseOver(chat, false)"     
+     >
       <!--<span>{{ chat.shortName }} - {{ chat.model }}</span>-->
 
       <!-- Si este chat está en edición, muestra un input, si no, muestra el nombre -->

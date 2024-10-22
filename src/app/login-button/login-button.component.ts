@@ -29,7 +29,7 @@ export class LoginButtonComponent implements OnInit {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         this.user = user;
-        console.log('Usuario logueado:', user.photoURL);
+        //console.log('Usuario logueado:', user.photoURL);
 
         // Cargar los chats después de iniciar sesión
         await this.loadChats();
@@ -48,13 +48,13 @@ export class LoginButtonComponent implements OnInit {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(this.auth, provider);
-      console.log('Usuario logueado:', result.user);
+      //console.log('Usuario logueado:', result.user);
 
       // Cargar los chats después de iniciar sesión
       await this.loadChats();
       await this.loadChatConfigs();
     } catch (error) {
-      console.error('Error durante el login:', error);
+      //console.error('Error durante el login:', error);
     }
   }
 
@@ -62,7 +62,7 @@ export class LoginButtonComponent implements OnInit {
   async loadChats() {
     try {
       this.chats = await this.firestoreService.getChats();
-      console.log('Chats cargados:', this.chats);
+      //console.log('Chats cargados:', this.chats);
       this.chatsLoaded.emit(this.chats); // Emitir los chats cargados
     } catch (error) {
       console.error('Error al cargar los chats:', error);
@@ -72,7 +72,7 @@ export class LoginButtonComponent implements OnInit {
   async loadChatConfigs() {
     try {
       this.chatConfigs = await this.firestoreService.getChatConfigs();
-      console.log('Chats cargados:', this.chats);
+      //console.log('Chats cargados:', this.chats);
       this.chatConfigsLoaded.emit(this.chatConfigs); // Emitir los chats cargados
     } catch (error) {
       console.error('Error al cargar los chats:', error);

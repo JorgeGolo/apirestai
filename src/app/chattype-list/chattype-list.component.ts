@@ -32,7 +32,7 @@ export class ChattypeListComponent {
   async ngOnInit() {
     try {
       this.chatconfigs = await this.firestoreService.getChatConfigs(); // Llama al servicio para obtener los chats
-      console.log('Configs cargados:', this.chatconfigs);
+      //console.log('Configs cargados:', this.chatconfigs);
       
       // Emitir los chats cuando se carguen
       this.chatConfigLoaded.emit(this.chatconfigs);
@@ -48,8 +48,8 @@ export class ChattypeListComponent {
 
   clickChatType(chatconfig: IChatConfig) {
     console.log("selected type"); // Este mensaje debe aparecer en la consola
-    this.chatConfigSelected.emit(chatconfig); // Emitimos el evento
     this.selectedChatConfig = chatconfig; // Guarda el chat seleccionado
+    this.chatConfigSelected.emit(chatconfig); // Emitimos el evento
 
     
   }

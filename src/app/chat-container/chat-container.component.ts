@@ -36,12 +36,12 @@ export class ChatContainerComponent {
       if (this.chat) {
         // Desplaza hasta el componente <app-chat>
         this.chat.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        console.log('Scrolled to app-chat');
+        //console.log('Scrolled to app-chat');
       } else {
-        console.error('chat es undefined');
+        //console.error('chat es undefined');
       }
     } catch (err) {
-      console.error('Error haciendo scroll hacia app-chat:', err);
+      //console.error('Error haciendo scroll hacia app-chat:', err);
     }
   }
 

@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
   showInfo: boolean = false; // Nueva variable para controlar la visibilidad de la documentación
   showChattype: boolean = false;
   showChatgen: boolean = false;
+  showChat : boolean = false;
 
   constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   
@@ -80,25 +81,25 @@ export class AppComponent implements OnInit {
   // Función que se ejecuta cuando los chats se cargan
   onChatLoaded(loadedChats: IChat[]) {
     this.chats = loadedChats; // Asignar los chats cargados
-    console.log('Chats recibidos:', this.chats);
+    //console.log('Chats recibidos:', this.chats);
   }
   onChatConfigLoaded(loadedChatConfigs: IChatConfig[]) {
     this.chatconfigs = loadedChatConfigs; // Asignar los chats cargados
-    console.log('Chats recibidos:', this.chats);
+    //console.log('Chats recibidos:', this.chats);
   }
   async loadChats() {
     try {
       // Intenta cargar los chats desde Firestore
       this.chats = await this.firestoreService.getChats();
-      console.log('Chats cargados:', this.chats);
+      //console.log('Chats cargados:', this.chats);
   
       // Si no se obtienen chats, puedes agregar un chat temporal por defecto
       if (!this.chats || this.chats.length === 0) {
-        console.log('No se encontraron chats, creando uno temporal...');
+        //console.log('No se encontraron chats, creando uno temporal...');
       }
   
     } catch (error) {
-      console.error('Error al cargar los chats desde Firestore:', error);
+      //console.error('Error al cargar los chats desde Firestore:', error);
       // En caso de error, agrega un chat temporal localmente
       // this.addTempChat();
     }
@@ -174,6 +175,7 @@ export class AppComponent implements OnInit {
     this.selectedChat = null;
     this.showDocumentation = false;
     this.showInfo = false;
+    this.showChat = false;
     this.showChattype = false;
     this.showChatgen = false;
     this.showedChatconfig = null;
@@ -181,6 +183,7 @@ export class AppComponent implements OnInit {
 
 onChatSelected(chat: IChat) {
   this.resetViews(); // Restablecer todas las vistas
+  this.showChat = true;
   this.selectedChat = this.chats.find(c => c.id === chat.id) || null;
 }
 
@@ -197,12 +200,14 @@ onInfoSelected() {
 ongChattypeSelected() {
   this.resetViews();
   this.showChattype = true;
+
 }
 
 onChatConfigSelected(chatconfig: IChatConfig) {
   this.resetViews();
   this.showedChatconfig = this.chatconfigs.find(c => c.id === chatconfig.id) || null;
   this.showChattype = true;
+  console.log(this.selectedChat);
 }
 
 ongChatSelected() {

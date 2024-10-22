@@ -70,12 +70,12 @@ export class ChatGeneratorComponent {
 
     try {
       this.chatconfigs = await this.firestoreService.getChatConfigs(); // Llama al servicio para obtener los chats
-      console.log('Configs cargados:', this.chatconfigs);
+      //console.log('Configs cargados:', this.chatconfigs);
       
       // Emitir los chats cuando se carguen
       this.chatConfigLoaded.emit(this.chatconfigs);
     } catch (error) {
-      console.error('Error al cargar las configs:', error);
+      //console.error('Error al cargar las configs:', error);
     }
   }
 

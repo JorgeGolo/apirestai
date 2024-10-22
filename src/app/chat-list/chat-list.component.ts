@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FirestoreService } from '../services/firestore.service';
-import { IChat } from '../app.component';
+import { IChat, IChatConfig } from '../app.component';
 import { AuthService } from '../auth.service'; // Importa el servicio de autenticación
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 
@@ -15,6 +15,9 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
 export class ChatListComponent implements OnInit {
   @Input() chats: IChat[] = []; // Recibe la lista de chats como IChat[]
   @Input() showChatgen: boolean = false; // Recibe showChatgen desde el padre
+  @Input() showedChatconfig: IChatConfig | null = null;
+  @Input() showChattype: boolean = false; // Recibe showChatgen desde el padre
+  @Input() showChat: boolean = false; // Recibe showChatgen desde el padre
 
 
   @Output() chatSelected = new EventEmitter<IChat>(); // Emite un IChat cuando se selecciona un chat
@@ -34,7 +37,7 @@ export class ChatListComponent implements OnInit {
   async ngOnInit() {
     try {
       this.chats = await this.firestoreService.getChats(); // Llama al servicio para obtener los chats
-      console.log('Chats cargados:', this.chats);
+      //console.log('Chats cargados:', this.chats);
       
       // Emitir los chats cuando se carguen
       this.chatLoaded.emit(this.chats);
@@ -46,6 +49,7 @@ export class ChatListComponent implements OnInit {
   selectChat(chat: IChat) {
 
       this.selectedChat = chat; // Guarda el chat seleccionado
+      this.showChat = true; // Guarda el chat seleccionado
       this.chatSelected.emit(chat);
     
   }
@@ -55,7 +59,7 @@ export class ChatListComponent implements OnInit {
 
     // Verifica si el chat pertenece al usuario logueado
     this.firestoreService.deleteChat(chat.id.toString()).then(() => {
-      console.log(`Chat con ID ${chat.id} eliminado de Firestore`);
+      //console.log(`Chat con ID ${chat.id} eliminado de Firestore`);
     }).catch((error) => {
       console.error(`Error al eliminar el chat con ID ${chat.id} de Firestore:`, error);
     }).finally(() => {
@@ -65,7 +69,7 @@ export class ChatListComponent implements OnInit {
       // Emitir los chats actualizados
       this.chatLoaded.emit(this.chats);
 
-      console.log(`Chat con ID ${chat.id} eliminado de la lista local`);
+      //console.log(`Chat con ID ${chat.id} eliminado de la lista local`);
     });
   }
 
@@ -89,9 +93,9 @@ export class ChatListComponent implements OnInit {
   
       // Llama al método del servicio para actualizar en la base de datos
       this.firestoreService.updateChat(chat).then(() => {
-        console.log(`Nombre del chat (ID: ${chat.id}) actualizado a: ${chat.shortName}`);
+        //console.log(`Nombre del chat (ID: ${chat.id}) actualizado a: ${chat.shortName}`);
       }).catch(error => {
-        console.error('Error al actualizar el nombre del chat:', error);
+        //console.error('Error al actualizar el nombre del chat:', error);
       });
   
       // Salir del modo edición
@@ -103,7 +107,7 @@ export class ChatListComponent implements OnInit {
   }
 
   onGchatSelected() {
-    console.log("gchat"); // Este mensaje debe aparecer en la consola
+    //console.log("gchat"); // Este mensaje debe aparecer en la consola
     this.gChatSelected.emit(); // Emitimos el evento
   }
 
