@@ -31,7 +31,7 @@
          
         <div class="conta w-5/6 max-w-4xl p-4" *ngIf="!selectedChat">
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> <!-- Mostrar documentación -->
-            <app-info *ngIf="showInfo"></app-info>
+            <app-info *ngIf="showInfo || (!selectedChat && !showDocumentation && !showChattype && !showChatgen && !showedChatconfig)"></app-info>
            <app-chattype-generator 
                 [showedChatConfig]="showedChatconfig"
                 (chatConfigAdded)="saveChatConfig($event)" 
@@ -47,7 +47,7 @@
 
     
     <div class="fixed top-0 right-0 w-1/9 h-full p-2 border chat-list-column">
-       <app-login-button *ngIf="!selectedChat && !showDocumentation && !showInfo" (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
+       <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
        <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()"></app-navegation>
     </div>
 </div>
