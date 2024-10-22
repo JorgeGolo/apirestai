@@ -14,6 +14,9 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
 })
 export class ChatListComponent implements OnInit {
   @Input() chats: IChat[] = []; // Recibe la lista de chats como IChat[]
+  @Input() showChatgen: boolean = false; // Recibe showChatgen desde el padre
+
+
   @Output() chatSelected = new EventEmitter<IChat>(); // Emite un IChat cuando se selecciona un chat
   @Output() chatLoaded = new EventEmitter<IChat[]>(); // Emite los chats cuando se carguen
 
@@ -21,6 +24,8 @@ export class ChatListComponent implements OnInit {
 
   editingChat: IChat | null = null; // Mantiene el chat en edición
   editName: string = ''; // Nombre temporal para la edición
+
+  selectedChat: IChat | null = null; // Añade esta propiedad
 
   constructor(private firestoreService: FirestoreService,
     private authService: AuthService // Inyecta el servicio de autenticación
@@ -39,7 +44,10 @@ export class ChatListComponent implements OnInit {
   }
 
   selectChat(chat: IChat) {
-    this.chatSelected.emit(chat); // Emitir el chat seleccionado
+
+      this.selectedChat = chat; // Guarda el chat seleccionado
+      this.chatSelected.emit(chat);
+    
   }
 
   removeChat(chat: IChat) {

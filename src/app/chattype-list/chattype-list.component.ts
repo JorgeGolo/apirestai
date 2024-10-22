@@ -14,11 +14,16 @@ import { FormsModule } from '@angular/forms';
 })
 export class ChattypeListComponent {
   @Input() chatconfigs: IChatConfig[] = []; // Recibe la lista de chats como IChat[]
+  @Input() showedChatconfig: IChatConfig | null = null;
+  @Input() showChattype: boolean = false; // Recibe showChatgen desde el padre
+
+  
   @Output() chatConfigLoaded = new EventEmitter<IChatConfig[]>(); // Emite los chats cuando se carguen
   @Output() gchattypeSelected = new EventEmitter<void>(); // Definimos el evento
 
   @Output() chatConfigSelected = new EventEmitter<IChatConfig>(); // Emite los chats cuando se carguen
 
+  selectedChatConfig: IChatConfig | null = null; // Añade esta propiedad
 
   constructor(private firestoreService: FirestoreService,
     private authService: AuthService // Inyecta el servicio de autenticación
@@ -44,7 +49,8 @@ export class ChattypeListComponent {
   clickChatType(chatconfig: IChatConfig) {
     console.log("selected type"); // Este mensaje debe aparecer en la consola
     this.chatConfigSelected.emit(chatconfig); // Emitimos el evento
-    
+    this.selectedChatConfig = chatconfig; // Guarda el chat seleccionado
+
     
   }
 

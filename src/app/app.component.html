@@ -10,6 +10,7 @@
 
 
         <app-chat-list 
+        [showChatgen]="showChatgen"
         [chats]="chats" 
         (gChatSelected)="ongChatSelected()" 
         (chatSelected)="onChatSelected($event)" 
@@ -17,7 +18,9 @@
         <hr>
         
         <app-chattype-list 
+        [showChattype]="showChattype"
         [chatconfigs]="chatconfigs" 
+        [showedChatconfig]="showedChatconfig"
         (gchattypeSelected)="ongChattypeSelected()" 
         (chatConfigSelected)="onChatConfigSelected($event)" 
         (chatConfigLoaded)="onChatConfigLoaded($event)"></app-chattype-list>

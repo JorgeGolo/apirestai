@@ -2,7 +2,7 @@
 
 <div class="form-box">
   <form class="chat-form" (ngSubmit)="onSubmit(chatForm)" #chatForm="ngForm"> <!-- Pasa chatForm como argumento -->
-    <input class="dark:bg-[#444444] dark:text-[#e0e0e0]" type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
+    <input type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
       <!-- Campos ocultos para el rol y el modelo -->
     <!-- Campos ocultos para el rol y el modelo -->
     <input type="hidden" name="role" [value]="selectedRole">

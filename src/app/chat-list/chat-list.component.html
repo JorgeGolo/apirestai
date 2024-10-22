@@ -7,6 +7,7 @@
     <li *ngFor="let chat of chats" class="
     border-b flex justify-between items-center
     p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0"
+    [ngClass]="{'selected': chat === selectedChat}" 
      (click)="selectChat(chat)"
      (mouseenter)="setMouseOver(chat, true)" (mouseleave)="setMouseOver(chat, false)"     >
       <!--<span>{{ chat.shortName }} - {{ chat.model }}</span>-->
@@ -28,7 +29,9 @@
     </li>
   </ul>
 
-  <div class="chat-button flex justify-between items-center p-2 text-sm font-medium rounded-lg" (click)="onGchatSelected()">
+  <div class="chat-button flex justify-between items-center p-2 text-sm font-medium rounded-lg" (click)="onGchatSelected()"
+  [ngClass]="{'selected': showChatgen}"
+  >
     <span>Crear chat</span>
     <i class="fa-solid fa-plus p-1"></i>
   </div>

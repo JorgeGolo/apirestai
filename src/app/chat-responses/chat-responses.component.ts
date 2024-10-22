@@ -13,7 +13,8 @@ export class ChatResponsesComponent {
   @Input() question: string | undefined;
   @Input() response: string | undefined = ''; // Input para recibir la respuesta del chat
   @Input() timestamp: Timestamp | Date | undefined; // Propiedad de entrada para la fecha y hora
-  
+
+
   getFormattedTimestamp(): Date | string {
     if (this.timestamp) {
       // Si es un Timestamp de Firestore, conviértelo a Date

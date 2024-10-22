@@ -7,13 +7,16 @@
         <li *ngFor="let chatconfig of chatconfigs" class="
         border-b flex justify-between items-center
         p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0"
+        
+        [ngClass]="{
+            'selected': chatconfig === selectedChatConfig && showedChatconfig === chatconfig}"
+
         (click)="clickChatType(chatconfig)"
      (mouseenter)="setMouseOver(chatconfig, true)" (mouseleave)="setMouseOver(chatconfig, false)"     
         >
             <span> {{ chatconfig.typeShortName }} </span>
         
             <span *ngIf="isMouseOver(chatconfig)">
-                <i class="fa-solid fa-pen p-1"></i>
                 <i class="fa-solid fa-circle-xmark p-1" (click)="removeChatConfig(chatconfig)"></i>
                 <!--<i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>-->
               </span>
@@ -21,7 +24,10 @@
         </li>
     </ul>
 
-    <div class="chat-button flex justify-between items-center p-2 text-sm font-medium rounded-lg" (click)="ongSelectChattype()">
+    <div class="chat-button flex justify-between items-center p-2 text-sm font-medium rounded-lg" (click)="ongSelectChattype()"
+    [ngClass]="{
+        'selected': showChattype === true && showedChatconfig === null}"
+    >
         <span>Crear configuración</span>
         <i class="fa-solid fa-plus p-1"></i>
     </div>
