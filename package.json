@@ -23,12 +23,14 @@
     "@firebase/auth": "^1.7.9",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "firebase": "^10.14.1",
+    "http-proxy-middleware": "^3.0.3",
     "rxjs": "~7.8.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.0",
+    "@angular-devkit/build-angular": "^18.2.9",
     "@angular/cli": "^18.2.0",
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
