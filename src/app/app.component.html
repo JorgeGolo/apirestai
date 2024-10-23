@@ -55,8 +55,18 @@
 
     <!-- Anclado: menú. Fijo derecha escritorio, fijado abajo en móviles -->
 
-    <div class="fixed top-0 right-0 w-1/9 h-full p-2 border chat-list-column">
-        <app-login-button (loggedOut)="logout()" (chatsLoaded)="onChatLoaded($event)" (chatConfigsLoaded)="onChatConfigLoaded($event)"></app-login-button>
-        <app-navegation (documentationSelected)="onDocumentationSelected()" (infoSelected)="onInfoSelected()"></app-navegation>
-     </div>
+    <div class="md:gap-0 justify-center md:justify-start flex flex-row md:flex-col md:fixed md:top-0 md:right-0 md:w-1/9 md:h-full p-2 border chat-list-column">
+        <!-- App Login Button -->
+        <app-login-button class="gap-8 mr-8 md:mr-0 md:gap-0 md:flex-none justify-center md:justify-start flex flex-row md:flex-col"
+            (loggedOut)="logout()" 
+            (chatsLoaded)="onChatLoaded($event)" 
+            (chatConfigsLoaded)="onChatConfigLoaded($event)">
+        </app-login-button>
+    
+        <!-- App Navigation -->
+        <app-navegation class="gap-8 md:gap-0 md:flex-none justify-center md:justify-start flex flex-row md:flex-col"
+            (documentationSelected)="onDocumentationSelected()" 
+            (infoSelected)="onInfoSelected()">
+        </app-navegation>
+    </div>
 </div>
