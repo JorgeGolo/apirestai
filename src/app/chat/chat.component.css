@@ -1,6 +1,6 @@
-.responses-box {
-    
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .chat-form {
     width: 100%

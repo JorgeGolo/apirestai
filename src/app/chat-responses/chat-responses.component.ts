@@ -41,7 +41,7 @@ export class ChatResponsesComponent {
 
       // Reemplazar las secciones de código y manejar puntos y aparte
       parsedResponse = parsedResponse
-      .replace(/```html/g, '<pre class="dark:bg-[#444444] dark:text-[#e0e0e0] p-4 m-2 bg-white rounded-lg overflow-x-auto whitespace-pre max-w-full"><code>') // Inicia el bloque de código
+      .replace(/```html/g, '<pre class="border dark:border-[#dddddd] dark:bg-[#444444] dark:text-[#e0e0e0] p-4 m-2 bg-white rounded-lg overflow-x-auto whitespace-pre max-w-full"><code>') // Inicia el bloque de código
       .replace(/```/g, '</code></pre>') // Cierra el bloque de código
       .replace(/\n\n/g, '<br>') // Convierte saltos dobles en cierre y apertura de párrafos
       .replace(/\n/g, '<br>');      // Convierte saltos simples en <br>

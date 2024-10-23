@@ -1,8 +1,8 @@
 <!-- Iterar sobre las respuestas y mostrarlas con el componente app-chat-responses -->
 
-<div class="form-box">
+<div class="form-box p-4">
   <form class="chat-form" (ngSubmit)="onSubmit(chatForm)" #chatForm="ngForm"> <!-- Pasa chatForm como argumento -->
-    <input type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
+    <input class="w-full p-2 border border-gray-300 rounded-md mb-4 ng-untouched ng-pristine ng-valid" type="text" name="message" ngModel required placeholder="Escribe tu mensaje aquí">
       <!-- Campos ocultos para el rol y el modelo -->
     <!-- Campos ocultos para el rol y el modelo -->
     <input type="hidden" name="role" [value]="selectedRole">

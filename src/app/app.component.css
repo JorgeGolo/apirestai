@@ -40,6 +40,10 @@ input, select, textarea {
   @apply bg-[#afcdff] dark:bg-[#214d97];
 }
 
+p {
+  @apply text-justify;
+}
+
 
 /* Contenedor del chat seleccionado */
 .chat-container {
