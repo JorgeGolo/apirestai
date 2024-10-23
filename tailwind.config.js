@@ -10,8 +10,13 @@ module.exports = {
         sans: ['Roboto', '"Helvetica Neue"', 'sans-serif'], // Configura tus fuentes personalizadas
         gsans : ['Google Sans', 'sans-serif']
       },
+      spacing: {
+        'auto': 'auto', // lo uso para w-auto... supogo que se podrá usar para algo más
+      },
     },
   },
   plugins: [],
 }
+
+
 
