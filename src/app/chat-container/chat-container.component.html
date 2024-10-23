@@ -1,5 +1,5 @@
 
-<div #chatContainer style="overflow-y: scroll; max-height: 100vh;">
+<div #chatContainer class="scrollbar-hide" style="max-height: 100vh;">
     <app-chat-title *ngIf="selectedChat" 
     [chat]="selectedChat" 
     [selectedTypeShortName]="selectedChat.type"
