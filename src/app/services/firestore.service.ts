@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp, query, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { IChat } from '../app.component';
 import { IChatResponse } from '../app.component';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { IChatResponse } from '../app.component';
 
 export class FirestoreService {
 
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore, private authService: AuthService) { }
 
   // Obtener documentos de una colección
   getCollection(collectionName: string): Observable<any[]> {
@@ -18,29 +19,38 @@ export class FirestoreService {
     return collectionData(collectionRef, { idField: 'id' }) as Observable<any[]>;
   }
 
-  // Añadir un documento a una colección (ahora incluye un timestamp y opcionalmente un userId)
   addDocument(collectionName: string, data: any, userId?: string): Promise<any> {
     const collectionRef = collection(this.firestore, collectionName);
-    
-    // Añadir un timestamp y opcionalmente el userId al chat
+  
     const newData = {
       ...data,
-      timestamp: Timestamp.now(), // Marca de tiempo
-      ...(userId && { createdBy: userId }) // Asociar el chat al usuario si se proporciona un userId
+      timestamp: Timestamp.now(), // Añadir timestamp
+      ...(userId && { createdBy: userId }) // Añadir el userId si está presente
     };
-
+  
     return addDoc(collectionRef, newData);
   }
 
 
   async getChats(): Promise<IChat[]> {
+
+    const userId = this.authService.getCurrentUserId(); // Obtén el ID del usuario logueado
+    if (!userId) {
+      console.error('No se pudo obtener el ID del usuario.');
+      return []; // Retorna un array vacío si no hay usuario logueado
+    }
+
     const chatsCollection = collection(this.firestore, 'chats');
-    const chatDocs = await getDocs(chatsCollection);
-    
+  // Filtra los chats donde el campo userId coincida con el ID del usuario autenticado
+  const chatsQuery = query(chatsCollection, where('createdBy', '==', userId));
+  
+  const chatDocs = await getDocs(chatsQuery); // Ejecuta la consulta filtrada
+      
     return chatDocs.docs.map(doc => {
       const data = doc.data(); // Obtiene los datos del documento
       const chat: IChat = {
         id: doc.id, // Usa el ID del documento de Firestore
+        userId: data['userId'] || '',
         role: data['role'] || '', // Usa la sintaxis de acceso por índice
         model: data['model'] || '', // Usa la sintaxis de acceso por índice
         shortName: data['shortName'] || '', // Usa la sintaxis de acceso por índice
@@ -50,7 +60,7 @@ export class FirestoreService {
     });
   }
 
-  
+
    
   // Actualizar un documento
   updateDocument(collectionName: string, id: string, data: any): Promise<void> {

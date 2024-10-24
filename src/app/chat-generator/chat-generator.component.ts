@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChatListComponent } from '../chat-list/chat-list.component'; // Asegúrate de importar ChatListComponent
 
 import { FirestoreService } from '../services/firestore.service'; // Importar el servicio de Firestore
-import { AuthService } from '../auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
+import { AuthService } from '../services/auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
 import { IChat } from '../app.component';
 
 
@@ -50,7 +50,6 @@ export class ChatGeneratorComponent {
   
   async ngOnInit() {
     this.onclicksubmit = false;
-
   }
 
   async addChat() {
@@ -63,6 +62,9 @@ export class ChatGeneratorComponent {
       return; // Evita que se procese si no hay configuración seleccionada
       this.onclicksubmit = true;
     }
+
+    const userId = this.authService.getCurrentUserId() || undefined; // Obtén el ID del usuario logueado
+
     const newChatData = {
         role: this.selectedRoleName,
         model: this.selectedModelName,
@@ -71,9 +73,11 @@ export class ChatGeneratorComponent {
     };
 
     try {
-      const docRef = await this.firestoreService.addDocument('chats', newChatData); 
+      const docRef = await this.firestoreService.addDocument('chats', newChatData, userId); 
+
       const newChat: IChat = {
         id: docRef.id, // Asigna el ID generado por Firestore
+        userId : userId,
         role: this.selectedRoleName,
         model: this.selectedModelName,
         shortName: this.selectedShortName,
@@ -94,6 +98,7 @@ export class ChatGeneratorComponent {
         console.error('Error al añadir el chat logueado: ', error);
         const newChat: IChat = {
           id: Date.now().toString(), // Asigna un ID único basado en la fecha actual
+          userId : "",
           role: this.selectedRoleName,
           model: this.selectedModelName,
           shortName: this.selectedShortName,

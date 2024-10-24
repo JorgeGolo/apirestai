@@ -29,11 +29,12 @@ export interface IChatResponse {
 
 // Definición de la interfaz para el chat
 export interface IChat {
-  id: string; // Cambiar a string
+  id: string;
+  userId: string | undefined; // Cambiar a string | undefined
   role: string;
   model: string;
   shortName: string;
-  responses: IChatResponse[]; // Incluye la propiedad responses
+  responses: IChatResponse[];
 }
 
 
@@ -87,7 +88,7 @@ export class AppComponent implements OnInit {
       }
   
     } catch (error) {
-      //console.error('Error al cargar los chats desde Firestore:', error);
+      console.error('Error al cargar los chats desde Firestore:', error);
       // En caso de error, agrega un chat temporal localmente
       // this.addTempChat();
     }

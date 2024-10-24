@@ -1,36 +1,35 @@
 
 <div #chatContainer class="scrollbar-hide" style="max-height: 100vh;">
     <app-chat-title *ngIf="selectedChat" 
-    [chat]="selectedChat" 
-    [selectedTypeShortName]="selectedChat.type"
-    [selectedShortName]="selectedChat.shortName"
-    [selectedRole]="selectedChat.role" 
-    [selectedModel]="selectedChat.model">
-</app-chat-title>
-
-<div class="flex items-center justify-center">
-<div 
-class="chat-list-column w-full max-w-4xl flex-grow p-4 border mt-4 rounded-lg md:mb-4 mb-12">
-  
-    <div class="chat-responses space-y-4" *ngIf="selectedChat">
-        <app-chat-responses *ngFor="let res of selectedChat.responses" 
-        [response]="res.message" 
-        [timestamp]="res.timestamp" 
-        [question]="res.question">
-        </app-chat-responses>
-    </div>
-
-
-    
-    <app-chat *ngIf="selectedChat"
         [chat]="selectedChat" 
         [selectedShortName]="selectedChat.shortName"
         [selectedRole]="selectedChat.role" 
         [selectedModel]="selectedChat.model">
-    </app-chat>
-</div>
+    </app-chat-title>
 
-</div>
-<span #chat></span>
+    <div class="flex items-center justify-center">
+        
+        <div class="chat-list-column w-full max-w-4xl flex-grow p-4 border mt-4 rounded-lg md:mb-4 mb-12">
+         
+            <div class="chat-responses space-y-4" *ngIf="selectedChat">
+                <app-chat-responses *ngFor="let res of selectedChat.responses" 
+                    [response]="res.message" 
+                    [timestamp]="res.timestamp" 
+                    [question]="res.question">
+                </app-chat-responses>
+            </div>
+            
+            <app-chat *ngIf="selectedChat"
+                [chat]="selectedChat" 
+                [selectedShortName]="selectedChat.shortName"
+                [selectedRole]="selectedChat.role" 
+                [selectedModel]="selectedChat.model">
+            </app-chat>
+
+        </div>
+
+    </div>
+    
+    <span #chat></span>
 
 </div>

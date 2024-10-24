@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FirestoreService } from '../services/firestore.service';
 import { IChat } from '../app.component';
-import { AuthService } from '../auth.service'; // Importa el servicio de autenticación
+import { AuthService } from '../services/auth.service'; // Importa el servicio de autenticación
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 
 @Component({
