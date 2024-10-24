@@ -6,14 +6,7 @@
     width: 100%
 }
 
-.form-box { 
-    display: flex; 
-    justify-content: space-between; 
-    width: 100%;
-    margin: 1.5em 0 0.8em 0;
-    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el ancho total */
 
-} 
 .form-box input { 
     width: 79%; 
     margin-right: 1%

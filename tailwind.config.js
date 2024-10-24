@@ -13,6 +13,9 @@ module.exports = {
       spacing: {
         'auto': 'auto', // lo uso para w-auto... supogo que se podrá usar para algo más
       },
+      fontSize: {
+        'ssm': '0.65rem', // Tamaño de texto personalizado
+      },
     },
   },
   plugins: [],

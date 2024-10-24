@@ -182,6 +182,8 @@ export class AppComponent implements OnInit {
     this.showChattype = false;
     this.showChatgen = false;
     this.showedChatconfig = null;
+    this.isListVisible = false;
+
 }
 
 onChatSelected(chat: IChat) {
@@ -203,7 +205,6 @@ onInfoSelected() {
 ongChattypeSelected() {
   this.resetViews();
   this.showChattype = true;
-
 }
 
 onChatConfigSelected(chatconfig: IChatConfig) {
@@ -218,7 +219,7 @@ ongChatSelected() {
   this.showChatgen = true;
 }
 
-showList() {
+showListed() {
   this.isListVisible = !this.isListVisible;
 }
 }

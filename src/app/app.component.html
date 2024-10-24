@@ -4,7 +4,7 @@
         
         <div class="title-column p-4 border border-b border-gray-300 dark:border-[#4d4d4d]">
             <div class="flex items-center">
-                <div class="sm:block md:hidden" (click)="showList()"><i class="fa-solid fa-bars hidden"></i></div>
+                <div class="sm:block md:hidden" (click)="showListed()"><i class="fa-solid fa-bars hidden"></i></div>
                 <div class="flex items-center space-x-2 justify-center md:justify-start w-full">
                     <span class="rounded-full h-10 flex items-center justify-center">
                         <i class="fa-solid fa-brain text-2xl"></i>
@@ -37,7 +37,7 @@
 
     <!-- Columna central -->
     <div class="flex-grow flex flex-col overflow-y-auto w-full md:w-3/5">
-        <div class="conta w-full max-w-4xl p-4 mb-4" *ngIf="!selectedChat">
+        <div class="conta w-full max-w-4xl p-4" *ngIf="!selectedChat">
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> 
             <app-info *ngIf="showInfo || (!selectedChat && !showDocumentation && !showChattype && !showChatgen && !showedChatconfig)"></app-info>
             <app-chattype-generator 
