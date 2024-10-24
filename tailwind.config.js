@@ -14,7 +14,7 @@ module.exports = {
         'auto': 'auto', // lo uso para w-auto... supogo que se podrá usar para algo más
       },
       fontSize: {
-        'ssm': '0.65rem', // Tamaño de texto personalizado
+        'ssm': '0.75rem', // Tamaño de texto personalizado
       },
     },
   },
