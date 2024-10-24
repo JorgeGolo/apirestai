@@ -2,7 +2,7 @@
     <!-- Columna izquierda -->
     <div class="chat-list-column w-full md:w-1/4 border h:auto">
         
-        <div class="title-column p-4 border border-b border-gray-300 dark:border-[#4d4d4d]">
+        <div class="title-column p-4 border-b border-gray-300 dark:border-[#4d4d4d]">
             <div class="flex items-center">
                 <div class="sm:block md:hidden" (click)="showListed()"><i class="fa-solid fa-bars hidden"></i></div>
                 <div class="flex items-center space-x-2 justify-center md:justify-start w-full">
@@ -24,14 +24,7 @@
             </app-chat-list>
             <hr>
             
-            <app-chattype-list 
-                [showChattype]="showChattype"
-                [chatconfigs]="chatconfigs" 
-                [showedChatconfig]="showedChatconfig"
-                (gchattypeSelected)="ongChattypeSelected()" 
-                (chatConfigSelected)="onChatConfigSelected($event)" 
-                (chatConfigLoaded)="onChatConfigLoaded($event)">
-            </app-chattype-list>
+
         </div>
     </div>  
 
@@ -39,12 +32,7 @@
     <div class="flex-grow flex flex-col overflow-y-auto w-full md:w-3/5">
         <div class="conta w-full max-w-4xl p-4" *ngIf="!selectedChat">
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> 
-            <app-info *ngIf="showInfo || (!selectedChat && !showDocumentation && !showChattype && !showChatgen && !showedChatconfig)"></app-info>
-            <app-chattype-generator 
-                [showedChatConfig]="showedChatconfig"
-                (chatConfigAdded)="saveChatConfig($event)" 
-                *ngIf="showChattype">
-            </app-chattype-generator>
+            <app-info *ngIf="showInfo || (!selectedChat && !showDocumentation && !showChatgen)"></app-info>
             <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
         </div> 
 
@@ -63,7 +51,7 @@
         <app-login-button class="gap-8 mr-8 md:mr-0 md:gap-0 md:flex-none justify-center md:justify-start flex flex-row md:flex-col"
             (loggedOut)="logout()" 
             (chatsLoaded)="onChatLoaded($event)" 
-            (chatConfigsLoaded)="onChatConfigLoaded($event)">
+            >
         </app-login-button>
     
         <!-- App Navigation -->

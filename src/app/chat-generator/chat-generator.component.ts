@@ -6,7 +6,7 @@ import { ChatListComponent } from '../chat-list/chat-list.component'; // Asegúr
 
 import { FirestoreService } from '../services/firestore.service'; // Importar el servicio de Firestore
 import { AuthService } from '../auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
-import { IChat, IChatConfig } from '../app.component';
+import { IChat } from '../app.component';
 
 
 @Component({
@@ -18,8 +18,6 @@ import { IChat, IChatConfig } from '../app.component';
 })
 export class ChatGeneratorComponent {
   
-  @Input() chatconfigs: IChatConfig[] = []; // Recibe la lista de chats como IChat[]
-  @Output() chatConfigLoaded = new EventEmitter<IChatConfig[]>(); // Emite los chats cuando se carguen
 
   @Output() chatAdded = new EventEmitter<IChat>(); // Asegúrate de que el tipo sea IChat
 
@@ -32,8 +30,6 @@ export class ChatGeneratorComponent {
   selectedShortName: string = "";
 
   onclicksubmit: boolean = false;
-
-  @Input() chatconfig!: IChatConfig;  // Añadir esta línea para recibir el chat seleccionado
 
 
   rolesystem = [
@@ -51,38 +47,16 @@ export class ChatGeneratorComponent {
 
   constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
 
-  onConfigChange(event: Event) {
-    const selectElement = event.target as HTMLSelectElement; // Aquí hacemos el cast
-    const typeShortName = selectElement.value; // Obtén el valor seleccionado
-  
-    const selectedConfig = this.chatconfigs.find(c => c.typeShortName === typeShortName);
-    if (selectedConfig) {
-      this.selectedModelName = selectedConfig.model;
-      this.selectedRoleName = selectedConfig.role;
-      //this.selectedShortName = selectedConfig.typeShortName;
-      
-          // Agregar logs para verificar si se seleccionan correctamente
-    }
-  }
   
   async ngOnInit() {
     this.onclicksubmit = false;
 
-    try {
-      this.chatconfigs = await this.firestoreService.getChatConfigs(); // Llama al servicio para obtener los chats
-      //console.log('Configs cargados:', this.chatconfigs);
-      
-      // Emitir los chats cuando se carguen
-      this.chatConfigLoaded.emit(this.chatconfigs);
-    } catch (error) {
-      //console.error('Error al cargar las configs:', error);
-    }
   }
 
   async addChat() {
     this.onclicksubmit = true;
 
-    if (!this.selectedChatConfig) {
+    if (!this.selectedModelName) {
 
       console.error('Por favor, selecciona una configuración válida.');
       //alert('Por favor, selecciona una configuración válida.');
@@ -92,7 +66,6 @@ export class ChatGeneratorComponent {
     const newChatData = {
         role: this.selectedRoleName,
         model: this.selectedModelName,
-        type: this.selectedChatConfig,
         shortName: this.selectedShortName,
         responses: [] // Inicializa responses como un array vacío
     };
@@ -102,7 +75,6 @@ export class ChatGeneratorComponent {
       const newChat: IChat = {
         id: docRef.id, // Asigna el ID generado por Firestore
         role: this.selectedRoleName,
-        type: this.selectedChatConfig,
         model: this.selectedModelName,
         shortName: this.selectedShortName,
         responses: [] // Inicializa responses como un array vacío
@@ -123,7 +95,6 @@ export class ChatGeneratorComponent {
         const newChat: IChat = {
           id: Date.now().toString(), // Asigna un ID único basado en la fecha actual
           role: this.selectedRoleName,
-          type: this.selectedChatConfig,
           model: this.selectedModelName,
           shortName: this.selectedShortName,
           responses: [] // Inicializa responses como un array vacío

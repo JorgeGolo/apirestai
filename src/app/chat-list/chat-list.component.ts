@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FirestoreService } from '../services/firestore.service';
-import { IChat, IChatConfig } from '../app.component';
+import { IChat } from '../app.component';
 import { AuthService } from '../auth.service'; // Importa el servicio de autenticación
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 
@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
 export class ChatListComponent implements OnInit {
   @Input() chats: IChat[] = []; // Recibe la lista de chats como IChat[]
   @Input() showChatgen: boolean = false; // Recibe showChatgen desde el padre
-  @Input() showedChatconfig: IChatConfig | null = null;
   @Input() showChattype: boolean = false; // Recibe showChatgen desde el padre
   @Input() showChat: boolean = false; // Recibe showChatgen desde el padre
 

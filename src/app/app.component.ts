@@ -18,8 +18,6 @@ import { InfoComponent } from './info/info.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment'; // Importa el entorno
-import { ChattypeGeneratorComponent } from './chattype-generator/chattype-generator.component';
-import { ChattypeListComponent } from './chattype-list/chattype-list.component';
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
@@ -32,35 +30,26 @@ export interface IChatResponse {
 // Definición de la interfaz para el chat
 export interface IChat {
   id: string; // Cambiar a string
-  type: string;
   role: string;
   model: string;
   shortName: string;
   responses: IChatResponse[]; // Incluye la propiedad responses
 }
 
-export interface IChatConfig {
-  id: string; // Cambiar a string
-  role: string;
-  model: string;
-  typeShortName: string;
-}
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    ChattypeListComponent, ChattypeGeneratorComponent, InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+    InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
 
 export class AppComponent implements OnInit {
   chats: IChat[] = []; // Usa la interfaz IChat
-  chatconfigs: IChatConfig[] = []; // Usa la interfaz IChat
 
   selectedChat: IChat | null = null; // Cambia el tipo a IChat | null
-  showedChatconfig: IChatConfig | null = null; // Cambia el tipo a IChat | null
 
   title = 'apirestai';
   isConversationActive: boolean = false; // Variable para gestionar el estado de la conversación
@@ -78,7 +67,6 @@ export class AppComponent implements OnInit {
   
   ngOnInit() {
     this.loadChats(); // Cargar los chats al iniciar
-    this.loadChatConfigs(); // Cargar los chats al iniciar
   }
 
   // Función que se ejecuta cuando los chats se cargan
@@ -86,10 +74,7 @@ export class AppComponent implements OnInit {
     this.chats = loadedChats; // Asignar los chats cargados
     //console.log('Chats recibidos:', this.chats);
   }
-  onChatConfigLoaded(loadedChatConfigs: IChatConfig[]) {
-    this.chatconfigs = loadedChatConfigs; // Asignar los chats cargados
-    //console.log('Chats recibidos:', this.chats);
-  }
+
   async loadChats() {
     try {
       // Intenta cargar los chats desde Firestore
@@ -108,33 +93,13 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async loadChatConfigs() {
-    try {
-      // Intenta cargar los chats desde Firestore
-      this.chatconfigs = await this.firestoreService.getChatConfigs();
-  
-      // Si no se obtienen chats, puedes agregar un chat temporal por defecto
-      if (!this.chatconfigs || this.chatconfigs.length === 0) {
-        console.log('No se encontraron chats, creando uno temporal...');
-      }
-  
-    } catch (error) {
-      console.error('Error al cargar los chats desde Firestore:', error);
-      // En caso de error, agrega un chat temporal localmente
-      // this.addTempChat();
-    }
-  }
   
   addChat(newChat: IChat) {
     console.log('Nuevo chat recibido en AppComponent:', newChat);
     this.chats.push(newChat); // Solo agrega el nuevo chat a la lista local
     // Aquí puedes decidir si cargar todos los chats nuevamente o no
   }
-  saveChatConfig(newChatConfig: IChatConfig) {
-    console.log('Nuevo chat recibido en AppComponent:', newChatConfig);
-    this.chatconfigs.push(newChatConfig); // Solo agrega el nuevo chat a la lista local
-    // Aquí puedes decidir si cargar todos los chats nuevamente o no
-  }
+
 
   // Método para iniciar la conversación
   startConversation() {
@@ -181,7 +146,6 @@ export class AppComponent implements OnInit {
     this.showChat = false;
     this.showChattype = false;
     this.showChatgen = false;
-    this.showedChatconfig = null;
     this.isListVisible = false;
 
 }
@@ -207,12 +171,6 @@ ongChattypeSelected() {
   this.showChattype = true;
 }
 
-onChatConfigSelected(chatconfig: IChatConfig) {
-  this.resetViews();
-  this.showedChatconfig = this.chatconfigs.find(c => c.id === chatconfig.id) || null;
-  this.showChattype = true;
-  console.log(this.selectedChat);
-}
 
 ongChatSelected() {
   this.resetViews();

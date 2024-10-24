@@ -3,7 +3,6 @@ import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc,
 import { Observable } from 'rxjs';
 import { IChat } from '../app.component';
 import { IChatResponse } from '../app.component';
-import { IChatConfig } from '../app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +41,6 @@ export class FirestoreService {
       const data = doc.data(); // Obtiene los datos del documento
       const chat: IChat = {
         id: doc.id, // Usa el ID del documento de Firestore
-        type: data['type'] || '',
         role: data['role'] || '', // Usa la sintaxis de acceso por índice
         model: data['model'] || '', // Usa la sintaxis de acceso por índice
         shortName: data['shortName'] || '', // Usa la sintaxis de acceso por índice
@@ -53,22 +51,7 @@ export class FirestoreService {
   }
 
   
-  async getChatConfigs(): Promise<IChatConfig[]> {
-    const chatsconfigCollection = collection(this.firestore, 'chatconfigs');
-    const chatConfigDocs = await getDocs(chatsconfigCollection);
-    
-    return chatConfigDocs.docs.map(doc => {
-      const data = doc.data(); // Obtiene los datos del documento
-      const chatc: IChatConfig = {
-        id: doc.id, // Usa el ID del documento de Firestore
-        role: data['role'] || '', // Usa la sintaxis de acceso por índice
-        model: data['model'] || '', // Usa la sintaxis de acceso por índice
-        typeShortName: data['typeShortName'] || '', // Usa la sintaxis de acceso por índice
-      };
-      return chatc;
-    });
-  }
-  
+   
   // Actualizar un documento
   updateDocument(collectionName: string, id: string, data: any): Promise<void> {
     const docRef = doc(this.firestore, `${collectionName}/${id}`);
@@ -86,12 +69,6 @@ export class FirestoreService {
     const chatDocRef = doc(this.firestore, `chats/${id}`); // Obtén la referencia del documento a eliminar
     return deleteDoc(chatDocRef); // Elimina el documento
   }
-
-    // FirestoreService.ts
-    deleteChatConfig(id: string): Promise<void> {
-      const chatDocRef = doc(this.firestore, `chatconfigs/${id}`); // Obtén la referencia del documento a eliminar
-      return deleteDoc(chatDocRef); // Elimina el documento
-    }
 
   // Método para actualizar el nombre del chat en la base de datos
   async updateChat(chat: IChat): Promise<void> {
