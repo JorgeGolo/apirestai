@@ -30,6 +30,7 @@
         <div class="conta w-full max-w-4xl p-4" *ngIf="!selectedChat">
             <app-usersettings (loggedOut)="logout()"               
                 (chatsLoaded)="onChatLoaded($event)" 
+                (infoSelected)="onInfoSelected()"
                 *ngIf="showLoggedUser"></app-usersettings>
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> 
             <app-info *ngIf="showInfo"></app-info>

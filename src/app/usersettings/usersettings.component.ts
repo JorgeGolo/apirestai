@@ -17,6 +17,7 @@ export class UsersettingsComponent {
   @Output() chatsLoaded = new EventEmitter<IChat[]>(); // Emite los chats cargados
   @Output() loggedOut = new EventEmitter<void>(); // Emite un evento de logout
 
+  @Output() infoSelected = new EventEmitter<void>(); // Definimos el evento
 
   constructor(private auth: Auth, private firestoreService: FirestoreService){}
 
@@ -55,6 +56,7 @@ export class UsersettingsComponent {
       this.chatsLoaded.emit(this.chats); // Emite la lista vacía para actualizar la interfaz
 
       this.loggedOut.emit(); // Emitir el evento de logout
+      this.infoSelected.emit(); // Emitimos el evento
 
     }).catch(error => {
       console.error('Error al cerrar sesión:', error);

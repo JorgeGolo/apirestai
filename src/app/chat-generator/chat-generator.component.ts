@@ -69,6 +69,7 @@ export class ChatGeneratorComponent {
         role: this.selectedRoleName,
         model: this.selectedModelName,
         shortName: this.selectedShortName,
+        memory: null,
         responses: [] // Inicializa responses como un array vacío
     };
 
@@ -81,6 +82,7 @@ export class ChatGeneratorComponent {
         role: this.selectedRoleName,
         model: this.selectedModelName,
         shortName: this.selectedShortName,
+        memory: null,
         responses: [] // Inicializa responses como un array vacío
       };
       console.log(this.selectedChatConfig);
@@ -102,6 +104,7 @@ export class ChatGeneratorComponent {
           role: this.selectedRoleName,
           model: this.selectedModelName,
           shortName: this.selectedShortName,
+          memory: null,
           responses: [] // Inicializa responses como un array vacío
       };
       

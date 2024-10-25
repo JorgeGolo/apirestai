@@ -35,6 +35,7 @@ export interface IChat {
   role: string;
   model: string;
   shortName: string;
+  memory: string | null;
   responses: IChatResponse[];
 }
 

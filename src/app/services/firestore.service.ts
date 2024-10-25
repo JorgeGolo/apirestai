@@ -54,6 +54,7 @@ export class FirestoreService {
         role: data['role'] || '', // Usa la sintaxis de acceso por índice
         model: data['model'] || '', // Usa la sintaxis de acceso por índice
         shortName: data['shortName'] || '', // Usa la sintaxis de acceso por índice
+        memory: data['memory'] || '',
         responses: data['responses'] || [] // Asegúrate de que sea un array
       };
       return chat;
@@ -89,10 +90,11 @@ export class FirestoreService {
   }
 
   // Método para actualizar las respuestas de un chat en la base de datos, aceptando 2 parámetros
-  updateChatResponses(chatId: string, responses: IChatResponse[]): Promise<void> {
-    const chatDocRef = doc(this.firestore, `chats/${chatId}`); // Obtiene la referencia del documento a actualizar
+  updateChatResponses(chatId: string, responses: IChatResponse[], memory: string | null): Promise<void> {
+    const chatDocRef = doc(this.firestore, `chats/${chatId}`);
     return updateDoc(chatDocRef, {
-      responses: responses // Actualiza el campo responses con las respuestas
+        responses: responses,
+        memory: memory // Asegúrate de incluir este campo
     });
-  }
+}
 }
