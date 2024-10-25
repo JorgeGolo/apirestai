@@ -18,6 +18,7 @@ import { InfoComponent } from './info/info.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment'; // Importa el entorno
+import { UsersettingsComponent } from './usersettings/usersettings.component';
 
 // Definición de la interfaz para la respuesta
 export interface IChatResponse {
@@ -42,7 +43,7 @@ export interface IChat {
   selector: 'app-root',
   standalone: true,
   imports: [
-    InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
+    UsersettingsComponent, InfoComponent, DocumentationComponent, ChatContainerComponent, NavegationComponent, ChatTitleComponent, ChatListComponent, LoginButtonComponent, ChatGeneratorComponent, ChatComponent, RouterOutlet, FormsModule, CommonModule, ChatResponsesComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Cambiado de styleUrl a styleUrls
 })
@@ -60,6 +61,9 @@ export class AppComponent implements OnInit {
   showChattype: boolean = false;
   showChatgen: boolean = false;
   showChat : boolean = false;
+
+  showLoggedUser : boolean = false;
+
 
   isListVisible = false;
 
@@ -148,7 +152,7 @@ export class AppComponent implements OnInit {
     this.showChattype = false;
     this.showChatgen = false;
     this.isListVisible = false;
-
+    this.showLoggedUser = false;
 }
 
 onChatSelected(chat: IChat) {
@@ -176,6 +180,16 @@ ongChattypeSelected() {
 ongChatSelected() {
   this.resetViews();
   this.showChatgen = true;
+}
+
+onLoggedUser() {
+  // Lógica para manejar la información del usuario logueado
+  console.log('El usuario ha solicitado ver su información.');
+  // Aquí puedes redirigir a una página de perfil o mostrar un modal con la información del usuario.
+  this.resetViews();
+  this.showLoggedUser = true;
+  console.log(this.showLoggedUser);
+
 }
 
 showListed() {

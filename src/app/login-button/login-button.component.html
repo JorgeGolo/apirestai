@@ -1,22 +1,12 @@
 <div 
-class="flex-1 md:flex-none hover:bg-gray-200 hover:text-black cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" 
+class="span-icon flex-1 md:flex-none cursor-pointer rounded-full w-12 h-12 flex items-center justify-center"
 *ngIf="!user"  
   (click)="loginWithGoogle()"
 >
-    <!--
-    <button class="login-button" (click)="loginWithGoogle()">
-      <img src="images/icono-google.png" width="30px" class="googleicon">
-    </button>
-   -->
+
    <i class="fa-solid fa-user text-xl"></i>
   </div>
   
   <div class="flex-1 md:flex-none span-icon cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
-    <img [src]="user.photoURL" width="30px" alt="Foto de perfil" class="profile-pic" />
+    <img [src]="user.photoURL" width="30px" alt="Foto de perfil" class="profile-pic" (click)="userinfo()" />
   </div>
-
-    
-  <div class="flex-1 md:flex-none span-icon cursor-pointer rounded-full w-12 h-12 flex items-center justify-center" *ngIf="user">
-    <i class="fa-solid fa-circle-xmark p-1" (click)="logout()"></i>
-  </div>
-  

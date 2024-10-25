@@ -28,8 +28,11 @@
     <!-- Columna central -->
     <div class="flex-grow flex flex-col overflow-y-auto w-full md:w-3/5">
         <div class="conta w-full max-w-4xl p-4" *ngIf="!selectedChat">
+            <app-usersettings (loggedOut)="logout()"               
+                (chatsLoaded)="onChatLoaded($event)" 
+                *ngIf="showLoggedUser"></app-usersettings>
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> 
-            <app-info *ngIf="showInfo || (!selectedChat && !showDocumentation && !showChatgen)"></app-info>
+            <app-info *ngIf="showInfo"></app-info>
             <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
         </div> 
 
@@ -48,6 +51,8 @@
         <app-login-button class="gap-8 mr-8 md:mr-0 md:gap-0 md:flex-none justify-center md:justify-start flex flex-row md:flex-col"
             (loggedOut)="logout()" 
             (chatsLoaded)="onChatLoaded($event)" 
+            (loggedUser)="onLoggedUser()" 
+            (infoSelected)="onInfoSelected()">
             >
         </app-login-button>
     

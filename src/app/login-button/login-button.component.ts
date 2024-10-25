@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { CommonModule } from '@angular/common'; 
 import { FirestoreService } from '../services/firestore.service'; // Importa tu servicio Firestore
 import { IChat } from '../app.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   standalone: true,
@@ -17,11 +18,12 @@ export class LoginButtonComponent implements OnInit {
   chats: IChat[] = [];
 
   @Output() chatsLoaded = new EventEmitter<IChat[]>(); // Emite los chats cargados
-
   @Output() loggedOut = new EventEmitter<void>(); // Emite un evento de logout
+  @Output() loggedUser = new EventEmitter<void>(); // Emite los chats cargados
+  @Output() infoSelected = new EventEmitter<void>(); // Definimos el evento
 
 
-  constructor(private auth: Auth, private firestoreService: FirestoreService) {}
+  constructor(private auth: Auth, private firestoreService: FirestoreService, private authService: AuthService) {}
 
   ngOnInit() {
     onAuthStateChanged(this.auth, async (user) => {
@@ -48,6 +50,8 @@ export class LoginButtonComponent implements OnInit {
 
       // Cargar los chats después de iniciar sesión
       await this.loadChats();
+      this.infoSelected.emit(); // Emitimos el evento
+
     } catch (error) {
       //console.error('Error durante el login:', error);
     }
@@ -77,7 +81,14 @@ export class LoginButtonComponent implements OnInit {
     });
   }
 
+  userinfo() {
+    
+    const userId = this.authService.getCurrentUserId() || undefined; // Obtén el ID del usuario logueado
 
-
+    if (userId != undefined) {
+      this.loggedUser.emit(); // Emitir los chats cargados
+      //console.log("emitimos");
+    }
+  }
 
 }
