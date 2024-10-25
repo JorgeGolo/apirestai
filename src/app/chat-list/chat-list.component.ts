@@ -23,9 +23,10 @@ export class ChatListComponent implements OnInit {
   @Output() chatLoaded = new EventEmitter<IChat[]>(); // Emite los chats cuando se carguen
 
   @Output() gChatSelected = new EventEmitter<void>(); // Definimos el evento
+  @Output() chatEditting = new EventEmitter<IChat>();
 
   @Output() infoSelected = new EventEmitter<void>();
-  
+
   editingChat: IChat | null = null; // Mantiene el chat en edición
   editName: string = ''; // Nombre temporal para la edición
 
@@ -75,11 +76,12 @@ export class ChatListComponent implements OnInit {
     });
   }
 
-  renameChat(chat: IChat) {
+  editChat(chat: IChat) {
     // Guarda el chat en edición y su nombre actual
-    this.editingChat = chat;
-    this.editName = chat.shortName; // Inicializa el campo con el nombre actual
-  }
+    this.editingChat = chat; // Asigna el chat en edición
+    this.editName = chat.shortName; // Copia el nombre actual
+    this.chatEditting.emit(chat); // Emite el evento para informar al componente padre
+      }
   
   saveChatName(chat: IChat) {
     if (this.editingChat) {

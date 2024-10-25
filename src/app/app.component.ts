@@ -51,6 +51,7 @@ export interface IChat {
 
 export class AppComponent implements OnInit {
   chats: IChat[] = []; // Usa la interfaz IChat
+  chatEnEdicion: IChat | null = null;
 
   selectedChat: IChat | null = null; // Cambia el tipo a IChat | null
 
@@ -191,6 +192,14 @@ onLoggedUser() {
   this.showLoggedUser = true;
   console.log(this.showLoggedUser);
 
+}
+
+onChatEditting(chat: IChat) {
+  this.resetViews(); // Restablecer todas las vistas
+  this.showChatgen = true;
+  this.chatEnEdicion = chat; // Guarda el chat en edición
+
+  console.log("Editando Chat" + chat);
 }
 
 showListed() {

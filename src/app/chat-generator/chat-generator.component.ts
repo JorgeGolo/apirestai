@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input  } from '@angular/core';
+import { Component, EventEmitter, Output, Input, SimpleChanges  } from '@angular/core';
 import { ChatComponent } from '../chat/chat.component'; // Asegúrate de importar el componente correctamente
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,9 +18,12 @@ import { IChat } from '../app.component';
 })
 export class ChatGeneratorComponent {
   
+  @Input() editingChat: IChat | null = null; // Recibe el chat en edición
+
 
   @Output() chatAdded = new EventEmitter<IChat>(); // Asegúrate de que el tipo sea IChat
   @Output() chatSelected = new EventEmitter<IChat>(); // Emite un IChat cuando se selecciona un chat
+  @Output() chatUpdated = new EventEmitter<IChat>(); // Nuevo evento para emitir actualizaciones de chat
 
   chats: IChat[] = []; // Usar la interfaz IChat
   chatCounter = 0; // Contador de chats creados
@@ -48,77 +51,99 @@ export class ChatGeneratorComponent {
 
   constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
 
-  
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['editingChat'] && this.editingChat) {
+      // Asigna los valores del chat en edición a los campos
+      this.selectedShortName = this.editingChat.shortName || 'Nuevo Chat';
+      this.selectedModelName = this.editingChat.model || '';
+      this.selectedRoleName = this.editingChat.role || '';
+    }
+  }
   async ngOnInit() {
     this.onclicksubmit = false;
   }
 
   async addChat() {
     this.onclicksubmit = true;
-
+  
     if (!this.selectedModelName) {
-
       console.error('Por favor, selecciona una configuración válida.');
-      //alert('Por favor, selecciona una configuración válida.');
       return; // Evita que se procese si no hay configuración seleccionada
-      this.onclicksubmit = true;
     }
-
-    const userId = this.authService.getCurrentUserId() || undefined; // Obtén el ID del usuario logueado
-
-    const newChatData = {
-        role: this.selectedRoleName,
-        model: this.selectedModelName,
-        shortName: this.selectedShortName,
-        memory: null,
-        responses: [] // Inicializa responses como un array vacío
+  
+    const userId = this.authService.getCurrentUserId() || undefined;
+    const chatData = {
+      role: this.selectedRoleName,
+      model: this.selectedModelName,
+      shortName: this.selectedShortName,
+      memory: null,
+      responses: []
     };
-
+  
     try {
-      const docRef = await this.firestoreService.addDocument('chats', newChatData, userId); 
+      if (this.editingChat) {
+        // Actualizar el chat existente
+        await this.firestoreService.updateDocument('chats', this.editingChat.id, chatData);
+  
+        this.editingChat.role = this.selectedRoleName;
+        this.editingChat.model = this.selectedModelName;
+        this.editingChat.shortName = this.selectedShortName;
+  
+        this.chatUpdated.emit(this.editingChat); // Emitir el chat actualizado
+        console.log('Chat actualizado:', this.editingChat);
+        this.chatSelected.emit(this.editingChat); // Emitir el chat seleccionado
 
-      const newChat: IChat = {
-        id: docRef.id, // Asigna el ID generado por Firestore
-        userId : userId,
-        role: this.selectedRoleName,
-        model: this.selectedModelName,
-        shortName: this.selectedShortName,
-        memory: null,
-        responses: [] // Inicializa responses como un array vacío
-      };
-      console.log(this.selectedChatConfig);
-        
-        this.chatAdded.emit(newChat); // Emitir el nuevo chat
-        this.chatCounter++; // Incrementar el contador
-
-        // Actualiza la lista local de chats
-        this.chats.push(newChat); 
-
-        // (Opcional) Obtén todos los chats si es necesario
-        this.chats = await this.firestoreService.getChats(); 
-        this.chatSelected.emit(newChat);
-
-
-    } catch (error) {
-        console.error('Error al añadir el chat logueado: ', error);
+      } else {
+        // Crear un nuevo chat
+        const docRef = await this.firestoreService.addDocument('chats', chatData, userId);
+  
         const newChat: IChat = {
-          id: Date.now().toString(), // Asigna un ID único basado en la fecha actual
-          userId : "",
+          id: docRef.id,
+          userId: userId,
           role: this.selectedRoleName,
           model: this.selectedModelName,
           shortName: this.selectedShortName,
           memory: null,
-          responses: [] // Inicializa responses como un array vacío
-      };
-      
-      this.chatAdded.emit(newChat); // Emitir el nuevo chat
-      this.chatCounter++; // Incrementar el contador
+          responses: []
+        };
+  
+        this.chatAdded.emit(newChat); // Emitir el nuevo chat
+        this.chatCounter++;
+        this.chats.push(newChat); // Agregar el nuevo chat a la lista local
+        this.resetForm();
 
-      // Actualiza la lista local de chats
-      this.chats.push(newChat); 
-      
+        this.chatSelected.emit(newChat); // Emitir el chat seleccionado
+      }
+  
+      // (Opcional) Refresca la lista de chats locales
+      this.chats = await this.firestoreService.getChats();
+  
+    } catch (error) {
+      console.error('Error al añadir/actualizar el chat: ', error);
+  
+      const fallbackChat: IChat = {
+        id: Date.now().toString(), // Asigna un ID único temporal
+        userId: userId || '',
+        role: this.selectedRoleName,
+        model: this.selectedModelName,
+        shortName: this.selectedShortName,
+        memory: null,
+        responses: []
+      };
+  
+      this.chatAdded.emit(fallbackChat); // Emitir el chat alternativo
+      this.chatCounter++;
+      this.chats.push(fallbackChat); // Agregar el chat alternativo a la lista local
     }
-}
+  }
+  // Restablecer formulario para preparar la creación o edición de un nuevo chat
+  resetForm() {
+    this.selectedShortName = 'Nuevo Chat';
+    this.selectedModelName = '';
+    this.selectedRoleName = '';
+    this.editingChat = null;
+    this.onclicksubmit = false;
+  }
 
   
 }

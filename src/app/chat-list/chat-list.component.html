@@ -13,15 +13,11 @@
       <!--<span>{{ chat.shortName }} - {{ chat.model }}</span>-->
 
       <!-- Si este chat está en edición, muestra un input, si no, muestra el nombre -->
-      <span *ngIf="chat === editingChat; else displayName">
-        <input class="" [(ngModel)]="editName" (blur)="saveChatName(chat)" (keyup.enter)="saveChatName(chat)" autofocus />
-      </span>
-      <ng-template #displayName>
-        <span class="p-2 block w-4/5" (click)="selectChat(chat)">{{ chat.shortName }}<!--{{ chat.model }}--></span>
-      </ng-template>
+
+      <span class="p-2 block w-4/5" (click)="selectChat(chat)">{{ chat.shortName }}</span>
 
       <span class="block flex flex-grow justify-end">
-        <i class="fa-solid fa-pen p-1" (click)="renameChat(chat)"></i>
+        <i class="fa-solid fa-pen p-1" (click)="editChat(chat)"></i>
         <i class="fa-solid fa-circle-xmark p-1" (click)="removeChat(chat)"></i>
         <!--<i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>-->
       </span>
