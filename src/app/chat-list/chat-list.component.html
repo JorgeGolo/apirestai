@@ -6,10 +6,8 @@
   <ul> 
     <li *ngFor="let chat of chats" class="
     border-b flex justify-between items-center
-    p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0"
-    [ngClass]="{
-      'selected': chat === selectedChat && showChat 
-  }" 
+    p-2 text-15 font-medium first:rounded-t last:rounded-b last:border-0 w-full"
+    [ngClass]="{'selected': chat === selectedChat && showChat}" 
      (click)="selectChat(chat)"
      (mouseenter)="setMouseOver(chat, true)" (mouseleave)="setMouseOver(chat, false)"     
      >
@@ -20,11 +18,10 @@
         <input class="" [(ngModel)]="editName" (blur)="saveChatName(chat)" (keyup.enter)="saveChatName(chat)" autofocus />
       </span>
       <ng-template #displayName>
-        <span>{{ chat.shortName }}<!--{{ chat.model }}--></span>
+        <span class="block flex-grow w-3/5">{{ chat.shortName }}<!--{{ chat.model }}--></span>
       </ng-template>
-      
 
-      <span *ngIf="isMouseOver(chat)">
+      <span class="block flex flex-grow justify-end">
         <i class="fa-solid fa-pen p-1" (click)="renameChat(chat)"></i>
         <i class="fa-solid fa-circle-xmark p-1" (click)="removeChat(chat)"></i>
         <!--<i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>-->

@@ -67,7 +67,7 @@ export class ChatListComponent implements OnInit {
 
       // Emitir los chats actualizados
       this.chatLoaded.emit(this.chats);
-
+      
       //console.log(`Chat con ID ${chat.id} eliminado de la lista local`);
     });
   }
