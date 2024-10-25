@@ -20,6 +20,7 @@ export class ChatGeneratorComponent {
   
 
   @Output() chatAdded = new EventEmitter<IChat>(); // Asegúrate de que el tipo sea IChat
+  @Output() chatSelected = new EventEmitter<IChat>(); // Emite un IChat cuando se selecciona un chat
 
   chats: IChat[] = []; // Usar la interfaz IChat
   chatCounter = 0; // Contador de chats creados
@@ -95,6 +96,8 @@ export class ChatGeneratorComponent {
 
         // (Opcional) Obtén todos los chats si es necesario
         this.chats = await this.firestoreService.getChats(); 
+        this.chatSelected.emit(newChat);
+
 
     } catch (error) {
         console.error('Error al añadir el chat logueado: ', error);
@@ -113,6 +116,7 @@ export class ChatGeneratorComponent {
 
       // Actualiza la lista local de chats
       this.chats.push(newChat); 
+      
     }
 }
 

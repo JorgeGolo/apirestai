@@ -24,10 +24,13 @@ export class ChatListComponent implements OnInit {
 
   @Output() gChatSelected = new EventEmitter<void>(); // Definimos el evento
 
+  @Output() infoSelected = new EventEmitter<void>();
+  
   editingChat: IChat | null = null; // Mantiene el chat en edición
   editName: string = ''; // Nombre temporal para la edición
 
   selectedChat: IChat | null = null; // Añade esta propiedad
+  
 
   constructor(private firestoreService: FirestoreService,
     private authService: AuthService // Inyecta el servicio de autenticación
@@ -67,7 +70,7 @@ export class ChatListComponent implements OnInit {
 
       // Emitir los chats actualizados
       this.chatLoaded.emit(this.chats);
-      
+      this.infoSelected.emit();
       //console.log(`Chat con ID ${chat.id} eliminado de la lista local`);
     });
   }

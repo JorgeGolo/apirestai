@@ -20,7 +20,9 @@
                 [chats]="chats" 
                 (gChatSelected)="ongChatSelected()" 
                 (chatSelected)="onChatSelected($event)" 
-                (chatLoaded)="onChatLoaded($event)">
+                (chatLoaded)="onChatLoaded($event)"
+                (infoSelected)="onInfoSelected()"
+                >
             </app-chat-list>
         </div>
     </div>  
@@ -34,7 +36,7 @@
                 *ngIf="showLoggedUser"></app-usersettings>
             <app-documentation *ngIf="showDocumentation && !showInfo"></app-documentation> 
             <app-info *ngIf="showInfo"></app-info>
-            <app-chat-generator (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
+            <app-chat-generator (chatSelected)="onChatSelected($event)" (chatAdded)="addChat($event)" *ngIf="showChatgen"></app-chat-generator>
         </div> 
 
         <div *ngIf="selectedChat && !showDocumentation && !showInfo">
