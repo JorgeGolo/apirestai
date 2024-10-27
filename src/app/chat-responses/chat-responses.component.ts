@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-chat-responses',
@@ -14,6 +15,13 @@ export class ChatResponsesComponent {
   @Input() response: string | undefined = ''; // Input para recibir la respuesta del chat
   @Input() timestamp: Timestamp | Date | undefined; // Propiedad de entrada para la fecha y hora
 
+  constructor(private firestoreService: FirestoreService) {}
+
+
+  // Nueva función para eliminar la respuesta
+  trashResponse(): void {
+    this.response = ''; // Vacía la respuesta actual
+  }
 
   getFormattedTimestamp(): Date | string {
     if (this.timestamp) {

@@ -1,5 +1,6 @@
 <div class="md:m-4 m-2 p-2 md:p-4 border rounded-lg border-blue-500" *ngIf="response">
-  <div class="text-right text-gray-500 text-ssm">{{ getFormattedTimestamp() | date: 'short' }}</div>
+  <div class="text-right "><span class="text-gray-500 text-ssm">{{ getFormattedTimestamp() | date: 'short' }}</span>
+  <i (click)="trashResponse()" class="fa-solid fa-trash ml-2"></i></div>
   <p class="my-2 italic text-gray-500 text-ssm md:text-sm">"{{ question }}"</p>
   <!--<p>{{ response }}</p>-->
   <div class="text-ssm md:text-sm" [innerHTML]="getParsedResponse()"></div>

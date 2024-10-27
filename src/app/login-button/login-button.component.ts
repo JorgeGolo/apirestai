@@ -36,10 +36,33 @@ export class LoginButtonComponent implements OnInit {
 
       } else {
         this.user = null;
-        this.chats = [];
+        //this.chats = [];
+        this.loadInitialData(); // Cargar datos iniciales
 
       }
     });
+  }
+  // Método para cargar datos iniciales si no hay usuario autenticado
+  loadInitialData() {
+    this.chats = [
+      {
+        id: '1',
+        userId: undefined,
+        role: 'Asistente general',
+        model: 'gpt-3.5-turbo',
+        shortName: 'Demo Chat',
+        memory: null,
+        responses: [
+          {
+            id: 'response1',
+            message: 'Escribe preguntas en este chat, o bien crea uno personalizado',
+            timestamp: new Date(),
+            question: '¿Cómo empezar a usar esta app?'
+          }
+        ]
+      }
+    ];
+    this.chatsLoaded.emit(this.chats); // Emitir los chats iniciales cargados
   }
 
   async loginWithGoogle() {
@@ -69,17 +92,18 @@ export class LoginButtonComponent implements OnInit {
   }
 
 
-  logout() {
+logout() {
     this.auth.signOut().then(() => {
-      this.user = null;
-      this.chats = []; // Limpia la lista de chats
-      this.chatsLoaded.emit(this.chats); // Emite la lista vacía para actualizar la interfaz
+        this.user = null;
+        this.chats = []; // Limpia la lista de chats
+        this.loggedOut.emit(); // Emitir el evento de logout
 
-      this.loggedOut.emit(); // Emitir el evento de logout
     }).catch(error => {
-      console.error('Error al cerrar sesión:', error);
+        console.error('Error al cerrar sesión:', error);
     });
-  }
+}
+
+
 
   userinfo() {
     

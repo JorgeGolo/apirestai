@@ -1,6 +1,6 @@
 <div class="chat-list font-gsans m-4">
   <div class="flex items-center mb-3">
-    <i class="fa-solid fa-comments span-title"></i>
+    <i class="fa-solid fa-list span-title"></i>
     <span class="text-sm font-sans font-normal p-1 span-title">Chats generados</span>
   </div>
   <ul> 
@@ -16,7 +16,7 @@
 
       <span class="p-2 block w-4/5" (click)="selectChat(chat)">{{ chat.shortName }}</span>
 
-      <span class="block flex flex-grow justify-end">
+      <span class="block flex flex-grow justify-end p-2">
         <i class="fa-solid fa-pen p-1" (click)="editChat(chat)"></i>
         <i class="fa-solid fa-circle-xmark p-1" (click)="removeChat(chat)"></i>
         <!--<i class="fa-solid fa-arrow-right" (click)="selectChat(chat)"></i>-->

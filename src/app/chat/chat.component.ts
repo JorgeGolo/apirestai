@@ -41,75 +41,76 @@ export class ChatComponent implements OnInit {
         return null;
     }
 
-    // Prepara el historial reciente de mensajes para resumir
-    const recentMessages = this.chat.responses.slice(-5).map(response => response.message).join("\n");
-    
-    // Incluye la memoria existente en el mensaje a resumir
-    const messagesToSummarize = this.chat.memory ? `${this.chat.memory}\n${recentMessages}` : recentMessages;
+    // Captura solo las últimas cinco interacciones de pregunta-respuesta
+    const recentMessages = this.chat.responses.slice(-5)
+        .map(response => `Pregunta: ${response.question}\nRespuesta: ${response.message}`)
+        .join("\n\n");
 
-    // Llama a la API de ChatGPT para obtener un resumen
+    // Agregar las interacciones recientes al historial de memoria previo sin duplicar
+    const messagesToSummarize = this.chat.memory
+        ? `${this.chat.memory}\nInteracciones recientes:\n${recentMessages}`
+        : recentMessages;
+
     try {
         const summaryResponse = await this.chatService.generateSummary(messagesToSummarize);
-        
-        if (!summaryResponse) {
+        if (summaryResponse) {
+            this.chat.memory = summaryResponse; // Actualiza la memoria solo con el nuevo resumen
+            return this.chat.memory;
+        } else {
             console.warn('No se obtuvo un resumen válido de la API.');
             return null;
         }
-
-        // Acumula los resúmenes
-        if (this.chat.memory) {
-            this.chat.memory += `\n${summaryResponse}`; // Concatenar el nuevo resumen al existente
-        } else {
-            this.chat.memory = summaryResponse; // Si no hay memoria, inicializar con el nuevo resumen
-        }
-
-        return this.chat.memory; // Retorna la memoria actualizada
     } catch (error) {
         console.error('Error al generar el resumen con la API:', error);
         return null;
     }
-}
-  async onSubmit(form: any): Promise<void> {
-    console.log("mensaje enviado");
-    const message = form.value.message;
-  
-    // Crear la nueva respuesta
-    const newResponse = {
-      id: Date.now().toString(), // Genera un ID único basado en la fecha actual
+}// Función onSubmit adaptada para incluir el contexto resumido
+async onSubmit(form: any): Promise<void> {
+  console.log("Mensaje enviado");
+  const message = form.value.message;
+
+  // Crear la nueva respuesta con datos iniciales
+  const newResponse = {
+      id: Date.now().toString(), // ID único basado en la fecha
       question: message,
       message: "", // Inicialmente vacío hasta recibir la respuesta
       timestamp: new Date()
-    };
-  
-    // Enviar el mensaje con el rol seleccionado
-    this.chatService.sendMessage(message, this.selectedRole, this.selectedModel).subscribe(async response => {
+  };
+
+  // Incluir el contexto de la memoria en el mensaje si existe
+  const memoryContext = this.chat?.memory 
+      ? `Contexto previo: ${this.chat.memory}\nPregunta: ${message}` 
+      : message;
+
+  // Enviar el mensaje con el rol seleccionado y el contexto de memoria
+  this.chatService.sendMessage(memoryContext, this.selectedRole, this.selectedModel).subscribe(async response => {
       // Actualizar el contenido de la respuesta
       newResponse.message = response.choices[0].message.content;
-  
+
       if (this.chat) {
-        // Añadir la respuesta localmente
-        this.chat.responses.push(newResponse);
-  
-      // Generar la memoria y actualizar el chat
-      const memory = await this.generateMemory(); // Llama al método para generar la memoria
-      if (memory) {
-        this.chat.memory = memory; // Actualiza la memoria del chat
+          // Añadir la respuesta localmente
+          this.chat.responses.push(newResponse);
+
+          // Generar la memoria y actualizar el chat
+          const memory = await this.generateMemory(); // Llama al método para generar la memoria
+          if (memory) {
+              this.chat.memory = memory; // Actualiza la memoria del chat
+          }
+
+          // Actualizar el chat en Firestore con la nueva memoria y respuestas
+          this.firestoreService.updateChatResponses(this.chat.id, this.chat.responses, this.chat.memory)
+              .then(() => {
+                  console.log('Respuestas y memoria actualizadas con éxito en Firestore');
+              })
+              .catch(error => {
+                  console.error('Error al actualizar respuestas y memoria en Firestore: ', error);
+              });
+      } else {
+          console.error("Chat no definido.");
       }
-  
-      // Actualizar el chat en Firestore con la nueva memoria y respuestas
-      this.firestoreService.updateChatResponses(this.chat.id, this.chat.responses, this.chat.memory)
-          .then(() => {
-              console.log('Respuestas y memoria actualizadas con éxito en Firestore');
-          })
-          .catch(error => {
-              console.error('Error al actualizar respuestas y memoria en Firestore: ', error);
-          });
-            } else {
-        console.error("Chat no definido.");
-      }
-  
+
       form.reset(); 
-    });
-  }
-  
+  });
+}
+
 }

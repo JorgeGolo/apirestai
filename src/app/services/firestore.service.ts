@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp, query, where, arrayRemove } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { IChat } from '../app.component';
 import { IChatResponse } from '../app.component';
@@ -13,12 +13,15 @@ export class FirestoreService {
 
   constructor(private firestore: Firestore, private authService: AuthService) { }
 
+
   // Obtener documentos de una colección
   getCollection(collectionName: string): Observable<any[]> {
     const collectionRef = collection(this.firestore, collectionName);
     return collectionData(collectionRef, { idField: 'id' }) as Observable<any[]>;
   }
 
+
+  
   addDocument(collectionName: string, data: any, userId?: string): Promise<any> {
     const collectionRef = collection(this.firestore, collectionName);
   
