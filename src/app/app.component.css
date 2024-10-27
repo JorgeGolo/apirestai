@@ -44,6 +44,9 @@ p {
   @apply text-justify;
 }
 
+.custom-list li::marker {
+  color: #4b5563; /* Cambia 'blue.600' al color que desees */
+}
 
 /* Contenedor del chat seleccionado */
 .chat-container {

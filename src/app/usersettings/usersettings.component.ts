@@ -63,4 +63,30 @@ export class UsersettingsComponent {
     });
   }
 
+  async eraseAccount() {
+    if (!this.user) return; // Asegúrate de que hay un usuario
+
+    const userId = this.user.uid; // Obtén el ID del usuario logueado
+
+    try {
+      // Primero, elimina todos los chats del usuario
+      const chats = await this.firestoreService.getChats();
+      for (const chat of chats) {
+        await this.firestoreService.deleteChat(chat.id);
+      }
+
+      // Después, elimina el usuario
+      await this.auth.currentUser?.delete(); // Eliminar el usuario actual
+
+      console.log(`Cuenta del usuario con ID ${userId} eliminada junto con sus chats.`);
+      this.user = null; // Actualiza el estado del usuario
+      this.chats = []; // Limpia la lista de chats
+      this.chatsLoaded.emit(this.chats); // Emitir la lista vacía para actualizar la interfaz
+      this.loggedOut.emit(); // Emitir el evento de logout
+
+    } catch (error) {
+      console.error('Error al eliminar la cuenta:', error);
+    }
+  }
+
 }

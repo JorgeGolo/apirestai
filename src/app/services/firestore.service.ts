@@ -138,4 +138,5 @@ export class FirestoreService {
         memory: memory // Asegúrate de incluir este campo
     });
 }
+
 }
