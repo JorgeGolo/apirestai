@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ChatgptmiapiService } from '../chatgptmiapi.service';
+import { ChatgptmiapiService } from '../services/chatgptmiapi.service';
 import { ChatResponsesComponent } from '../chat-responses/chat-responses.component'; // Ajusta la ruta según sea necesario
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 import { CommonModule } from '@angular/common'; // Importa CommonModule

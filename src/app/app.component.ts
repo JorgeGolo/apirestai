@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
-import { ChatgptmiapiService } from './chatgptmiapi.service'; // Asegúrate de importar tu servicio
+import { ChatgptmiapiService } from './services/chatgptmiapi.service'; // Asegúrate de importar tu servicio
 import { ChatResponsesComponent } from './chat-responses/chat-responses.component';
 import { ChatComponent } from './chat/chat.component'; // Importa el nuevo componente Chat
 import { ChatGeneratorComponent } from './chat-generator/chat-generator.component'; // Importa el componente
@@ -14,6 +14,7 @@ import { NavegationComponent } from './navegation/navegation.component'; // Impo
 import { ChatContainerComponent } from './chat-container/chat-container.component'; // Importa el nuevo componente 
 import { DocumentationComponent } from './documentation/documentation.component';
 import { InfoComponent } from './info/info.component';
+import { InitialDataService } from './services/initial-data.service'; // Importa el servicio
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -70,7 +71,8 @@ export class AppComponent implements OnInit {
   isListVisible = false;
 
 
-  constructor(private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
+  constructor(private initialDataService: InitialDataService,
+    private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   
   ngOnInit() {
     this.loadChats(); // Cargar los chats al iniciar
@@ -139,34 +141,16 @@ export class AppComponent implements OnInit {
     });
   }
 
+ 
+  
   loadInitialChats() {
-    // Los chats iniciales pueden estar definidos aquí o pasados desde el LoginButtonComponent
-    this.chats = [
-        {
-            id: '1',
-            userId: undefined,
-            role: 'Asistente general',
-            model: 'gpt-3.5-turbo',
-            shortName: 'Demo Chat',
-            memory: null,
-            responses: [
-                {
-                    id: 'response1',
-                    message: 'Escribe preguntas en este chat, o bien crea uno personalizado',
-                    timestamp: new Date(),
-                    question: '¿Cómo empezar a usar esta app?'
-                }
-            ]
-        }
-    ];
+    this.chats = this.initialDataService.getInitialChats(); // Usa el servicio para cargar los datos
     console.log("Datos iniciales cargados:", this.chats);
-}
-  
-  
-  logout() {
-    this.selectedChat = null; // Limpia el chat seleccionado
-    this.loadInitialChats(); // Llama al método que carga los datos iniciales
+  }
 
+  logout() {
+    this.selectedChat = null;
+    this.loadInitialChats(); // Carga los datos iniciales al cerrar sesión
   }
 
   resetViews() {

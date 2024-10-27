@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FirestoreService } from '../services/firestore.service'; // Importa tu servicio Firestore
 import { IChat } from '../app.component';
 import { AuthService } from '../services/auth.service';
+import { InitialDataService } from '../services/initial-data.service'; // Importa el servicio
 
 @Component({
   standalone: true,
@@ -23,7 +24,12 @@ export class LoginButtonComponent implements OnInit {
   @Output() infoSelected = new EventEmitter<void>(); // Definimos el evento
 
 
-  constructor(private auth: Auth, private firestoreService: FirestoreService, private authService: AuthService) {}
+  constructor(
+    private auth: Auth,
+    private firestoreService: FirestoreService,
+    private authService: AuthService,
+    private initialDataService: InitialDataService // Inyecta el servicio aquí
+  ) {}
 
   ngOnInit() {
     onAuthStateChanged(this.auth, async (user) => {
@@ -42,28 +48,21 @@ export class LoginButtonComponent implements OnInit {
       }
     });
   }
-  // Método para cargar datos iniciales si no hay usuario autenticado
   loadInitialData() {
-    this.chats = [
-      {
-        id: '1',
-        userId: undefined,
-        role: 'Asistente general',
-        model: 'gpt-3.5-turbo',
-        shortName: 'Demo Chat',
-        memory: null,
-        responses: [
-          {
-            id: 'response1',
-            message: 'Escribe preguntas en este chat, o bien crea uno personalizado',
-            timestamp: new Date(),
-            question: '¿Cómo empezar a usar esta app?'
-          }
-        ]
-      }
-    ];
-    this.chatsLoaded.emit(this.chats); // Emitir los chats iniciales cargados
+    this.chats = this.initialDataService.getInitialChats(); // Usa el servicio para cargar los datos
+    this.chatsLoaded.emit(this.chats);
   }
+
+  logout() {
+    this.auth.signOut().then(() => {
+        this.user = null;
+        this.chats = []; // Limpia la lista de chats
+        this.loggedOut.emit(); // Emitir el evento de logout
+
+    }).catch(error => {
+        console.error('Error al cerrar sesión:', error);
+    });
+}
 
   async loginWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -91,17 +90,6 @@ export class LoginButtonComponent implements OnInit {
     }
   }
 
-
-logout() {
-    this.auth.signOut().then(() => {
-        this.user = null;
-        this.chats = []; // Limpia la lista de chats
-        this.loggedOut.emit(); // Emitir el evento de logout
-
-    }).catch(error => {
-        console.error('Error al cerrar sesión:', error);
-    });
-}
 
 
 
