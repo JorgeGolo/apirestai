@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp, query, where, arrayRemove } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData, doc, updateDoc, deleteDoc, Timestamp, query, where, arrayRemove, getDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { IChat } from '../app.component';
 import { IChatResponse } from '../app.component';
@@ -13,6 +13,44 @@ export class FirestoreService {
 
   constructor(private firestore: Firestore, private authService: AuthService) { }
 
+
+  async deleteResponse(chatId: string, responseId: string): Promise<void> {
+    if (!chatId) {
+      console.error("El chatId proporcionado es inválido.");
+      return;
+    }
+    
+    const chatRef = doc(this.firestore, `chats/${chatId}`);
+    
+    try {
+      // Obtener el chat completo desde Firestore
+      const chatSnapshot = await getDoc(chatRef);
+      
+      if (chatSnapshot.exists()) {
+        const chatData = chatSnapshot.data();
+        
+        if (chatData && chatData['responses']) {
+          const responseToDelete = chatData['responses'].find((res: IChatResponse) => res.id === responseId);
+  
+          if (responseToDelete) {
+            // Eliminar el objeto exacto
+            await updateDoc(chatRef, {
+              responses: arrayRemove(responseToDelete)
+            });
+            console.log(`Respuesta con ID ${responseId} eliminada correctamente.`);
+          } else {
+            console.error("No se encontró la respuesta para eliminar en la lista de respuestas.");
+          }
+        } else {
+          console.error("El documento no contiene la propiedad 'responses'.");
+        }
+      } else {
+        console.error("No se encontró el chat con el ID proporcionado.");
+      }
+    } catch (error) {
+      console.error("Error al intentar eliminar la respuesta:", error);
+    }
+  }
 
   // Obtener documentos de una colección
   getCollection(collectionName: string): Observable<any[]> {

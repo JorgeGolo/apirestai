@@ -43,7 +43,9 @@
         </div> 
 
         <div *ngIf="selectedChat && !showDocumentation && !showInfo">
-            <app-chat-container [selectedChat]="selectedChat"></app-chat-container>
+            <app-chat-container [selectedChat]="selectedChat"
+            (responseDeleted)="onResponseDeleted($event)">
+            ></app-chat-container>
         </div>
     </div>
 

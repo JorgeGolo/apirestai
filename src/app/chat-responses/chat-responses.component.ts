@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
 import { FirestoreService } from '../services/firestore.service';
+import { IChatResponse } from '../app.component';
 
 @Component({
   selector: 'app-chat-responses',
@@ -15,14 +16,30 @@ export class ChatResponsesComponent {
   @Input() response: string | undefined = ''; // Input para recibir la respuesta del chat
   @Input() timestamp: Timestamp | Date | undefined; // Propiedad de entrada para la fecha y hora
 
+  @Input() responseout!: IChatResponse;
+  @Input() chatId!: string; // Recibe el id del chat
+  @Output() responseDeleted = new EventEmitter<string>(); // Emitir el id de la respuesta eliminada
+
   constructor(private firestoreService: FirestoreService) {}
 
 
-  // Nueva función para eliminar la respuesta
-  trashResponse(): void {
-    this.response = ''; // Vacía la respuesta actual
+  async trashResponse(): Promise<void> {
+    try {
+      console.log("responseout:", this.responseout);
+      console.log("chatId:", this.chatId);
+      
+      if (!this.responseout || !this.responseout.id) {
+        throw new Error("responseout o su id no están definidos");
+      }
+      await this.firestoreService.deleteResponse(this.chatId, this.responseout.id);
+      this.responseDeleted.emit(this.responseout.id); // Emitir el evento de respuesta eliminada
+    } catch (error) {
+      console.error("Error al eliminar la respuesta:", error);
+    }
   }
-
+  ngOnInit(): void {
+    console.log("Chat ID recibido:", this.chatId);
+  }
   getFormattedTimestamp(): Date | string {
     if (this.timestamp) {
       // Si es un Timestamp de Firestore, conviértelo a Date

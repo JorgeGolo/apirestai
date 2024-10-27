@@ -16,6 +16,9 @@
                     [response]="res.message" 
                     [timestamp]="res.timestamp" 
                     [question]="res.question"
+                    [responseout]="res"
+                    (responseDeleted)="onResponseDeleted($event)"
+                    [chatId]="selectedChat.id" 
                     >
                 </app-chat-responses>
             </div>

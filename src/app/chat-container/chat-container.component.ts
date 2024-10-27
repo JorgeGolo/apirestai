@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { IChat } from '../app.component'; // Importa la interfaz IChat desde el componente principal
 import { ChatTitleComponent } from '../chat-title/chat-title.component'; // Asegúrate de importar el componente
 import { CommonModule } from '@angular/common'; // Importa CommonModule para usar *ngIf, *ngFor, etc.
@@ -17,7 +17,11 @@ export class ChatContainerComponent {
 
   @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
   @ViewChild('chat', { static: false }) chat!: ElementRef;  // Referencia al componente <app-chat>
+  @Output() responseDeleted = new EventEmitter<string>(); // Reenvía evento
 
+  onResponseDeleted(responseId: string) {
+    this.responseDeleted.emit(responseId); // Emitir a app-component
+  }
 
   ngAfterViewChecked() {
     this.scrollToChat();

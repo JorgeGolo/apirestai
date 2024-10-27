@@ -74,6 +74,14 @@ export class AppComponent implements OnInit {
   constructor(private initialDataService: InitialDataService,
     private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   
+    onResponseDeleted(responseId: string) {
+      if (this.selectedChat) {
+        this.selectedChat.responses = this.selectedChat.responses.filter(
+          res => res.id !== responseId
+        );
+      }
+    }
+    
   ngOnInit() {
     this.loadChats(); // Cargar los chats al iniciar
   }
