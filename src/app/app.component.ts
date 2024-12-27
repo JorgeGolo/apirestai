@@ -84,6 +84,8 @@ export class AppComponent implements OnInit {
     
   ngOnInit() {
     this.loadChats(); // Cargar los chats al iniciar
+    this.showInfo = true;
+
   }
 
   // Función que se ejecuta cuando los chats se cargan
@@ -153,7 +155,6 @@ export class AppComponent implements OnInit {
   
   loadInitialChats() {
     this.chats = this.initialDataService.getInitialChats(); // Usa el servicio para cargar los datos
-    console.log("Datos iniciales cargados:", this.chats);
   }
 
   logout() {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, SimpleChanges  } from '@angular/core';
+import { Component, EventEmitter, Output, Input, SimpleChanges, OnInit  } from '@angular/core';
 import { ChatComponent } from '../chat/chat.component'; // Asegúrate de importar el componente correctamente
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,8 @@ import { FirestoreService } from '../services/firestore.service'; // Importar el
 import { AuthService } from '../services/auth.service'; // Asumimos que tienes un servicio para manejar la autenticación
 import { IChat } from '../app.component';
 
+import { GroqService } from '../services/groq.service';
+
 
 @Component({
   selector: 'app-chat-generator',
@@ -16,7 +18,7 @@ import { IChat } from '../app.component';
   standalone: true,
   imports: [ChatListComponent, ChatComponent, CommonModule, FormsModule], // Asegúrate de importar el componente aquí
 })
-export class ChatGeneratorComponent {
+export class ChatGeneratorComponent implements OnInit {
   
   @Input() editingChat: IChat | null = null; // Recibe el chat en edición
 
@@ -43,13 +45,11 @@ export class ChatGeneratorComponent {
     // Agrega más roles según sea necesario
   ];
 
-  models = [
-    { id: 0, name: 'gpt-3.5-turbo' },  // Modelo económico y rápido, adecuado para muchas tareas generales
-    { id: 1, name: 'gpt-3.5-turbo-16k' },  // Modelo con un contexto mayor, ideal para tareas más largas
-    { id: 2, name: 'gpt-4' },  // Modelo más avanzado, pero más costoso que gpt-3.5
-  ];
 
-  constructor(private firestoreService: FirestoreService, private authService: AuthService) { }
+
+  constructor(private firestoreService: FirestoreService, 
+    private authService: AuthService,
+    private groqService: GroqService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['editingChat'] && this.editingChat) {
@@ -59,8 +59,23 @@ export class ChatGeneratorComponent {
       this.selectedRoleName = this.editingChat.role || '';
     }
   }
+
+  models = [
+    { id: 0, name: 'gpt-3.5-turbo' },  // Modelo económico y rápido, adecuado para muchas tareas generales
+    { id: 1, name: 'gpt-3.5-turbo-16k' },  // Modelo con un contexto mayor, ideal para tareas más largas
+    { id: 2, name: 'gpt-4' },  // Modelo más avanzado, pero más costoso que gpt-3.5
+  ];
+
+  groqModels: { id: number, name: string }[] = [];
+
   async ngOnInit() {
-    this.onclicksubmit = false;
+    try {
+      this.onclicksubmit = false;
+      this.groqModels = await this.groqService.getModels();
+      console.log('Modelos obtenidos de Groq:', this.groqModels);
+    } catch (error) {
+      console.error('Error al obtener modelos de Groq:', error);
+    }
   }
 
   async addChat() {
