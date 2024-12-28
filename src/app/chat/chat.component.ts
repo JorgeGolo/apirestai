@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { IChat } from '../app.component'; // Asegúrate de importar IChat
 import { FirestoreService } from '../services/firestore.service'; // Importar el servicio de Firestore
+import { GroqService } from '../services/groq.service';
 
 
 @Component({
@@ -26,7 +27,9 @@ export class ChatComponent implements OnInit {
   sessionStarted: boolean = false; 
   isConversationActive: boolean = false; // Inicializa la propiedad isConversationActive
 
-  constructor(private chatService: ChatgptmiapiService, private firestoreService: FirestoreService) {}
+  //constructor(private chatService: ChatgptmiapiService, private firestoreService: FirestoreService) {}
+
+  constructor(private chatServicegopt: ChatgptmiapiService, private chatService: GroqService, private firestoreService: FirestoreService) {}
 
   ngOnInit(): void {
     this.currentDate = new Date(); 
@@ -37,6 +40,12 @@ export class ChatComponent implements OnInit {
     this.sessionStarted = true; 
   }
   private async generateMemory(): Promise<string | null> {
+    // Desactivar temporalmente esta función
+    console.log('generateMemory está desactivado.');
+    return null;
+
+    /*
+
     if (!this.chat || this.chat.responses.length === 0) {
         return null;
     }
@@ -64,8 +73,69 @@ export class ChatComponent implements OnInit {
         console.error('Error al generar el resumen con la API:', error);
         return null;
     }
-}// Función onSubmit adaptada para incluir el contexto resumido
+        */
+}
+
 async onSubmit(form: any): Promise<void> {
+    console.log("Mensaje enviado");
+    const message = form.value.message;
+  
+    // Crear la nueva respuesta con datos iniciales
+    const newResponse = {
+      id: Date.now().toString(), // ID único basado en la fecha
+      question: message,
+      message: "", // Inicialmente vacío hasta recibir la respuesta
+      timestamp: new Date(),
+    };
+  
+    // Incluir el contexto de la memoria en el mensaje si existe
+    const memoryContext = this.chat?.memory
+      ? `Contexto previo: ${this.chat.memory}\nPregunta: ${message}`
+      : message;
+  
+    try {
+      // Usar await para llamar al servicio
+      const responseContent = await this.chatService.sendMessage(
+        memoryContext,
+        this.selectedModel
+      );
+  
+      // Actualizar el contenido de la respuesta
+      newResponse.message = responseContent;
+  
+      if (this.chat) {
+        // Añadir la respuesta localmente
+        this.chat.responses.push(newResponse);
+  
+        // Generar la memoria y actualizar el chat
+        const memory = await this.generateMemory(); // Llama al método para generar la memoria
+        if (memory) {
+          this.chat.memory = memory; // Actualiza la memoria del chat
+        } else {
+          this.chat.memory = "";
+        }
+  
+        // Actualizar el chat en Firestore con la nueva memoria y respuestas
+        await this.firestoreService.updateChatResponses(
+          this.chat.id,
+          this.chat.responses,
+          this.chat.memory
+        );
+  
+        console.log("Respuestas y memoria actualizadas con éxito en Firestore");
+      } else {
+        console.error("Chat no definido.");
+      }
+  
+      form.reset();
+    } catch (error) {
+      console.error("Error al enviar mensaje o actualizar respuestas:", error);
+    }
+  }
+
+// Función onSubmit adaptada para incluir el contexto resumido
+/*
+async onSubmitGPT(form: any): Promise<void> {
   console.log("Mensaje enviado");
   const message = form.value.message;
 
@@ -112,5 +182,5 @@ async onSubmit(form: any): Promise<void> {
       form.reset(); 
   });
 }
-
+*/
 }

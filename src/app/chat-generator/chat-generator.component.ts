@@ -60,19 +60,19 @@ export class ChatGeneratorComponent implements OnInit {
     }
   }
 
-  models = [
+  oldmodels = [
     { id: 0, name: 'gpt-3.5-turbo' },  // Modelo económico y rápido, adecuado para muchas tareas generales
     { id: 1, name: 'gpt-3.5-turbo-16k' },  // Modelo con un contexto mayor, ideal para tareas más largas
     { id: 2, name: 'gpt-4' },  // Modelo más avanzado, pero más costoso que gpt-3.5
   ];
 
-  groqModels: { id: number, name: string }[] = [];
+  models: { id: number, name: string }[] = [];
 
   async ngOnInit() {
     try {
       this.onclicksubmit = false;
-      this.groqModels = await this.groqService.getModels();
-      console.log('Modelos obtenidos de Groq:', this.groqModels);
+      this.models = await this.groqService.getModels();
+      console.log('Modelos obtenidos de Groq:', this.models);
     } catch (error) {
       console.error('Error al obtener modelos de Groq:', error);
     }
