@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
-import { ChatgptmiapiService } from './services/chatgptmiapi.service'; // Asegúrate de importar tu servicio
 import { ChatResponsesComponent } from './chat-responses/chat-responses.component';
 import { ChatComponent } from './chat/chat.component'; // Importa el nuevo componente Chat
 import { ChatGeneratorComponent } from './chat-generator/chat-generator.component'; // Importa el componente
@@ -15,6 +14,7 @@ import { ChatContainerComponent } from './chat-container/chat-container.componen
 import { DocumentationComponent } from './documentation/documentation.component';
 import { InfoComponent } from './info/info.component';
 import { InitialDataService } from './services/initial-data.service'; // Importa el servicio
+import { GroqService } from './services/groq.service';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
 
 
   constructor(private initialDataService: InitialDataService,
-    private chatgptService: ChatgptmiapiService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
+    private chatgptService: GroqService, private firestoreService: FirestoreService) {} // Asegúrate de inyectar el FirestoreService
   
     onResponseDeleted(responseId: string) {
       if (this.selectedChat) {
@@ -139,18 +139,25 @@ export class AppComponent implements OnInit {
     const role = form.value.role; // Obtiene el rol del campo oculto
     const model = form.value.model; // Obtiene el modelo del campo oculto
 
-    this.chatgptService.sendMessage(message, role, model).subscribe(response => {
+    // Llamar al servicio de Groq para enviar el mensaje y obtener la respuesta
+    this.chatgptService.sendMessage(message, model).then(response => {
       const newResponse: IChatResponse = {
         id: Date.now().toString(), // Genera un ID único para la respuesta
-        message: response.choices[0].message.content,
+        message: response, // Asigna la respuesta obtenida del servicio Groq
         timestamp: new Date(),
-        question: message // Asignar el mensaje como la pregunta
+        question: message // Asigna el mensaje como la pregunta
         // Fecha y hora actuales
       };
       this.selectedChat?.responses.push(newResponse); // Agrega la respuesta al chat seleccionado
-    });
-  }
 
+      // Aquí puedes generar la memoria y actualizar Firestore si es necesario
+      // (dependiendo de si deseas actualizar la memoria después de cada mensaje)
+      // this.updateChatMemory(this.selectedChat);
+    }).catch(error => {
+      console.error("Error al obtener la respuesta:", error);
+      alert("Hubo un error al obtener la respuesta. Inténtalo de nuevo.");
+    });
+}
  
   
   loadInitialChats() {

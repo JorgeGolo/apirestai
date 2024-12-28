@@ -14,7 +14,7 @@ export class InitialDataService {
         id: '1',
         userId: undefined,
         role: 'Asistente general',
-        model: 'gpt-3.5-turbo',
+        model: 'llama-3.1-8b-instant',
         shortName: 'Demo Chat',
         memory: null,
         responses: [
