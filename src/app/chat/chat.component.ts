@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ChatgptmiapiService } from '../services/chatgptmiapi.service';
 import { ChatResponsesComponent } from '../chat-responses/chat-responses.component'; // Ajusta la ruta según sea necesario
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 import { CommonModule } from '@angular/common'; // Importa CommonModule
@@ -29,7 +28,7 @@ export class ChatComponent implements OnInit {
 
   //constructor(private chatService: ChatgptmiapiService, private firestoreService: FirestoreService) {}
 
-  constructor(private chatServicegopt: ChatgptmiapiService, private chatService: GroqService, private firestoreService: FirestoreService) {}
+  constructor(private chatService: GroqService, private firestoreService: FirestoreService) {}
 
   ngOnInit(): void {
     this.currentDate = new Date(); 
@@ -41,10 +40,8 @@ export class ChatComponent implements OnInit {
   }
   private async generateMemory(): Promise<string | null> {
     // Desactivar temporalmente esta función
-    console.log('generateMemory está desactivado.');
-    return null;
 
-    /*
+    
 
     if (!this.chat || this.chat.responses.length === 0) {
         return null;
@@ -73,7 +70,7 @@ export class ChatComponent implements OnInit {
         console.error('Error al generar el resumen con la API:', error);
         return null;
     }
-        */
+        
 }
 
 async onSubmit(form: any): Promise<void> {
@@ -133,54 +130,4 @@ async onSubmit(form: any): Promise<void> {
     }
   }
 
-// Función onSubmit adaptada para incluir el contexto resumido
-/*
-async onSubmitGPT(form: any): Promise<void> {
-  console.log("Mensaje enviado");
-  const message = form.value.message;
-
-  // Crear la nueva respuesta con datos iniciales
-  const newResponse = {
-      id: Date.now().toString(), // ID único basado en la fecha
-      question: message,
-      message: "", // Inicialmente vacío hasta recibir la respuesta
-      timestamp: new Date()
-  };
-
-  // Incluir el contexto de la memoria en el mensaje si existe
-  const memoryContext = this.chat?.memory 
-      ? `Contexto previo: ${this.chat.memory}\nPregunta: ${message}` 
-      : message;
-
-  // Enviar el mensaje con el rol seleccionado y el contexto de memoria
-  this.chatService.sendMessage(memoryContext, this.selectedRole, this.selectedModel).subscribe(async response => {
-      // Actualizar el contenido de la respuesta
-      newResponse.message = response.choices[0].message.content;
-
-      if (this.chat) {
-          // Añadir la respuesta localmente
-          this.chat.responses.push(newResponse);
-
-          // Generar la memoria y actualizar el chat
-          const memory = await this.generateMemory(); // Llama al método para generar la memoria
-          if (memory) {
-              this.chat.memory = memory; // Actualiza la memoria del chat
-          }
-
-          // Actualizar el chat en Firestore con la nueva memoria y respuestas
-          this.firestoreService.updateChatResponses(this.chat.id, this.chat.responses, this.chat.memory)
-              .then(() => {
-                  console.log('Respuestas y memoria actualizadas con éxito en Firestore');
-              })
-              .catch(error => {
-                  console.error('Error al actualizar respuestas y memoria en Firestore: ', error);
-              });
-      } else {
-          console.error("Chat no definido.");
-      }
-
-      form.reset(); 
-  });
-}
-*/
 }
